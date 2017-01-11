@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone.com.zrefreshlayout.ZRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bt_bg"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="布局下第一个child是要刷新的控件,ZRefreshLayout extends FrameLayout,可随意添加childs.例如此TextView "
+        android:textSize="17sp"
+        android:background="#c6ffed" />
+
+</zone.com.zrefreshlayout.ZRefreshLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.zone.view.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdb6e"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="兼容测试 \n以下为了测试简单，都拥有加载更多功能 \n(因为都注册了加载更多的监听)" />
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/CustomText"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/listView"
+            style="@style/CustomText"
+            android:text="ListView" />
+
+        <TextView
+            android:id="@+id/gridView"
+            style="@style/CustomText"
+            android:text="GridView" />
+
+        <TextView
+            android:id="@+id/webView"
+            style="@style/CustomText"
+            android:text="WebView" />
+
+        <TextView
+            android:id="@+id/recyclerView"
+            style="@style/CustomText"
+            android:text="RecyclerView" />
+
+        <TextView
+            android:id="@+id/scrollerView"
+            style="@style/CustomText"
+            android:text="ScrollerView" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#ffdb6e"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="功能测试" />
+
+        <TextView
+            android:id="@+id/autoRefresh"
+            style="@style/CustomText"
+            android:text="AutoRefresh" />
+
+        <TextView
+            android:id="@+id/pinContent"
+            style="@style/CustomText"
+            android:text="PinContent" />
+        <TextView
+            android:id="@+id/uniqueFeature"
+            style="@style/CustomText"
+            android:text="UniqueFeature" />
+
+        <TextView
+            android:id="@+id/config"
+            style="@style/CustomText"
+            android:text="全局配置" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#ffdb6e"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="自定义头部与底部 不受全局配置影响" />
+
+    </com.zone.view.FlowLayout>
+
+</ScrollView>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone.com.zrefreshlayout.ZRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <WebView
+        android:id="@+id/rotate_header_web_view"
+        android:layout_width="match_parent"
+        android:background="@color/bt_bg"
+        android:layout_height="match_parent" />
+
+</zone.com.zrefreshlayout.ZRefreshLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<zone.com.zrefreshlayout.ZRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bt_bg"
+        android:gravity="center"
+        android:text="content"
+        android:textSize="20sp" />
+
+</zone.com.zrefreshlayout.ZRefreshLayout>
