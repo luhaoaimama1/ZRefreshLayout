@@ -27,8 +27,8 @@ import zone.com.zrefreshlayout.utils.ScrollingUtil;
 //先弄上啦加载 最后是否固定头部 已经固定底部
 //阻力下拉   todo 我那个不行~
 //全局切换  头与脚,全局配置初始化
-//todo  自定义头部 与 底部；  新浪 ,google支持, wave映射图,水滴
-//todo 拦截自定义可滑动view
+//自定义头部 与 底部；  新浪 todo google支持, wave映射图,水滴
+//todo 拦截自定义可滑动view ,viewPager 横向兼容
 //todo ReadMe,wiki
 
 public class ZRefreshLayout extends FrameLayout {
@@ -59,6 +59,7 @@ public class ZRefreshLayout extends FrameLayout {
 
     private IScroll mIScroll;//滚动策略
     private PullListener mPullListener;
+    private RefreshAbleListener mRefreshAbleListener;
     private LoadMoreListener mLoadMoreListener;
     private IResistance mIResistance;//阻力策略
 
@@ -206,6 +207,9 @@ public class ZRefreshLayout extends FrameLayout {
                 else
                     direction = LOAD_UP;
 
+                if (mIResistance != null)//dy 需要映射不然 真实的移动 和 MotionEvent移动对不上了 也没法和headerView.getHeight()[真实的]比较了
+                    dy = mIResistance.getOffSetYMapValue(headerView.getHeight(), (int) dy);
+
                 if (state == REST && direction == PULL_DOWN) {
                     state = PULL;
                     log("PULL！");
@@ -222,10 +226,12 @@ public class ZRefreshLayout extends FrameLayout {
 
                 if (direction == PULL_DOWN && state == PULL && Math.abs(dy) > headerView.getHeight()) {
                     state = REFRESH_ABLE;
+                    log("Math.abs(dy):"+Math.abs(dy)+"___headerView.getHeight():"+headerView.getHeight());
                     log("REFRESH_ABLE！");
                 }
                 if (state == REFRESH_ABLE && Math.abs(dy) < headerView.getHeight()) {
                     state = PULL;
+                    log("Math.abs(dy):"+Math.abs(dy)+"___headerView.getHeight():"+headerView.getHeight());
                     log("PULL！");
                 }
 
@@ -403,7 +409,7 @@ public class ZRefreshLayout extends FrameLayout {
             if (mIResistance != null && !isAnimate)
                 fy = mIResistance.getOffSetYMapValue(headerView.getHeight(), fy);
             if (mIHeaderView != null && !isAnimate)
-                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight());
+                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight(),mRefreshAbleListener);
             headerView.setTranslationY(-fy);
         }
 
@@ -421,7 +427,7 @@ public class ZRefreshLayout extends FrameLayout {
             if (mIResistance != null && !isAnimate)
                 fy = mIResistance.getOffSetYMapValue(headerView.getHeight(), fy);
             if (mIHeaderView != null && !isAnimate)
-                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight());
+                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight(),mRefreshAbleListener);
             ZRefreshLayout.this.scrollTo(0, fy);
         }
 
@@ -432,11 +438,24 @@ public class ZRefreshLayout extends FrameLayout {
         }
     }
 
+    public RefreshAbleListener getRefreshAbleListener() {
+        return mRefreshAbleListener;
+    }
+
+    public void setRefreshAbleListener(RefreshAbleListener mRefreshAbleListener) {
+        this.mRefreshAbleListener = mRefreshAbleListener;
+    }
+
     //-------------------------内部接口----------------------------------------------------
     public interface PullListener {
         void refresh(ZRefreshLayout zRefreshLayout);
 
         void complete(ZRefreshLayout zRefreshLayout);
+    }
+    public interface RefreshAbleListener {
+        void refreshAble();
+
+        void refreshDisAble();
     }
 
     public interface LoadMoreListener {

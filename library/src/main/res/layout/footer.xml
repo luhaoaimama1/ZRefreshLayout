@@ -10,7 +10,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="20dp"
-        android:src="@drawable/anim_loading_view"
+        android:src="@drawable/refresh_loading01"
         android:visibility="invisible" />
 
 </LinearLayout>

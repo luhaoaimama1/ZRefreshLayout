@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import zone.com.zrefreshlayout.ZRefreshLayout;
+import zone.com.zrefreshlayout.header.MeterialHead;
 import zone.com.zrefreshlayout.header.SinaRefreshView;
 
 /**
@@ -21,7 +22,7 @@ public class TextViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.text);
         refresh=(ZRefreshLayout)findViewById(R.id.refresh);
-        refresh.setIHeaderView(new SinaRefreshView());
+        refresh.setIHeaderView(new MeterialHead());
         tv=(TextView)findViewById(R.id.tv);
         refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
             @Override
@@ -57,11 +58,5 @@ public class TextViewActivity extends AppCompatActivity {
 
             }
         });
-        refresh.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refresh.autoRefresh();
-            }
-        },2000);
     }
 }
