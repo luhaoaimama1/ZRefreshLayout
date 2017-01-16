@@ -12,7 +12,7 @@ import zone.com.zrefreshlayout.ZRefreshLayout;
  * Created by fuzhipeng on 2017/1/11.
  */
 
-public class AutoRefreshActivity extends AppCompatActivity {
+public class PinContentActivity extends AppCompatActivity {
     @Bind(R.id.iv)
     ImageView iv;
     @Bind(R.id.refresh)
@@ -23,6 +23,7 @@ public class AutoRefreshActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auto_refresh);
         ButterKnife.bind(this);
+        refresh.setPinContent(true);
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
@@ -40,11 +41,5 @@ public class AutoRefreshActivity extends AppCompatActivity {
 
             }
         });
-        refresh.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refresh.autoRefresh();
-            }
-        },2000);
     }
 }

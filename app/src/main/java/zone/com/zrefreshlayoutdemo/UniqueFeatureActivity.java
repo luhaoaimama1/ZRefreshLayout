@@ -23,7 +23,7 @@ public class UniqueFeatureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.unique_feature);
         ButterKnife.bind(this);
-        refresh.setmPullListener(new ZRefreshLayout.PullListener() {
+        refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
                 refresh.postDelayed(new Runnable() {

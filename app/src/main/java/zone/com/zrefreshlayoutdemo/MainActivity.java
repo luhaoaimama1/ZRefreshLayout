@@ -7,9 +7,13 @@ import android.view.View;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zone.com.zrefreshlayout.Config;
-import zone.com.zrefreshlayout.footer.FooterView;
-import zone.com.zrefreshlayout.header.SinaRefreshView;
-import zone.com.zrefreshlayout.resistance.Damping2;
+import zone.com.zrefreshlayout.footer.LoadFooter;
+import zone.com.zrefreshlayout.footer.MeterialFooter;
+import zone.com.zrefreshlayout.header.MeterialHead;
+import zone.com.zrefreshlayout.header.SinaRefreshHeader;
+import zone.com.zrefreshlayout.resistance.Damping;
+import zone.com.zrefreshlayoutdemo.header.CircleRefresh;
+import zone.com.zrefreshlayoutdemo.resistance.Damping2Head8per;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,9 +23,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
-        Config.build().setHeader(new SinaRefreshView())
-                .setFooter(new FooterView())
-                .setResistance(new Damping2())
+        Config.build()
+//                .setHeader(new MeterialHead())
+//                .setFooter(new MeterialFooter())
+//                .setResistance(new Damping())
+
+                .setHeader(new  CircleRefresh())
+                .setFooter(new MeterialFooter())
+                .setResistance(new Damping2Head8per())
                 .writeLog(true)
                 .perform();
     }
@@ -29,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
     @OnClick({R.id.textView, R.id.listView, R.id.recyclerView,
             R.id.gridView, R.id.scrollerView, R.id.webView,
             R.id.autoRefresh, R.id.pinContent, R.id.config,
-            R.id.uniqueFeature
+            R.id.uniqueFeature, R.id.refreshAblePosition, R.id.resistance,
+            R.id.waveHeader, R.id.circleHeader,
+            R.id.sinaRefresh, R.id.meterialHeader,
             })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -55,10 +66,28 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, AutoRefreshActivity.class));
                 break;
             case R.id.pinContent:
-                startActivity(new Intent(this, HeaderFixActivity.class));
+                startActivity(new Intent(this, PinContentActivity.class));
                 break;
             case R.id.uniqueFeature:
                 startActivity(new Intent(this, UniqueFeatureActivity.class));
+                break;
+            case R.id.refreshAblePosition:
+                startActivity(new Intent(this, RefreshPositionActivity.class));
+                break;
+            case R.id.resistance:
+                startActivity(new Intent(this, ResistanceActivity.class));
+                break;
+            case R.id.waveHeader:
+                startActivity(new Intent(this, WaveHeaderActivity.class));
+                break;
+            case R.id.circleHeader:
+                startActivity(new Intent(this, CircleHeaderActivity.class));
+                break;
+            case R.id.sinaRefresh:
+                startActivity(new Intent(this, SinaHeaderActivity.class));
+                break;
+            case R.id.meterialHeader:
+                startActivity(new Intent(this, MeterialHeaderActivity.class));
                 break;
         }
     }

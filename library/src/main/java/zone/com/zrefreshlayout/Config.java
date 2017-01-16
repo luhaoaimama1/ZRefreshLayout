@@ -1,5 +1,7 @@
 package zone.com.zrefreshlayout;
 
+import zone.com.zrefreshlayout.utils.LogUtils;
+
 /**
  * Created by fuzhipeng on 2017/1/11.
  */
@@ -49,7 +51,7 @@ public class Config {
 
     public void perform() {
         ZRefreshLayout.config = this;
-        ZRefreshLayout.isDebug = isDebug;
+        LogUtils.isDebug = isDebug;
     }
 
 }

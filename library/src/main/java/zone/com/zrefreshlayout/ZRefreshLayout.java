@@ -3,7 +3,6 @@ package zone.com.zrefreshlayout;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -13,9 +12,10 @@ import android.widget.FrameLayout;
 import com.nineoldandroids.animation.ValueAnimator;
 
 import zone.com.zanimate.value.ValueAnimatorProxy;
-import zone.com.zrefreshlayout.footer.FooterView;
-import zone.com.zrefreshlayout.header.SinaRefreshView;
+import zone.com.zrefreshlayout.footer.LoadFooter;
+import zone.com.zrefreshlayout.header.SinaRefreshHeader;
 import zone.com.zrefreshlayout.utils.ScrollingUtil;
+import static zone.com.zrefreshlayout.utils.LogUtils.log;
 
 /**
  * Created by fuzhipeng on 2017/1/9.
@@ -24,22 +24,16 @@ import zone.com.zrefreshlayout.utils.ScrollingUtil;
 //我这个可以 ,立即下拉不等Rest
 //自动刷新；-->  直接到 头部位置 并且是 刷新状态
 //demo listView，GridView recycler imageView scrollerView,WebView
-//先弄上啦加载 最后是否固定头部 已经固定底部
-//阻力下拉   todo 我那个不行~
+//先弄上啦加载 最后是否固定头部 已经固定底部   下拉头部高度   仅头部使用
+//阻力下拉
 //全局切换  头与脚,全局配置初始化
-//自定义头部 与 底部；  新浪 todo google支持, wave映射图,水滴
+//自定义头部 与 底部；  新浪 google支持, wave映射图
+//todo ReadMe,wiki  名字改动
 //todo 拦截自定义可滑动view ,viewPager 横向兼容
-//todo ReadMe,wiki
 
 public class ZRefreshLayout extends FrameLayout {
 
     static Config config;
-    static boolean isDebug = true;
-
-    public static void log(String str) {
-        if (isDebug)
-            Log.i("ZRefreshLayout", str);
-    }
 
     private static final int REST = 0;//等待状态-休息；
     private static final int PULL = 1;//下拉
@@ -62,6 +56,7 @@ public class ZRefreshLayout extends FrameLayout {
     private RefreshAbleListener mRefreshAbleListener;
     private LoadMoreListener mLoadMoreListener;
     private IResistance mIResistance;//阻力策略
+    AnimateBack mAnimateBack = AnimateBack.None;
 
     public ZRefreshLayout(Context context) {
         this(context, null);
@@ -98,16 +93,19 @@ public class ZRefreshLayout extends FrameLayout {
 
     private void initHeaderView() {
         if (mIHeaderView != null)//个人配置
-            headerView = mIHeaderView.getView(getContext());
+            headerView = mIHeaderView.getView(this);
         else {
             if (config != null && config.headerView != null) {
                 //全局配置
                 mIHeaderView = config.headerView.clone_();
-                headerView = mIHeaderView.getView(getContext());
-            } else {
+                if (mIHeaderView != null)
+                    headerView = mIHeaderView.getView(this);
+            }
+            //全局配置clone为空的时候
+            if (mIHeaderView == null) {
                 //都为空 默认新浪
-                mIHeaderView = new SinaRefreshView();
-                headerView = mIHeaderView.getView(getContext());
+                mIHeaderView = new SinaRefreshHeader();
+                headerView = mIHeaderView.getView(this);
             }
         }
     }
@@ -119,10 +117,13 @@ public class ZRefreshLayout extends FrameLayout {
             if (config != null && config.footerView != null) {
                 //全局配置
                 mIFooterView = config.footerView.clone_();
-                footerView = mIFooterView.getView(getContext());
-            } else {
+                if (mIFooterView != null)
+                    footerView = mIFooterView.getView(getContext());
+            }
+            //全局配置clone为空的时候
+            if (footerView == null) {
                 //都为空 默认新浪
-                mIFooterView = new FooterView();
+                mIFooterView = new LoadFooter();
                 footerView = mIFooterView.getView(getContext());
             }
         }
@@ -215,35 +216,42 @@ public class ZRefreshLayout extends FrameLayout {
                     log("PULL！");
                 }
 
-                if (Math.abs(dy) > mTouchSlop && state == REST && direction == LOAD_UP && mIScroll.getScrollY() == 0) {
+                if (mLoadMoreListener != null && Math.abs(dy) > mTouchSlop && state == REST && direction == LOAD_UP && mIScroll.getScrollY() == 0) {
                     state = LOADMORE_ING;
                     log("LoadMore！dy:" + dy + "_ mTouchY:" + mTouchY + "__event.getY():" + event.getY());
+                    mLoadMoreListener.loadMore(this);
                     if (mIFooterView != null)
                         mIFooterView.onStart(footerView.getHeight());
-                    if (mLoadMoreListener != null)
-                        mLoadMoreListener.loadMore(this);
+
                 }
 
-                if (direction == PULL_DOWN && state == PULL && Math.abs(dy) > headerView.getHeight()) {
+                if (direction == PULL_DOWN && state == PULL && Math.abs(dy) >= getRefreshAbleHeight()) {
                     state = REFRESH_ABLE;
-                    log("Math.abs(dy):"+Math.abs(dy)+"___headerView.getHeight():"+headerView.getHeight());
+                    log("Math.abs(dy):" + Math.abs(dy) + "___getRefreshAbleHeight():" + getRefreshAbleHeight());
                     log("REFRESH_ABLE！");
+                    mIHeaderView.refreshAble(true);
+                    if (mRefreshAbleListener != null)
+                        mRefreshAbleListener.refreshAble(true);
                 }
-                if (state == REFRESH_ABLE && Math.abs(dy) < headerView.getHeight()) {
+                if (state == REFRESH_ABLE && Math.abs(dy) < getRefreshAbleHeight()) {
                     state = PULL;
-                    log("Math.abs(dy):"+Math.abs(dy)+"___headerView.getHeight():"+headerView.getHeight());
+                    log("Math.abs(dy):" + Math.abs(dy) + "___getRefreshAbleHeight():" + getRefreshAbleHeight());
                     log("PULL！");
+                    mIHeaderView.refreshAble(false);
+                    if (mRefreshAbleListener != null)
+                        mRefreshAbleListener.refreshAble(false);
                 }
 
                 if (state == PULL || state == REFRESH_ABLE) {
                     //防止别的状态 可以滚动
-                    mIScroll.scrollTo_(-(int) (event.getY() - mTouchY));
+                    mIScroll.scrollTo_((int) (event.getY() - mTouchY));
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 if (state == PULL) {
                     //回弹
+                    mAnimateBack = AnimateBack.DisRefreshAble_Back;
                     mIScroll.smoothScrollTo_(0);
                     log("回弹！");
                 }
@@ -251,12 +259,13 @@ public class ZRefreshLayout extends FrameLayout {
                     //刷新
                     state = REFRESHING;
                     log("释放回弹 将要刷新");
-                    mIScroll.smoothScrollTo_(-headerView.getHeight());
+                    mAnimateBack = AnimateBack.RefreshAble_Back;
+                    mIScroll.smoothScrollTo_(getRefreshAbleHeight());
                     //等待回调  刷新完成
                     if (mPullListener != null)
                         mPullListener.refresh(this);
                     if (mIHeaderView != null)
-                        mIHeaderView.onRefreshing(headerView.getHeight());
+                        mIHeaderView.onRefreshing(headerView.getHeight(), false);
                 }
 
                 break;
@@ -266,21 +275,33 @@ public class ZRefreshLayout extends FrameLayout {
         return true;
     }
 
+    int heightToRefresh;
+
+    //因为头部设置更有效 所以就暴露了  通过AUtils类暴露接口
+    void setHeaderHeightToRefresh(int heightToRefresh) {
+        this.heightToRefresh = heightToRefresh;
+    }
+
+    private int getRefreshAbleHeight() {
+        return heightToRefresh != 0 ? heightToRefresh : headerView.getHeight();
+    }
+
     public void autoRefresh() {
         if (state == REST) {
-            mIScroll.scrollTo_(-headerView.getHeight(), true);
+            mIScroll.scrollTo_(getRefreshAbleHeight(), true);
             //等待回调  刷新完成
             state = AUTO_PULL;
             log("AUTO_PULL！");
             if (mPullListener != null)
                 mPullListener.refresh(this);
-            if (mIHeaderView != null)
-                mIHeaderView.onRefreshing(headerView.getHeight());
-
+            if (mIHeaderView != null) {
+                mIHeaderView.onRefreshing(headerView.getHeight(), true);
+            }
         }
     }
 
     public void refreshComplete() {
+        mAnimateBack = AnimateBack.Complete_Back;
         mIScroll.smoothScrollTo_(0);
     }
 
@@ -300,11 +321,11 @@ public class ZRefreshLayout extends FrameLayout {
             requestLayout();
     }
 
-    public PullListener getmPullListener() {
+    public PullListener getPullListener() {
         return mPullListener;
     }
 
-    public void setmPullListener(PullListener mPullListener) {
+    public void setPullListener(PullListener mPullListener) {
         this.mPullListener = mPullListener;
     }
 
@@ -315,15 +336,15 @@ public class ZRefreshLayout extends FrameLayout {
     public void setIHeaderView(@NonNull IHeaderView mIHeaderView) {
         this.mIHeaderView = mIHeaderView;
         removeView(headerView);
-        headerView = mIHeaderView.getView(getContext());
+        headerView = mIHeaderView.getView(this);
         addView(headerView);
     }
 
-    public IFooterView getIBottomView() {
+    public IFooterView getIFooterView() {
         return mIFooterView;
     }
 
-    public void setIBottomView(@NonNull IFooterView mIFooterView) {
+    public void setIFooterView(@NonNull IFooterView mIFooterView) {
         this.mIFooterView = mIFooterView;
         removeView(footerView);
         footerView = mIFooterView.getView(getContext());
@@ -352,7 +373,7 @@ public class ZRefreshLayout extends FrameLayout {
     }
 
     //------------------------------------------- 滚动策略 ------------------------------------------------
-    private abstract class IScroll {
+    public abstract class IScroll {
 
         private static final int DEFAULT_DURATION = 250;
         private ValueAnimatorProxy valueAnimator = ValueAnimatorProxy.ofInt(0, 100)
@@ -362,78 +383,92 @@ public class ZRefreshLayout extends FrameLayout {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         Integer offset = (Integer) animation.getAnimatedValue();
-                        scrollTo(offset, true);
                         if (mIHeaderView != null)
-                            mIHeaderView.onPullReleasing(Math.abs(getScrollY()) / headerView.getHeight(), headerView.getHeight());
-                        if (offset == 0 && (state == REFRESHING || state == PULL || state == AUTO_PULL)) {
-                            log("刷新结束， 回滚到0");
-                            state = COMPLETE;
-                            log("complete");
-                            if (mPullListener != null) {
-                                mPullListener.complete(ZRefreshLayout.this);
-                            }
-                            if (mIHeaderView != null)
-                                mIHeaderView.onComplete();
-                            state = REST;
-                        }
+                            mIHeaderView.animateBack(mAnimateBack,
+                                    1F * Math.abs(getScrollY()) / headerView.getHeight(),
+                                    headerView.getHeight(), isPinContent);
+                        scrollTo(offset, true);
+                        refreshCompeleStateToRest(offset);
                     }
+
                 });
 
+        private void refreshCompeleStateToRest(Integer offset) {
+            if (offset == 0 && (state == REFRESHING || state == PULL || state == AUTO_PULL)) {
+                log("刷新结束， 回滚到0");
+                state = COMPLETE;
+                log("complete");
+                if (mPullListener != null) {
+                    mPullListener.complete(ZRefreshLayout.this);
+                }
+                if (mIHeaderView != null)
+                    mIHeaderView.onComplete();
+                state = REST;
+                mAnimateBack = AnimateBack.None;
+            }
+        }
 
         private void smoothScrollTo_(int fy) {
+            if (mIHeaderView.interceptAnimateBack(mAnimateBack, mIScroll))
+                return;
+            valueAnimator.setIntValues(getScrollY(), fy);
+            valueAnimator.start();
+        }
+
+        void smoothScrollTo_NotIntercept(int fy) {
             valueAnimator.setIntValues(getScrollY(), fy);
             valueAnimator.start();
         }
 
         private void scrollTo_(int fy) {
-            scrollTo(fy < 0 ? fy : 0, false);
+            scrollTo(fy > 0 ? fy : 0, false);
         }
 
         private void scrollTo_(int fy, boolean isAnimate) {
-            scrollTo(fy < 0 ? fy : 0, isAnimate);
+            scrollTo(fy > 0 ? fy : 0, isAnimate);
         }
 
         /**
          * @param fy
          * @param isAnimate 是动画的话就不做滚动映射了
          */
-        public abstract void scrollTo(int fy, boolean isAnimate);
+        protected abstract void scrollTo(int fy, boolean isAnimate);
 
-        public abstract int getScrollY();
+        protected abstract int getScrollY();
     }
 
-    private class Scroll_Pin extends IScroll {
+    public class Scroll_Pin extends IScroll {
 
         @Override
-        public void scrollTo(int fy, boolean isAnimate) {
+        protected void scrollTo(int fy, boolean isAnimate) {
             if (mIResistance != null && !isAnimate)
                 fy = mIResistance.getOffSetYMapValue(headerView.getHeight(), fy);
             if (mIHeaderView != null && !isAnimate)
-                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight(),mRefreshAbleListener);
-            headerView.setTranslationY(-fy);
+                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight());
+            headerView.setTranslationY(fy);
         }
 
         @Override
-        public int getScrollY() {
-            int scrolly = -(int) headerView.getTranslationY();
+        protected int getScrollY() {
+            int scrolly = (int) headerView.getTranslationY();
             return scrolly;
         }
     }
 
-    private class Scroll_PinNot extends IScroll {
+    public class Scroll_PinNot extends IScroll {
 
         @Override
-        public void scrollTo(int fy, boolean isAnimate) {
+        protected void scrollTo(int fy, boolean isAnimate) {
             if (mIResistance != null && !isAnimate)
                 fy = mIResistance.getOffSetYMapValue(headerView.getHeight(), fy);
             if (mIHeaderView != null && !isAnimate)
-                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight(),mRefreshAbleListener);
-            ZRefreshLayout.this.scrollTo(0, fy);
+                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight());
+            ZRefreshLayout.this.scrollTo(0, -fy);
         }
 
         @Override
-        public int getScrollY() {
-            int scrolly = ZRefreshLayout.this.getScrollY();
+        protected int getScrollY() {
+            int scrolly = -ZRefreshLayout.this.getScrollY();
             return scrolly;
         }
     }
@@ -452,10 +487,9 @@ public class ZRefreshLayout extends FrameLayout {
 
         void complete(ZRefreshLayout zRefreshLayout);
     }
-    public interface RefreshAbleListener {
-        void refreshAble();
 
-        void refreshDisAble();
+    public interface RefreshAbleListener {
+        void refreshAble(boolean refreshAble);
     }
 
     public interface LoadMoreListener {

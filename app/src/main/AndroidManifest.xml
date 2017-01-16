@@ -21,9 +21,15 @@
         <activity android:name="zone.com.zrefreshlayoutdemo.RecyclerViewActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.ScrollerViewActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.WebViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.HeaderFixActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.PinContentActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.AutoRefreshActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.UniqueFeatureActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.ResistanceActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.RefreshPositionActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.WaveHeaderActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.CircleHeaderActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.MeterialHeaderActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.SinaHeaderActivity"/>
 
 
     </application>

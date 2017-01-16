@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
-import zone.com.zrefreshlayout.header.SinaRefreshView;
+import zone.com.zrefreshlayout.header.SinaRefreshHeader;
 
 /**
  * Created by fuzhipeng on 2017/1/10.
@@ -40,8 +40,8 @@ public class GridViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grid);
         ButterKnife.bind(this);
-        refresh.setIHeaderView(new SinaRefreshView());
-        refresh.setmPullListener(new ZRefreshLayout.PullListener() {
+        refresh.setIHeaderView(new SinaRefreshHeader());
+        refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
                 refresh.postDelayed(new Runnable() {

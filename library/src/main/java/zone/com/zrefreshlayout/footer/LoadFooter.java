@@ -1,22 +1,25 @@
 package zone.com.zrefreshlayout.footer;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.nineoldandroids.animation.ValueAnimator;
 
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.IFooterView;
 import zone.com.zrefreshlayout.R;
+import zone.com.zrefreshlayout.utils.ScreenUtils;
 
 /**
  * Created by fuzhipeng on 2017/1/10.
  */
 
-public class FooterView implements IFooterView {
+public class LoadFooter implements IFooterView {
     private View rootView;
     private ImageView loadingView;
 
@@ -24,6 +27,14 @@ public class FooterView implements IFooterView {
     public View getView(Context context) {
         rootView= View.inflate(context, R.layout.footer, null);
         loadingView = (ImageView) rootView.findViewById(R.id.iv_loading);
+        int[] screenPixs = ScreenUtils.getScreenPix((Activity) context);
+        rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                , (int) (screenPixs[1] * 0.1)));
+
+        ViewGroup.LayoutParams loadingViewLp = loadingView.getLayoutParams();
+        loadingViewLp.width = (int) (screenPixs[1] * 0.05);
+        loadingViewLp.height =(int) (screenPixs[1] * 0.05);
+        loadingView.setLayoutParams(loadingViewLp);
         return rootView;
     }
 
@@ -54,7 +65,7 @@ public class FooterView implements IFooterView {
             });
     @Override
     public IFooterView clone_() {
-        FooterView clone =new FooterView();
+        LoadFooter clone =new LoadFooter();
         return clone;
     }
 }

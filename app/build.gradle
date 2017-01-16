@@ -28,4 +28,5 @@ dependencies {
     compile project(':library')
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.luhaoaimama1:ZView:1.0.35'
+    compile 'com.github.luhaoaimama1:zone-sdk:1.0.91'
 }

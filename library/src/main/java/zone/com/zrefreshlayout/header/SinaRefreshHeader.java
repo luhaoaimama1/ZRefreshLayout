@@ -2,7 +2,6 @@ package zone.com.zrefreshlayout.header;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +13,18 @@ import android.widget.TextView;
 import com.nineoldandroids.animation.ValueAnimator;
 
 import zone.com.zanimate.value.ValueAnimatorProxy;
+import zone.com.zrefreshlayout.AnimateBack;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.R;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.utils.DensityUtils;
 import zone.com.zrefreshlayout.utils.ScreenUtils;
-
+import static zone.com.zrefreshlayout.utils.LogUtils.log;
 /**
  * Created by lcodecore on 2016/10/2.
  */
 
-public class SinaRefreshView implements IHeaderView {
+public class SinaRefreshHeader implements IHeaderView {
 
     private ImageView refreshArrow;
     private ImageView loadingView;
@@ -54,38 +54,37 @@ public class SinaRefreshView implements IHeaderView {
 
     @Override
     public IHeaderView clone_() {
-        SinaRefreshView clone = new SinaRefreshView();
+        SinaRefreshHeader clone = new SinaRefreshHeader();
         return clone;
     }
 
     @Override
-    public View getView(Context context) {
-        rootView = View.inflate(context, R.layout.view_sinaheader, null);
+    public View getView(ZRefreshLayout zRefreshLayout) {
+        rootView = View.inflate(zRefreshLayout.getContext(), R.layout.view_sinaheader, null);
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
         ll_main = (LinearLayout) rootView.findViewById(R.id.ll_main);
         refreshArrow = (ImageView) rootView.findViewById(R.id.iv_arrow);
         refreshTextView = (TextView) rootView.findViewById(R.id.tv);
         loadingView = (ImageView) rootView.findViewById(R.id.iv_loading);
-        screenAdapter(context);
+        screenAdapter(zRefreshLayout,zRefreshLayout.getContext());
         return rootView;
     }
 
-    private void screenAdapter(Context context) {
+    private void screenAdapter(ZRefreshLayout zRefreshLayout,Context context) {
         int[] screenPixs = ScreenUtils.getScreenPix((Activity) context);
 
         ll_main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , (int) (screenPixs[1] * 0.1)));
         ViewGroup.LayoutParams refreshArrowLp = refreshArrow.getLayoutParams();
-        refreshArrowLp.width = getAnInt(71, screenPixs,true);
-        refreshArrowLp.height = getAnInt(71, screenPixs,false);
+        refreshArrowLp.width = getAnInt(71, screenPixs, true);
+        refreshArrowLp.height = getAnInt(71, screenPixs, false);
         refreshArrow.setLayoutParams(refreshArrowLp);
         ViewGroup.LayoutParams loadingViewLp = loadingView.getLayoutParams();
-        loadingViewLp.width = getAnInt(71, screenPixs,true);
-        loadingViewLp.height =getAnInt(71, screenPixs,false);
-        loadingView.setLayoutParams(refreshArrowLp);
+        loadingViewLp.width = getAnInt(71, screenPixs, true);
+        loadingViewLp.height = getAnInt(71, screenPixs, false);
+        loadingView.setLayoutParams(loadingViewLp);
         //注意TextSiz 要的是sp 需要px转过去
-        refreshTextView.setTextSize(DensityUtils.px2sp(context,getAnInt(35, screenPixs,true)));
-
+        refreshTextView.setTextSize(DensityUtils.px2sp(context, getAnInt(35, screenPixs, true)));
     }
 
     //我的参考图是1080*1920
@@ -96,57 +95,40 @@ public class SinaRefreshView implements IHeaderView {
             return (int) (1F * dx / 1920 * screenPixs[1]);
     }
 
-    boolean refreshAble;
-
     @Override
-    public void onPullingDown(float fraction, float headHeight, ZRefreshLayout.RefreshAbleListener mRefreshAbleListener) {
-        if (fraction >= 1f) {
-            if (!refreshAble) {
-                refreshAble = true;
-                refreshAble(refreshAble, mRefreshAbleListener);
-            }
-        } else {
-            if (refreshAble) {
-                refreshAble = false;
-                refreshAble(refreshAble, mRefreshAbleListener);
-            }
-        }
+    public void onPullingDown(float fraction, float headHeight) {
     }
 
-    private void refreshAble(boolean refreshAble, ZRefreshLayout.RefreshAbleListener mRefreshAbleListener) {
+    @Override
+    public void refreshAble(boolean refreshAble) {
         if (refreshAble) {
-            if (mRefreshAbleListener != null)
-                mRefreshAbleListener.refreshAble();
             refreshArrow.animate().rotation(-180).start();
             refreshTextView.setText(releaseRefreshStr);
         } else {
-            if (mRefreshAbleListener != null)
-                mRefreshAbleListener.refreshDisAble();
             refreshTextView.setText(pullDownStr);
             refreshArrow.animate().rotation(0).start();
         }
     }
 
     @Override
-    public void onPullReleasing(float fraction, float headHeight) {
-        if (fraction < 1f) {
-//            refreshTextView.setText(pullDownStr);
-//            refreshArrow.setRotation(fraction * 180);
-//            if (refreshArrow.getVisibility() == GONE) {
-//                refreshArrow.setVisibility(VISIBLE);
-//                loadingView.setVisibility(GONE);
-//            }
-        }
+    public void animateBack(AnimateBack animateBack, float fraction, float headHeight,
+                               boolean mIScroll) {
     }
 
     @Override
-    public void onRefreshing(float headHeight) {
+    public boolean interceptAnimateBack(AnimateBack animateBack, ZRefreshLayout.IScroll iScroll) {
+        return false;
+    }
+
+    @Override
+    public void onRefreshing(float headHeight, boolean isAutoRefresh) {
         refreshTextView.setText(refreshingStr);
         refreshArrow.setVisibility(View.GONE);
         loadingView.setVisibility(View.VISIBLE);
         valueAnimator.start();
-        ZRefreshLayout.log("onRefreshing");
+        log("onRefreshing");
     }
+
     private ValueAnimatorProxy valueAnimator = ValueAnimatorProxy.ofInt(0, 360)
             .setDuration(1200)
             .setInterpolator(new LinearInterpolator())
@@ -156,7 +138,7 @@ public class SinaRefreshView implements IHeaderView {
                 public void onAnimationUpdate(ValueAnimator animation) {
 //                   30 =360/12;
 //                    ZRefreshLayout.log("animation.getAnimatedValue()："+animation.getAnimatedValue()+"——————进度："+((Integer) animation.getAnimatedValue()/30)*30F);
-                    loadingView.setRotation(((Integer) animation.getAnimatedValue()/30)*30F);
+                    loadingView.setRotation(((Integer) animation.getAnimatedValue() / 30) * 30F);
                 }
             });
 
@@ -164,9 +146,9 @@ public class SinaRefreshView implements IHeaderView {
     public void onComplete() {
         refreshArrow.setVisibility(View.VISIBLE);
         loadingView.setVisibility(View.GONE);
-        if(valueAnimator.isRunning())
+        if (valueAnimator.isRunning())
             valueAnimator.end();
-        ZRefreshLayout.log("onComplete");
+        log("onComplete");
     }
 
 

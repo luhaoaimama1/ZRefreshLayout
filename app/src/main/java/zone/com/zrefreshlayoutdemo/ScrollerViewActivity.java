@@ -7,7 +7,6 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
-import zone.com.zrefreshlayout.resistance.Damping2;
 
 /**
  * Created by fuzhipeng on 2017/1/10.
@@ -33,8 +32,6 @@ public class ScrollerViewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initText();
-
-        refresh.setIResistance(new Damping2());
         refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
             @Override
             public void loadMore(final ZRefreshLayout zRefreshLayout) {
@@ -55,7 +52,7 @@ public class ScrollerViewActivity extends AppCompatActivity {
 
             }
         });
-        refresh.setmPullListener(new ZRefreshLayout.PullListener() {
+        refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
                 refresh.postDelayed(new Runnable() {

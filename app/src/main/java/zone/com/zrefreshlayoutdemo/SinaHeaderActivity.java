@@ -4,15 +4,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import and.utils.activity_fragment_ui.ToastUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
+import zone.com.zrefreshlayout.footer.LoadFooter;
 
 /**
  * Created by fuzhipeng on 2017/1/11.
  */
 
-public class HeaderFixActivity extends AppCompatActivity {
+public class SinaHeaderActivity extends AppCompatActivity {
     @Bind(R.id.iv)
     ImageView iv;
     @Bind(R.id.refresh)
@@ -23,8 +25,7 @@ public class HeaderFixActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auto_refresh);
         ButterKnife.bind(this);
-        refresh.setPinContent(true);
-        refresh.setmPullListener(new ZRefreshLayout.PullListener() {
+        refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
                 refresh.postDelayed(new Runnable() {
@@ -32,6 +33,25 @@ public class HeaderFixActivity extends AppCompatActivity {
                     public void run() {
                         iv.setImageResource(R.drawable.aaaaaaaaaaaab);
                         zRefreshLayout.refreshComplete();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void complete(ZRefreshLayout zRefreshLayout) {
+
+            }
+        });
+
+        refresh.setIFooterView(new LoadFooter());
+        refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
+            @Override
+            public void loadMore(final ZRefreshLayout zRefreshLayout) {
+                refresh.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtils.showShort(SinaHeaderActivity.this,"加载更多");
+                        zRefreshLayout.loadMoreComplete();
                     }
                 }, 2000);
             }

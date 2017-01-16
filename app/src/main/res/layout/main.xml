@@ -44,6 +44,10 @@
             android:id="@+id/scrollerView"
             style="@style/CustomText"
             android:text="ScrollerView" />
+        <TextView
+            android:id="@+id/custom"
+            style="@style/CustomText"
+            android:text="custom可滑动处理..." />
 
         <TextView
             android:layout_width="match_parent"
@@ -63,6 +67,17 @@
             android:id="@+id/pinContent"
             style="@style/CustomText"
             android:text="PinContent" />
+
+        <TextView
+            android:id="@+id/resistance"
+            style="@style/CustomText"
+            android:text="下拉位置映射" />
+
+        <TextView
+            android:id="@+id/refreshAblePosition"
+            style="@style/CustomText"
+            android:text="触发刷新时位置" />
+
         <TextView
             android:id="@+id/uniqueFeature"
             style="@style/CustomText"
@@ -71,7 +86,7 @@
         <TextView
             android:id="@+id/config"
             style="@style/CustomText"
-            android:text="全局配置" />
+            android:text="全局配置..." />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,6 +95,26 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="自定义头部与底部 不受全局配置影响" />
+        <TextView
+            android:id="@+id/meterialHeader"
+            style="@style/CustomText"
+            android:text="MeterialHeader2Footer" />
+        <TextView
+            android:id="@+id/sinaRefresh"
+            style="@style/CustomText"
+            android:text="SinaHeader2LoadFooter" />
+
+        <TextView
+            android:id="@+id/waveHeader"
+            style="@style/CustomText"
+            android:text="WaveHeader" />
+
+        <TextView
+            android:id="@+id/circleHeader"
+            style="@style/CustomText"
+            android:text="CircleHeader" />
+
+
 
     </com.zone.view.FlowLayout>
 

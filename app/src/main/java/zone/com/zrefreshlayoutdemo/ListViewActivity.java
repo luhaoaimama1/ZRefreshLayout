@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import zone.com.zrefreshlayout.ZRefreshLayout;
-import zone.com.zrefreshlayout.resistance.Damping2;
 
 /**
  * Created by fuzhipeng on 2017/1/10.
@@ -58,7 +56,7 @@ public class ListViewActivity extends AppCompatActivity {
 
             }
         });
-        refresh.setmPullListener(new ZRefreshLayout.PullListener() {
+        refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
                 listView.smoothScrollToPosition(0);
