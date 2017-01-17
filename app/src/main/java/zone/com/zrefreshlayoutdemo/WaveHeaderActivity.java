@@ -29,7 +29,7 @@ public class WaveHeaderActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         WaveHead waveHead = new WaveHead();
-        waveHead.setResourceId(R.drawable.aaaaaaaaaaaab);
+        waveHead.setResourceId(R.drawable.wave);
         refresh.setIHeaderView(waveHead);
 
         tv.setText("写着玩的没啥用~");

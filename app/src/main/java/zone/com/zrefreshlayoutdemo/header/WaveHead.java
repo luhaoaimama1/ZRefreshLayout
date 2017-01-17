@@ -115,7 +115,7 @@ public class WaveHead implements IHeaderView {
                     public void onAnimationUpdate(ValueAnimator animation) {
                         if (mWaveHelper != null)
                             mWaveHelper.setLevelProgress((Float) animation.getAnimatedValue());
-                        log("onAnimationUpdate:" + (Float) animation.getAnimatedValue());
+//                        log("onAnimationUpdate:" + (Float) animation.getAnimatedValue());
                     }
                 });
 
