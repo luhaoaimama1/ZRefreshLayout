@@ -57,7 +57,7 @@ Step 2. Add the dependency
 #### auto refresh
 
 ```
-    refresh.autoRefresh();
+    refresh.autoRefresh(haveAnimate)
 ```
 
 ### refresh's listener

@@ -54,7 +54,7 @@ Step 2. Add the dependency
 #### 自动刷新
 
 ```
-    refresh.autoRefresh();
+    refresh.autoRefresh(haveAnimate)
 ```
 
 ### 下拉监听
