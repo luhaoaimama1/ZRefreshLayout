@@ -113,19 +113,19 @@ public class ZRefreshLayout extends FrameLayout {
 
     private void initFooterView() {
         if (mIFooterView != null)//个人配置
-            footerView = mIFooterView.getView(getContext());
+            footerView = mIFooterView.getView(this);
         else {
             if (config != null && config.footerView != null) {
                 //全局配置
                 mIFooterView = config.footerView.clone_();
                 if (mIFooterView != null)
-                    footerView = mIFooterView.getView(getContext());
+                    footerView = mIFooterView.getView(this);
             }
             //全局配置clone为空的时候
             if (footerView == null) {
                 //都为空 默认新浪
                 mIFooterView = new LoadFooter();
-                footerView = mIFooterView.getView(getContext());
+                footerView = mIFooterView.getView(this);
             }
         }
     }
@@ -348,7 +348,7 @@ public class ZRefreshLayout extends FrameLayout {
     public void setIFooterView(@NonNull IFooterView mIFooterView) {
         this.mIFooterView = mIFooterView;
         removeView(footerView);
-        footerView = mIFooterView.getView(getContext());
+        footerView = mIFooterView.getView(this);
         addView(footerView);
     }
 

@@ -106,7 +106,7 @@ Step 2. Add the dependency
         });
 ```
 
-HeadView and FooterView 's custom and More advanced features,please see Wiki;
+> HeadView and FooterView 's custom and More advanced features,please see [**Wiki Document**](https://github.com/luhaoaimama1/ZRefreshLayout/wiki);;
 
 # Reference&Thanks：
 

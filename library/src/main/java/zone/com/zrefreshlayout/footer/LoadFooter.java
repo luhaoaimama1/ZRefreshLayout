@@ -13,6 +13,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.IFooterView;
 import zone.com.zrefreshlayout.R;
+import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.utils.ScreenUtils;
 
 /**
@@ -24,10 +25,10 @@ public class LoadFooter implements IFooterView {
     private ImageView loadingView;
 
     @Override
-    public View getView(Context context) {
-        rootView= View.inflate(context, R.layout.footer, null);
+    public View getView(ZRefreshLayout zRefreshLayout) {
+        rootView= View.inflate(zRefreshLayout.getContext(), R.layout.footer, null);
         loadingView = (ImageView) rootView.findViewById(R.id.iv_loading);
-        int[] screenPixs = ScreenUtils.getScreenPix((Activity) context);
+        int[] screenPixs = ScreenUtils.getScreenPix((Activity) zRefreshLayout.getContext());
         rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , (int) (screenPixs[1] * 0.1)));
 

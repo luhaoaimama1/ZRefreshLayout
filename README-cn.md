@@ -103,7 +103,7 @@ Step 2. Add the dependency
         });
 ```
 
-头部自定义与底部自定义和更多高级功能,请看Wiki;
+>头部自定义与底部自定义和更多高级功能,请看[**Wiki 文档**](https://github.com/luhaoaimama1/ZRefreshLayout/wiki);
 
 # Reference&Thanks：
 

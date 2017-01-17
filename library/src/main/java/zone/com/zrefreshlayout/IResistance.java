@@ -5,6 +5,11 @@ package zone.com.zrefreshlayout;
  */
 
 public interface IResistance {
+    /**
+     * 全局更换头的配置
+     * 主要是为了复制头部对象，复制想要复制的属性
+     * 注意:返回null时候，默认就是没有映射了
+     */
     IResistance clone_();
 
     /**

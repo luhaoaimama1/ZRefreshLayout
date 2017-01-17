@@ -8,7 +8,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
-import zone.com.zrefreshlayoutdemo.resistance.Damping2Head;
+import zone.com.zrefreshlayout.resistance.DampingHalfToHead;
 
 /**
  * Created by fuzhipeng on 2017/1/11.
@@ -27,7 +27,7 @@ public class ResistanceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.unique_feature);
         ButterKnife.bind(this);
-        refresh.setIResistance(new Damping2Head());
+        refresh.setIResistance(new DampingHalfToHead());
         tv.setText("下拉到头部后不可继续！");
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override

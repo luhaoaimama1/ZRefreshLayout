@@ -13,6 +13,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.IFooterView;
 import zone.com.zrefreshlayout.R;
+import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.utils.ScreenUtils;
 import zone.com.zrefreshlayout.v4.MeterialCircle;
 
@@ -25,11 +26,11 @@ public class MeterialFooter implements IFooterView {
     private View rootView;
 
     @Override
-    public View getView(Context context) {
-        rootView = View.inflate(context, R.layout.header_meterial, null);
+    public View getView(ZRefreshLayout zRefreshLayout) {
+        rootView = View.inflate(zRefreshLayout.getContext(), R.layout.header_meterial, null);
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
         LinearLayout ll_main = (LinearLayout) rootView.findViewById(R.id.ll_main);
-        int[] screenPixs = ScreenUtils.getScreenPix((Activity) context);
+        int[] screenPixs = ScreenUtils.getScreenPix((Activity) zRefreshLayout.getContext());
         ll_main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , (int) (screenPixs[1] * 0.1)));
         mMeterialCircle=new MeterialCircle(ll_main,(int) (screenPixs[1] * 0.08));

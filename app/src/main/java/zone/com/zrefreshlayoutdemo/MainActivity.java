@@ -7,13 +7,9 @@ import android.view.View;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zone.com.zrefreshlayout.Config;
-import zone.com.zrefreshlayout.footer.LoadFooter;
 import zone.com.zrefreshlayout.footer.MeterialFooter;
 import zone.com.zrefreshlayout.header.MeterialHead;
-import zone.com.zrefreshlayout.header.SinaRefreshHeader;
-import zone.com.zrefreshlayout.resistance.Damping;
-import zone.com.zrefreshlayoutdemo.header.CircleRefresh;
-import zone.com.zrefreshlayoutdemo.resistance.Damping2Head8per;
+import zone.com.zrefreshlayout.resistance.DampingHalf;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,15 +20,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main);
         ButterKnife.bind(this);
         Config.build()
-//                .setHeader(new MeterialHead())
-//                .setFooter(new MeterialFooter())
-//                .setResistance(new Damping())
-
-                .setHeader(new  CircleRefresh())
+                .setHeader(new MeterialHead())
                 .setFooter(new MeterialFooter())
-                .setResistance(new Damping2Head8per())
+                .setResistance(new DampingHalf())
+
+//                .setHeader(new  CircleRefresh())
+//                .setFooter(new MeterialFooter())
+//                .setResistance(new Damping2Head8per())
                 .writeLog(true)
                 .perform();
+
     }
 
     @OnClick({R.id.textView, R.id.listView, R.id.recyclerView,
