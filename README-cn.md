@@ -24,7 +24,7 @@ allprojects {
 ```
 Step 2. Add the dependency
 
-> compile 'com.github.luhaoaimama1:zone-sdk:[Latest release](https://github.com/luhaoaimama1/zone-sdk/releases)'
+> compile 'com.github.luhaoaimama1:ZRefreshLayout:[Latest release](https://github.com/luhaoaimama1/ZRefreshLayout/releases)'
     
 
 ## Usage
