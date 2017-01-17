@@ -40,6 +40,7 @@ public class ScrollingUtil {
 
     /**
      * 用来判断是否可以下拉
+     * 自定义view下拉如果不被支持,可以通过从写view.canScrollVertically(int direction)此方法 进行支持；
      */
     public static boolean canChildScrollUp(View mChildView) {
         if (mChildView == null) {

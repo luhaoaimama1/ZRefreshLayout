@@ -13,6 +13,8 @@ public class Config {
     IResistance resistance;
     boolean isPinContent;
     boolean isDebug;
+    ZRefreshLayout.PullListener mPullListener;
+    ZRefreshLayout.LoadMoreListener mLoadMoreListener;
 
     private Config() {
     }
@@ -40,6 +42,16 @@ public class Config {
 
     public Config setPinContent(boolean pinContent) {
         this.isPinContent = pinContent;
+        return this;
+    }
+
+    public Config setLoadMoreListener(ZRefreshLayout.LoadMoreListener mLoadMoreListener) {
+        this.mLoadMoreListener = mLoadMoreListener;
+        return this;
+    }
+
+    public Config setPullListener(ZRefreshLayout.PullListener mPullListener) {
+        this.mPullListener = mPullListener;
         return this;
     }
 

@@ -29,4 +29,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.luhaoaimama1:ZView:1.0.35'
     compile 'com.github.luhaoaimama1:zone-sdk:1.0.91'
+    compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
 }

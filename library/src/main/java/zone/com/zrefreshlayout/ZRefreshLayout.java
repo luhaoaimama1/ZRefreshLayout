@@ -22,16 +22,13 @@ import static zone.com.zrefreshlayout.utils.LogUtils.log;
  * Created by fuzhipeng on 2017/1/9.
  */
 
-//我这个可以 ,立即下拉不等Rest
 //自动刷新；-->  直接到 头部位置 并且是 刷新状态
 //demo listView，GridView recycler imageView scrollerView,WebView
 //先弄上啦加载 最后是否固定头部 已经固定底部   下拉头部高度   仅头部使用
 //阻力下拉
 //全局切换  头与脚,全局配置初始化
 //自定义头部 与 底部；  新浪 google支持, wave映射图
-//todo ReadMe,wiki  名字改动
-//todo 拦截自定义可滑动view ,viewPager 横向兼容
-
+//ReadMe,wiki  名字改动
 public class ZRefreshLayout extends FrameLayout {
 
     static Config config;
@@ -78,6 +75,14 @@ public class ZRefreshLayout extends FrameLayout {
         initHeaderView();
         initFooterView();
         initResistance();
+        initListener();
+    }
+
+    private void initListener() {
+        if (config != null && config.mPullListener != null)
+            mPullListener = config.mPullListener;
+        if (config != null && config.mLoadMoreListener != null)
+            mLoadMoreListener = config.mLoadMoreListener;
     }
 
     private void initResistance() {

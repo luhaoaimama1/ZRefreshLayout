@@ -1,12 +1,17 @@
 apply plugin: 'com.android.library'
 
+// JitPack Maven
+apply plugin: 'com.github.dcendents.android-maven'
+// Your Group
+group = 'com.github.luhaoaimama1'
+
 android {
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 24
+        minSdkVersion 11
+//        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
@@ -26,9 +31,39 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.github.luhaoaimama1:ZAnimate:1.0.21'
     compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
 }
+
+//---------------jitPack 文档注释 Start------------------------
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+// uncomment to build a jar file in addition to the default aar file
+//android.libraryVariants.all { variant ->
+//    def name = variant.buildType.name
+//    def task = project.tasks.create "jar${name.capitalize()}", Jar
+//    task.dependsOn variant.javaCompile
+//    task.from variant.javaCompile.destinationDir
+//    artifacts.add('archives', task);
+//}
+//---------------jitPack 文档注释Over------------------------
