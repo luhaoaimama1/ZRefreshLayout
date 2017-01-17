@@ -133,3 +133,6 @@ https://github.com/lcodecorex/TwinklingRefreshLayout
 
 https://github.com/tuesda/CircleRefreshLayout
 
+https://github.com/android-cjj/Android-MaterialRefreshLayout
+
+https://github.com/desmond1121/Android-Ptr-Comparison
