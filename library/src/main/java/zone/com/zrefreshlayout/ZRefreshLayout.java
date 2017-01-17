@@ -15,6 +15,7 @@ import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.footer.LoadFooter;
 import zone.com.zrefreshlayout.header.SinaRefreshHeader;
 import zone.com.zrefreshlayout.utils.ScrollingUtil;
+
 import static zone.com.zrefreshlayout.utils.LogUtils.log;
 
 /**
@@ -396,11 +397,11 @@ public class ZRefreshLayout extends FrameLayout {
         private void refreshCompeleStateToRest(Integer offset) {
             if (offset == 0 && (state == REFRESHING || state == PULL || state == AUTO_PULL)) {
                 log("刷新结束， 回滚到0");
-                state = COMPLETE;
-                log("complete");
-                if (mPullListener != null) {
+                if (mPullListener != null && state == REFRESHING) {
                     mPullListener.complete(ZRefreshLayout.this);
                 }
+                state = COMPLETE;
+                log("complete");
                 if (mIHeaderView != null)
                     mIHeaderView.onComplete();
                 state = REST;

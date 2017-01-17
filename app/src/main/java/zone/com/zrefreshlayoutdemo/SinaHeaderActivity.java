@@ -9,6 +9,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.footer.LoadFooter;
+import zone.com.zrefreshlayout.header.SinaRefreshHeader;
 
 /**
  * Created by fuzhipeng on 2017/1/11.
@@ -25,6 +26,7 @@ public class SinaHeaderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auto_refresh);
         ButterKnife.bind(this);
+        refresh.setIHeaderView(new SinaRefreshHeader());
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
