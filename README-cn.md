@@ -26,6 +26,24 @@ Step 2. Add the dependency
 
 > compile 'com.github.luhaoaimama1:ZRefreshLayout:[Latest release](https://github.com/luhaoaimama1/ZRefreshLayout/releases)'
     
+## Preview
+
+#### 固定头
+![](https://ww4.sinaimg.cn/large/006tKfTcly1fbtqosupizg307i0dcb29.gif)
+
+#### Meterial Header与Footer
+![](https://ww4.sinaimg.cn/large/006tKfTcly1fbtqsrspgjg307i0dc4bx.gif)
+
+#### SinaRefreshHeader与LoadFooter
+![](https://ww3.sinaimg.cn/large/006tKfTcly1fbtqt3ghb1g307i0dch1l.gif)
+
+#### WaveHead
+![](https://ww3.sinaimg.cn/large/006tKfTcly1fbtqtb17leg307i0dcn8w.gif)
+
+#### CircleRefresh Head
+>[引用tuesda的CircleView 主要是为了测试延迟功能](https://github.com/tuesda/CircleRefreshLayout)
+
+![](https://ww3.sinaimg.cn/large/006tKfTcly1fbtqq5dl7vg307i0dc48d.gif)
 
 ## Usage
 
