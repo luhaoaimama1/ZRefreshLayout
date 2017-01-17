@@ -32,7 +32,7 @@ Step 2. Add the dependency
 
 ## Preview
 
-#### 固定头
+####  header fixed
 ![](https://ww4.sinaimg.cn/large/006tKfTcly1fbtqosupizg307i0dcb29.gif)
 
 #### Meterial Header与Footer
