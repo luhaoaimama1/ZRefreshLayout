@@ -104,6 +104,7 @@ public class MeterialCircle {
     }
 
     public void start() {
+        pullProgress(1);
         mProgress.setAlpha(255);
         mProgress.start();
     }

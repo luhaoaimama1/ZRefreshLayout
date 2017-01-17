@@ -74,7 +74,6 @@ public class MeterialHead implements IHeaderView {
     @Override
     public void onRefreshing(float headHeight, boolean isAutoRefresh) {
         if (isAutoRefresh) {
-            mMeterialCircle.pullProgress(1);
             log("startScaleUpAnimation");
             mMeterialCircle.startScaleUpAnimation();
         }
