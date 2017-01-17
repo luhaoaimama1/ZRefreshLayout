@@ -45,6 +45,7 @@
             style="@style/CustomText"
             android:text="ScrollerView" />
         <TextView
+            android:visibility="gone"
             android:id="@+id/custom"
             style="@style/CustomText"
             android:text="custom可滑动处理..." />
@@ -84,6 +85,7 @@
             android:text="UniqueFeature" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/config"
             style="@style/CustomText"
             android:text="全局配置..." />

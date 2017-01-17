@@ -40,7 +40,6 @@ public class GridViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grid);
         ButterKnife.bind(this);
-        refresh.setIHeaderView(new SinaRefreshHeader());
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
@@ -52,6 +51,25 @@ public class GridViewActivity extends AppCompatActivity {
                         zRefreshLayout.refreshComplete();
                     }
                 }, 2000);
+            }
+
+            @Override
+            public void complete(ZRefreshLayout zRefreshLayout) {
+
+            }
+        });
+        refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
+            @Override
+            public void loadMore(final ZRefreshLayout zRefreshLayout) {
+                refresh.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDatas.add("加载完毕:" + i++);
+                        adapter2.notifyDataSetChanged();
+                        zRefreshLayout.loadMoreComplete();
+                    }
+                }, 2000);
+
             }
 
             @Override
