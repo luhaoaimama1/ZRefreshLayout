@@ -1,19 +1,16 @@
-
-[中文版文档](README-cn.md)
-
 # ZRefreshLayout
 
-A global random configuration head , drop-down refresh and  loadMore library;
+一个可以`全局`随意`配置头部`的`下拉刷新`与`上拉加载`库；
 
-### Feature
-- [x] support refresh and  loadMore
-- [x] support All the View:ImageView,FrameLayout,ListView, GridView, ScrollView, WebView...
-- [x] support Global configuration (HeaderView's configuration is here,so not have xml's property),and Independent changes
-- [x] support auto refresh
-- [x] support header fixed
-- [x] support refresh's Trigger position
-- [x] support drop-down's position map(as IResistance)
-- [x] support add many childs。because extends FrameLayout(not must be one,because more changeful)
+### 特点与功能实现
+- [x] 支持添加下拉刷新与上拉加载
+- [x] 支持所有的View:ImageView,FrameLayout,ListView, GridView, ScrollView, WebView...
+- [x] 全局配置(头部配置都在这里,所以没有xml属性~),与独立更改
+- [x] 自动刷新
+- [x] 头部是否固定
+- [x] 刷新出发位置
+- [x] 下拉位置映射，既resistance阻力
+- [x] 因为是继承FrameLayout,可以添加多个child。(我没有让控制必须一个,感觉更灵活吧)
 
 ### JicPack
 Add it in your root build.gradle at the end of repositories:
@@ -32,7 +29,7 @@ Step 2. Add the dependency
 
 ## Usage
 
-#### Global configuration
+#### 全局配置
 
 ```
       Config.build()
@@ -42,26 +39,26 @@ Step 2. Add the dependency
             .writeLog(true)
             .perform();
 ```
-#### Independent changes
+#### 独立更改
 
 ```
     refresh.setIHeaderView(new SinaRefreshHeader());
 ```
 
-#### header fixed
+#### 头部固定否
 
 ```
     refresh.setPinContent(true);
 ```
 
-#### auto refresh
+#### 自动刷新
 
 ```
     refresh.autoRefresh();
 ```
 
-### refresh's listener
-> refresh complete ,Remember to use:**zRefreshLayout.refreshComplete();**
+### 下拉监听
+> 刷新完成记得使用:**zRefreshLayout.refreshComplete();**
 
 ```
      refresh.setPullListener(new ZRefreshLayout.PullListener() {
@@ -71,7 +68,7 @@ Step 2. Add the dependency
                 refresh.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mDatas.add("refresh:" + i++);
+                        mDatas.add("刷新完毕:" + i++);
                         adapter2.notifyDataSetChanged();
                         zRefreshLayout.refreshComplete();
                     }
@@ -80,10 +77,10 @@ Step 2. Add the dependency
 
 ```
 
-#### loadMore's Listener
-> if not setLoadMoreListener,not have loadMore feature;
+#### 上拉监听
+> 如果没有设置上啦监听则不会有上拉加载功能
 
-> loadMore complete ,Remember to use:**zRefreshLayout.loadMoreComplete();**
+> 加载完成记得使用:**zRefreshLayout.loadMoreComplete();**
 
 ```
       refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
@@ -92,7 +89,7 @@ Step 2. Add the dependency
                 refresh.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mDatas.add("loadMore:" + i++);
+                        mDatas.add("加载完毕:" + i++);
                         zRefreshLayout.loadMoreComplete();
                     }
                 }, 2000);
@@ -106,7 +103,7 @@ Step 2. Add the dependency
         });
 ```
 
-HeadView and FooterView 's custom and More advanced features,please see Wiki;
+头部自定义与底部自定义和更多高级功能,请看Wiki;
 
 # Reference&Thanks：
 
