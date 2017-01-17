@@ -107,5 +107,8 @@ Step 2. Add the dependency
 
 # Reference&Thanks：
 
+https://github.com/lcodecorex/TwinklingRefreshLayout
+
 https://github.com/tuesda/CircleRefreshLayout
+
 

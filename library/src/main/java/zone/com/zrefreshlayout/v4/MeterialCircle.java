@@ -50,7 +50,7 @@ public class MeterialCircle {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     setAnimationProgress((Float) animation.getAnimatedValue());
-                    log("onAnimationUpdate:" + (Float) animation.getAnimatedValue());
+//                    log("onAnimationUpdate:" + (Float) animation.getAnimatedValue());
                 }
             });
 

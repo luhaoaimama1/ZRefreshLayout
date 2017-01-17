@@ -292,9 +292,8 @@ public class ZRefreshLayout extends FrameLayout {
         return heightToRefresh != 0 ? heightToRefresh : headerView.getHeight();
     }
 
-    public void autoRefresh() {
+    public void autoRefresh(boolean haveAnimate) {
         if (state == REST) {
-            mIScroll.scrollTo_(getRefreshAbleHeight(), true);
             //等待回调  刷新完成
             state = AUTO_PULL;
             log("AUTO_PULL！");
@@ -302,6 +301,13 @@ public class ZRefreshLayout extends FrameLayout {
                 mPullListener.refresh(this);
             if (mIHeaderView != null) {
                 mIHeaderView.onRefreshing(headerView.getHeight(), true);
+            }
+
+            if (!haveAnimate)
+                mIScroll.scrollTo_(getRefreshAbleHeight(), true);
+            else {
+                mAnimateBack = AnimateBack.Auto_Refresh;
+                mIScroll.smoothScrollTo_(getRefreshAbleHeight());
             }
         }
     }
@@ -394,7 +400,8 @@ public class ZRefreshLayout extends FrameLayout {
                                     1F * Math.abs(getScrollY()) / headerView.getHeight(),
                                     headerView.getHeight(), isPinContent);
                         scrollTo(offset, true);
-                        refreshCompeleStateToRest(offset);
+                        if (mAnimateBack != AnimateBack.Auto_Refresh)
+                            refreshCompeleStateToRest(offset);
                     }
 
                 });

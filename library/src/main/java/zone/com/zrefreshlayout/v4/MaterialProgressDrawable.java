@@ -42,7 +42,7 @@ import android.view.animation.Transformation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-
+import static zone.com.zrefreshlayout.utils.LogUtils.log;
 /**
  * Fancy progress indicator for Material theme.
  *

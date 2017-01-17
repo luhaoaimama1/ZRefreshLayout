@@ -54,13 +54,15 @@ public class MeterialHead implements IHeaderView {
 
     @Override
     public void animateBack(AnimateBack animateBack, float fraction, float headHeight, boolean isPinContent) {
-        log("animateBack:" + fraction);
+//        log("animateBack:" + fraction);
         if (this.mAnimateBack != AnimateBack.Complete_Back && animateBack == AnimateBack.Complete_Back) {
             mMeterialCircle.startScaleDownAnimation();
             log("startScaleDownAnimation");
         }
-        if(isPinContent&& animateBack == AnimateBack.Complete_Back)
+        if(isPinContent&& animateBack == AnimateBack.Complete_Back){
             rootView.setTranslationY(headHeight);
+            log("isPinContent setTranslationY 固定");
+        }
         this.mAnimateBack = animateBack;
     }
 
@@ -71,12 +73,13 @@ public class MeterialHead implements IHeaderView {
 
     @Override
     public void onRefreshing(float headHeight, boolean isAutoRefresh) {
-        mMeterialCircle.start();
-        log("mProgress.start()");
         if (isAutoRefresh) {
+            mMeterialCircle.pullProgress(1);
             log("startScaleUpAnimation");
             mMeterialCircle.startScaleUpAnimation();
         }
+        log("mProgress.start()");
+        mMeterialCircle.start();
         log("onRefreshing");
     }
 
