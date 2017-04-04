@@ -58,6 +58,7 @@ public class CircleRefresh implements IHeaderView {
             public void viewAniDone() {
 //                Log.i(TAG, "should invoke");
                 log("viewAniDone");
+                //刷新动画 延迟完毕
                 AUtils.smoothScrollTo_NotIntercept(iScroll,0);
             }
         });
@@ -82,15 +83,17 @@ public class CircleRefresh implements IHeaderView {
     }
 
 
+    //这里主要是对延迟刷新的处理
     @Override
     public boolean interceptAnimateBack(AnimateBack animateBack, ZRefreshLayout.IScroll iScroll) {
         this.iScroll = iScroll;
         boolean result = false;
         if (mAnimateBack != animateBack && animateBack == AnimateBack.Complete_Back) {
-            mHeaderWaveCircle.setRefreshing(false);
+            mHeaderWaveCircle.setRefreshing(false);//刷新动画
             result = true;
         }
         mAnimateBack = animateBack;
+        //返回结果就是是否拦截
         return result;
     }
 
