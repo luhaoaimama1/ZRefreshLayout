@@ -34,7 +34,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.github.luhaoaimama1:ZAnimate:1.0.21'
-    compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
+//    compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
 }
 
 //---------------jitPack 文档注释 Start------------------------
