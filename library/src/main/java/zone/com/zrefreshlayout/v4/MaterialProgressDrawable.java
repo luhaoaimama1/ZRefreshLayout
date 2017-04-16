@@ -42,7 +42,7 @@ import android.view.animation.Transformation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import static zone.com.zrefreshlayout.utils.LogUtils.log;
+
 /**
  * Fancy progress indicator for Material theme.
  *
@@ -502,7 +502,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
             mPaint.setAntiAlias(true);
             mPaint.setStyle(Style.STROKE);
 
-            mArrowPaint.setStyle(Paint.Style.FILL);
+            mArrowPaint.setStyle(Style.FILL);
             mArrowPaint.setAntiAlias(true);
         }
 
@@ -549,8 +549,8 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
         private void drawTriangle(Canvas c, float startAngle, float sweepAngle, Rect bounds) {
             if (mShowArrow) {
                 if (mArrow == null) {
-                    mArrow = new android.graphics.Path();
-                    mArrow.setFillType(android.graphics.Path.FillType.EVEN_ODD);
+                    mArrow = new Path();
+                    mArrow.setFillType(Path.FillType.EVEN_ODD);
                 } else {
                     mArrow.reset();
                 }

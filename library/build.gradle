@@ -58,6 +58,15 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.artifactId = 'test'
+            repository(url: 'file://' + project.rootDir + '/outputs-aar')
+        }
+    }
+}
 // uncomment to build a jar file in addition to the default aar file
 //android.libraryVariants.all { variant ->
 //    def name = variant.buildType.name

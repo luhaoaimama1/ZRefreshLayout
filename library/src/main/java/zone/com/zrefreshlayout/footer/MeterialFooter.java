@@ -1,16 +1,11 @@
 package zone.com.zrefreshlayout.footer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.nineoldandroids.animation.ValueAnimator;
-
-import zone.com.zanimate.value.ValueAnimatorProxy;
+import zone.com.zrefreshlayout.AUtils;
 import zone.com.zrefreshlayout.IFooterView;
 import zone.com.zrefreshlayout.R;
 import zone.com.zrefreshlayout.ZRefreshLayout;
@@ -39,15 +34,17 @@ public class MeterialFooter implements IFooterView {
     }
 
     @Override
-    public void onStart(float footerHeight) {
+    public void onStart(ZRefreshLayout zRefreshLayout, float footerHeight) {
         rootView.setVisibility(View.VISIBLE);
         mMeterialCircle.start();
+        AUtils.notityLoadMoreListener(zRefreshLayout);
     }
 
     @Override
-    public void onComplete() {
+    public void onComplete(ZRefreshLayout zRefreshLayout) {
         rootView.setVisibility(View.INVISIBLE);
         mMeterialCircle.stop();
+        AUtils.notifyLoadMoreCompleteListener(zRefreshLayout);
 
     }
     @Override

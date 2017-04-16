@@ -14,4 +14,8 @@ public class LogUtils {
         if (isDebug)
             Log.i("ZRefreshLayout", str);
     }
+    public static void logE(String str) {
+        if (isDebug)
+            Log.e("ZRefreshLayout", str);
+    }
 }

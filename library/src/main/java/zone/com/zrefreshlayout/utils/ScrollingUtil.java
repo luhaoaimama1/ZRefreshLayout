@@ -116,7 +116,7 @@ public class ScrollingUtil {
                     // 处理item高度超过一屏幕时的情况
                     View firstVisibleChild = recyclerView.getChildAt(0);
                     if (firstVisibleChild != null && firstVisibleChild.getMeasuredHeight() >= recyclerView.getMeasuredHeight()) {
-                        if (android.os.Build.VERSION.SDK_INT < 14) {
+                        if (Build.VERSION.SDK_INT < 14) {
                             return !(ViewCompat.canScrollVertically(recyclerView, -1) || recyclerView.getScrollY() > 0);
                         } else {
                             return !ViewCompat.canScrollVertically(recyclerView, -1);
@@ -201,7 +201,7 @@ public class ScrollingUtil {
                 // 处理item高度超过一屏幕时的情况
                 View lastVisibleChild = recyclerView.getChildAt(recyclerView.getChildCount() - 1);
                 if (lastVisibleChild != null && lastVisibleChild.getMeasuredHeight() >= recyclerView.getMeasuredHeight()) {
-                    if (android.os.Build.VERSION.SDK_INT < 14) {
+                    if (Build.VERSION.SDK_INT < 14) {
                         return !(ViewCompat.canScrollVertically(recyclerView, 1) || recyclerView.getScrollY() < 0);
                     } else {
                         return !ViewCompat.canScrollVertically(recyclerView, 1);

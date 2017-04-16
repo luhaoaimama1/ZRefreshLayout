@@ -1,6 +1,5 @@
 package zone.com.zrefreshlayout;
 
-import android.content.Context;
 import android.view.View;
 
 
@@ -25,9 +24,9 @@ public interface IFooterView {
      * loadMore中
      * @param footerHeight
      */
-    void onStart(float footerHeight);
+    void onStart(ZRefreshLayout zRefreshLayout, float footerHeight);
     /**
      * loadMore 结束
      */
-    void onComplete();
+    void onComplete(ZRefreshLayout zRefreshLayout);
 }

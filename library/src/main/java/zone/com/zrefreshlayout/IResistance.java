@@ -18,5 +18,5 @@ public interface IResistance {
      * @param offset  是>0的值
      * @return
      */
-    int getOffSetYMapValue(int headerHeight,int offset);
+    int getOffSetYMapValue(int headerHeight, int offset);
 }

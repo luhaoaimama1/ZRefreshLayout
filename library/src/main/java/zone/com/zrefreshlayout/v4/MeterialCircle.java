@@ -5,9 +5,13 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
+
 import zone.com.zanimate.value.ValueAnimatorProxy;
-import static zone.com.zrefreshlayout.utils.LogUtils.log;
+import zone.com.zrefreshlayout.utils.SimpleAnimatorListener;
+
 /**
  * Created by fuzhipeng on 2017/1/13.
  */
@@ -25,6 +29,8 @@ public class MeterialCircle {
             Color.parseColor("#ff4CAF50"),
             Color.parseColor("#ffFFEB3B")
     };
+    private ScaleDownCallback mScaleDownCallback;
+
     public MeterialCircle(ViewGroup vp, int width2height) {
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
         mCircleView = new CircleImageView(vp.getContext(), CIRCLE_BG_LIGHT);
@@ -46,6 +52,15 @@ public class MeterialCircle {
 
     private ValueAnimatorProxy valueAnimator = ValueAnimatorProxy.ofFloat(0, 1F)
             .setDuration(SCALE_DOWN_DURATION)
+            .addListener(new SimpleAnimatorListener() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    if(mScaleDownCallback!=null)
+                        mScaleDownCallback.over();
+                }
+
+            })
             .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -76,6 +91,15 @@ public class MeterialCircle {
 
     public void startScaleDownAnimation() {
         valueAnimator.setFloatValues(1F, 0F).start();
+    }
+
+    public void startScaleDownAnimation(ScaleDownCallback mScaleDownCallback) {
+        this.mScaleDownCallback=mScaleDownCallback;
+        startScaleDownAnimation();
+    }
+
+    public void setVisibility(int visibility ) {
+        mCircleView.setVisibility(visibility);
     }
 
     public void startScaleUpAnimation() {
@@ -113,4 +137,16 @@ public class MeterialCircle {
         setAnimationProgress(1);
         mProgress.stop();
     }
+    public void stop2() {
+        mProgress.stop();
+    }
+
+    public interface  ScaleDownCallback{
+        void over();
+    }
+
+    public CircleImageView getCircleView() {
+        return mCircleView;
+    }
+
 }

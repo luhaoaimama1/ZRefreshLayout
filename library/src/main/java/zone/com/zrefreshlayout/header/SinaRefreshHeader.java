@@ -19,7 +19,9 @@ import zone.com.zrefreshlayout.R;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.utils.DensityUtils;
 import zone.com.zrefreshlayout.utils.ScreenUtils;
+
 import static zone.com.zrefreshlayout.utils.LogUtils.log;
+
 /**
  * Created by lcodecore on 2016/10/2.
  */
@@ -70,7 +72,7 @@ public class SinaRefreshHeader implements IHeaderView {
         return rootView;
     }
 
-    private void screenAdapter(ZRefreshLayout zRefreshLayout,Context context) {
+    private void screenAdapter(ZRefreshLayout zRefreshLayout, Context context) {
         int[] screenPixs = ScreenUtils.getScreenPix((Activity) context);
 
         ll_main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
@@ -112,7 +114,7 @@ public class SinaRefreshHeader implements IHeaderView {
 
     @Override
     public void animateBack(AnimateBack animateBack, float fraction, float headHeight,
-                               boolean mIScroll) {
+                            boolean mIScroll) {
     }
 
     @Override
