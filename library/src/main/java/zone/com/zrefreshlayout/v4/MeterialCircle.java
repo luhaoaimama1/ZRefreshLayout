@@ -127,8 +127,23 @@ public class MeterialCircle {
         mProgress.setProgressRotation(rotation);
     }
 
+    public void pullProgressNotArrow(float fraction) {
+        float percent = Math.min(1f, fraction);
+        mProgress.setAlpha((int) (255 * percent));
+        mProgress.showArrow(false);
+
+        float strokeStart = ((percent) * .8f);
+        mProgress.setStartEndTrim(0f, Math.min(0.8f, strokeStart));
+        mProgress.setArrowScale(Math.min(1f, percent));
+
+        // magic
+        float rotation = (-0.25f + .4f * percent + percent * 2) * .5f;
+        mProgress.setProgressRotation(rotation);
+    }
+
     public void start() {
         pullProgress(1);
+        mProgress.showArrow(false);
         mProgress.setAlpha(255);
         mProgress.start();
     }

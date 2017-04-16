@@ -60,10 +60,9 @@ public class MeterialHead implements IHeaderView {
 
     @Override
     public void animateBack(AnimateBack animateBack, float fraction, float headHeight, boolean isPinContent) {
-//        log("animateBack:" + fraction);
         if (this.mAnimateBack != AnimateBack.Complete_Back && animateBack == AnimateBack.Complete_Back) {
 //            mMeterialCircle.startScaleDownAnimation();
-            mMeterialCircle.setVisibility(View.INVISIBLE);
+//            mMeterialCircle.setVisibility(View.INVISIBLE);
             log("startScaleDownAnimation !!!!");
         }
 //        if(isPinContent&& animateBack == AnimateBack.Complete_Back){
@@ -79,6 +78,7 @@ public class MeterialHead implements IHeaderView {
                 @Override
                 public void over() {
                     AUtils.notityRefreshCompeleStateToRest(iScroll);
+                    mAnimateBack = AnimateBack.None;
                 }
             });
             return true;
