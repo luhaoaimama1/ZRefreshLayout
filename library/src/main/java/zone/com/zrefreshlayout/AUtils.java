@@ -20,4 +20,16 @@ public class AUtils {
     public static void notifyLoadMoreCompleteListener(ZRefreshLayout zRefreshLayout){
         zRefreshLayout.notifyLoadMoreCompleteListener();
     }
+
+
+    public static boolean isRest(ZRefreshLayout zRefreshLayout){
+        return zRefreshLayout.state==zRefreshLayout.REST;
+    }
+
+    public static void loadMore(ZRefreshLayout zRefreshLayout){
+        zRefreshLayout.loadMore();
+    }
+
+
+
 }

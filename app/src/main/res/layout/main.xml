@@ -122,6 +122,10 @@
             android:id="@+id/circleHeader"
             style="@style/CustomText"
             android:text="CircleHeader" />
+        <TextView
+            android:id="@+id/cirlcleActivity"
+            style="@style/CustomText"
+            android:text="CirlcleActivity" />
 
 
     </com.zone.view.FlowLayout>

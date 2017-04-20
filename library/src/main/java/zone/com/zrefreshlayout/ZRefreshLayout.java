@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 
@@ -15,6 +16,8 @@ import com.nineoldandroids.animation.ValueAnimator;
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.footer.LoadFooter;
 import zone.com.zrefreshlayout.header.SinaRefreshHeader;
+import zone.com.zrefreshlayout.loadmore.LoadMoreController;
+import zone.com.zrefreshlayout.loadmore.LoadMoreOtherListener;
 import zone.com.zrefreshlayout.utils.ScrollingUtil;
 import zone.com.zrefreshlayout.utils.SimpleAnimatorListener;
 
@@ -36,15 +39,15 @@ public class ZRefreshLayout extends FrameLayout {
 
     static Config config;
 
-    private static final int REST = 0;//等待状态-休息；
-    private static final int PULL = 1;//下拉
-    private static final int REFRESH_ABLE = 2;//松开刷新 条件--->滑动超过头部高度
-    private static final int REFRESHING = 3;//刷新中
-    private static final int COMPLETE = 4;//松开刷新
-    private static final int LOADMORE_ING = 5;//加载中
-    private static final int AUTO_PULL = 6;//自动刷新
+    static final int REST = 0;//等待状态-休息；
+    static final int PULL = 1;//下拉
+    static final int REFRESH_ABLE = 2;//松开刷新 条件--->滑动超过头部高度
+    static final int REFRESHING = 3;//刷新中
+    static final int COMPLETE = 4;//松开刷新
+    static final int LOADMORE_ING = 5;//加载中
+    static final int AUTO_PULL = 6;//自动刷新
 
-    private int state = REST;
+    int state = REST;
 
     private int mTouchSlop;//滑动有效的最小距离
     private View headerView, footerView, content;
@@ -58,6 +61,8 @@ public class ZRefreshLayout extends FrameLayout {
     private LoadMoreListener mLoadMoreListener;
     private IResistance mIResistance;//阻力策略
     AnimateBack mAnimateBack = AnimateBack.None;
+    private boolean isCanLoadMore=true;
+    private boolean isCanRefresh=true;
 
     public ZRefreshLayout(Context context) {
         this(context, null);
@@ -94,8 +99,10 @@ public class ZRefreshLayout extends FrameLayout {
     }
 
     private void initPinContent() {
-        if (config != null && config.isPinContent)
+        if (config != null && config.isPinContent){
+            this.isPinContent = config.isPinContent;
             mIScroll = new Scroll_Pin();
+        }
         else
             mIScroll = new Scroll_PinNot();
     }
@@ -144,30 +151,26 @@ public class ZRefreshLayout extends FrameLayout {
         super.onFinishInflate();
         addView(headerView);
         addView(footerView);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        headerView.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-        if (mLoadMoreListener != null)
-            footerView.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        content = getChildAt(0);
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        headerView.layout(left, -headerView.getHeight(), right, 0);
-        if (mLoadMoreListener != null)
-            footerView.layout(left, bottom - footerView.getHeight(), right, bottom);
-        content = getChildAt(0);
+        LayoutParams headerViewLp = (LayoutParams) headerView.getLayoutParams();
+        //headerView 仅仅支持 bottomMargin
+        headerView.layout((getWidth()-headerView.getWidth())/2, -headerView.getHeight()-headerViewLp.bottomMargin, (getWidth()+headerView.getWidth())/2, -headerViewLp.bottomMargin);
+        if (mLoadMoreListener != null){
+            log("bottom - footerView.getHeight():"+(bottom - footerView.getHeight())+"\t bottom:"+bottom);
+            footerView.layout(0, getHeight() - footerView.getHeight(), getWidth(), getHeight());
+        }
     }
 
     private float mTouchX, mTouchY;
 
     //防止down事件被吃 就是刷新完事 手指不离开继续下滑的问题;
 
-    boolean openIntercept=false;
+    boolean haveDownEvent =false;
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if(state==REST){
@@ -176,25 +179,36 @@ public class ZRefreshLayout extends FrameLayout {
                     mTouchX = event.getX();
                     mTouchY = event.getY();
                     log("down!事件");
-                    openIntercept=true;
+                    haveDownEvent =true;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if(!openIntercept)
+                    if(!haveDownEvent)
                         return  super.onInterceptTouchEvent(event);
                     float dx = event.getX() - mTouchX;
                     float dy = event.getY() - mTouchY;
                     log("mTouchY :" + mTouchY + "___  event.getY():" + event.getY());
-                    log("Math.abs(dy) :" + Math.abs(dy) + "___ mTouchSlop:" + mTouchSlop);
-                    log("Math.abs(dx) <= Math.abs(dy)p:" + (Math.abs(dx) <= Math.abs(dy)));
-                    log("Math.abs(dy) > mTouchSlop:" + (Math.abs(dy) > mTouchSlop));
-                    log("!ScrollingUtil.canChildScrollUp(content):" + !ScrollingUtil.canChildScrollUp(content));
-                    if (dy > mTouchSlop && Math.abs(dx) <= Math.abs(dy)
+                    log("dy :" + dy + "___ mTouchSlop:" + mTouchSlop);
+
+//                    log(String.format("下拉截断判断:%b\tdy>mTouchSlop:%b \tMath.abs(dx) <= Math.abs(dy):%b\t !ScrollingUtil.canChildScrollUp(content):%b",
+//                            dy > mTouchSlop && Math.abs(dx) <= Math.abs(dy)&& !ScrollingUtil.canChildScrollUp(content)
+//                            ,dy>mTouchSlop,Math.abs(dx) <= Math.abs(dy),!ScrollingUtil.canChildScrollUp(content)));
+                    if (isCanRefresh&&dy > mTouchSlop && Math.abs(dx) <= Math.abs(dy)
                             && !ScrollingUtil.canChildScrollUp(content)) {
                         //滑动允许最大角度为45度
                         log("下拉截断！");
                         return true;
                     }
-                    if (mLoadMoreListener != null && dy < 0
+//                    log(String.format("上拉截断判断:%b\t!isInterceptInnerLoadMore:%b\t" +
+//                            "isCanLoadMore:%b\tmLoadMoreListener!=null:%b\tdy < 0:%b \tMath.abs(dy) > mTouchSlop:%b\t Math.abs(dx) <= Math.abs(dy):%b\t !ScrollingUtil.canChildScrollUp(content):%b",
+//                            !isInterceptInnerLoadMore&&isCanLoadMore&&mLoadMoreListener != null && dy < 0
+//                                    && Math.abs(dy) > mTouchSlop
+//                                    && Math.abs(dx) <= Math.abs(dy)
+//                                    && !ScrollingUtil.canChildScrollDown(content),
+//                            !isInterceptInnerLoadMore,isCanLoadMore&&mLoadMoreListener != null,
+//                            mLoadMoreListener != null,dy < 0,Math.abs(dy) > mTouchSlop,
+//                            Math.abs(dx) <= Math.abs(dy),!ScrollingUtil.canChildScrollUp(content)));
+
+                    if (!isInterceptInnerLoadMore&&isCanLoadMore&&mLoadMoreListener != null && dy < 0
                             && Math.abs(dy) > mTouchSlop
                             && Math.abs(dx) <= Math.abs(dy)
                             && !ScrollingUtil.canChildScrollDown(content)) {
@@ -227,19 +241,17 @@ public class ZRefreshLayout extends FrameLayout {
                 else
                     direction = LOAD_UP;
 
-                if (mIResistance != null)//dy 需要映射不然 真实的移动 和 MotionEvent移动对不上了 也没法和headerView.getHeight()[真实的]比较了
-                    dy = mIResistance.getOffSetYMapValue(headerView.getHeight(), (int) dy);
+                if (mIResistance != null)//dy 需要映射不然 真实的移动 和 MotionEvent移动对不上了 也没法和getRefreshAbleHeight()[真实的]比较了
+                    dy = mIResistance.getOffSetYMapValue(getRefreshAbleHeight(), (int) dy);
 
                 if (state == REST && direction == PULL_DOWN) {
                     state = PULL;
                     log("PULL！");
                 }
 
-                if (mLoadMoreListener != null && Math.abs(dy) > mTouchSlop && state == REST && direction == LOAD_UP && mIScroll.getScrollY() == 0) {
+                if (!isInterceptInnerLoadMore&&haveDownEvent&&isCanLoadMore&&mLoadMoreListener != null && Math.abs(dy) > mTouchSlop && state == REST && direction == LOAD_UP && mIScroll.getScrollY() == 0) {
                     log("dy:" + dy + "_ mTouchY:" + mTouchY + "__event.getY():" + event.getY());
-                    if (mIFooterView != null)
-                        mIFooterView.onStart(this,footerView.getHeight());
-
+                    loadMore();
                 }
 
                 if (direction == PULL_DOWN && state == PULL && Math.abs(dy) >= getRefreshAbleHeight()) {
@@ -285,8 +297,14 @@ public class ZRefreshLayout extends FrameLayout {
         return true;
     }
 
-    void notityLoadMoreListener() {
+    void loadMore() {
         state = LOADMORE_ING;
+        if (mIFooterView != null) {
+            mIFooterView.onStart(this, footerView.getHeight());
+        }
+    }
+
+    void notityLoadMoreListener() {
         log("LOADMORE_ING！");
         mLoadMoreListener.loadMore(this);
     }
@@ -299,7 +317,7 @@ public class ZRefreshLayout extends FrameLayout {
         if (mPullListener != null)
             mPullListener.refresh(this);
         if (mIHeaderView != null)
-            mIHeaderView.onRefreshing(headerView.getHeight(), false);
+            mIHeaderView.onRefreshing(getRefreshAbleHeight(), false);
     }
 
     int heightToRefresh;
@@ -321,7 +339,7 @@ public class ZRefreshLayout extends FrameLayout {
             if (mPullListener != null)
                 mPullListener.refresh(this);
             if (mIHeaderView != null) {
-                mIHeaderView.onRefreshing(headerView.getHeight(), true);
+                mIHeaderView.onRefreshing(getRefreshAbleHeight(), true);
             }
 
             if (!haveAnimate)
@@ -334,7 +352,7 @@ public class ZRefreshLayout extends FrameLayout {
     }
 
     public void refreshComplete() {
-        if(state!=REFRESHING){
+        if(!isRefresh()){
             logE("非刷新状态下 refreshComplete");
             return ;
         }
@@ -343,26 +361,70 @@ public class ZRefreshLayout extends FrameLayout {
     }
 
     public void loadMoreComplete() {
-        if(state!=LOADMORE_ING){
+        if(!isLoadMore()){
             logE("非加载状态下 loadMoreComplete");
             return ;
         }
         mIFooterView.onComplete(this);
     }
 
-     void notifyLoadMoreCompleteListener() {
-        mLoadMoreListener.complete(this);
+    void notifyLoadMoreCompleteListener() {
+        mLoadMoreListener.loadMoreAnimationComplete(this);
         state = REST;
+        haveDownEvent=false;
     }
 
     public LoadMoreListener getLoadMoreListener() {
         return mLoadMoreListener;
     }
 
+    boolean isInterceptInnerLoadMore;
+    LoadMoreOtherListener outterLoadMoreListener;
     public void setLoadMoreListener(LoadMoreListener mLoadMoreListener) {
         this.mLoadMoreListener = mLoadMoreListener;
-        if (state == REST)
-            requestLayout();
+        outterLoadMoreListener = LoadMoreController.addLoadMoreListener(content, this);
+        isInterceptInnerLoadMore=outterLoadMoreListener==null?false:true;
+    }
+
+    public boolean isCanLoadMore() {
+        return isCanLoadMore&&mLoadMoreListener!=null;
+    }
+
+    public boolean isLoadMore(){
+        return state==LOADMORE_ING;
+    }
+    public boolean isRefreshOrLoadMore(){
+        return isLoadMore()||isRefresh();
+    }
+    public void refresh2LoadMoreComplete(){
+        if(isRefresh())
+            refreshComplete();
+        if(isLoadMore())
+            loadMoreComplete();
+    }
+
+    public boolean isRefresh(){
+        return state==REFRESHING||state==AUTO_PULL;
+    }
+
+    //必须设置加载更多监听才能 加载更多
+    public void setCanLoadMore(boolean canLoadMore) {
+        isCanLoadMore = canLoadMore;
+        if(outterLoadMoreListener==null)
+            return;
+        if (canLoadMore) {
+            if (!outterLoadMoreListener.haveListener())
+                outterLoadMoreListener.addListener(content, this);
+        } else
+            outterLoadMoreListener.removeListener(content);
+    }
+
+    public boolean isCanRefresh() {
+        return isCanRefresh;
+    }
+
+    public void setCanRefresh(boolean canRefresh) {
+        isCanRefresh = canRefresh;
     }
 
     public PullListener getPullListener() {
@@ -442,8 +504,8 @@ public class ZRefreshLayout extends FrameLayout {
                         Integer offset = (Integer) animation.getAnimatedValue();
                         if (mIHeaderView != null)
                             mIHeaderView.animateBack(mAnimateBack,
-                                    1F * Math.abs(getScrollY()) / headerView.getHeight(),
-                                    headerView.getHeight(), isPinContent);
+                                    1F * Math.abs(getScrollY()) / getRefreshAbleHeight(),
+                                    getRefreshAbleHeight(), isPinContent);
                         scrollTo(offset, true);
                     }
 
@@ -454,15 +516,15 @@ public class ZRefreshLayout extends FrameLayout {
             if (state == REFRESHING || state == PULL || state == AUTO_PULL) {
                 log("刷新结束， 回滚到0");
                 if (mPullListener != null && state == REFRESHING) {
-                    mPullListener.complete(ZRefreshLayout.this);
+                    mPullListener.refreshAnimationComplete(ZRefreshLayout.this);
                 }
                 state = COMPLETE;
-                log("complete");
+                log("refreshAnimationComplete");
                 if (mIHeaderView != null)
                     mIHeaderView.onComplete();
                 state = REST;
                 mAnimateBack = AnimateBack.None;
-                openIntercept=false;
+                haveDownEvent =false;
             }
         }
 
@@ -500,9 +562,9 @@ public class ZRefreshLayout extends FrameLayout {
         @Override
         protected void scrollTo(int fy, boolean isAnimate) {
             if (mIResistance != null && !isAnimate)
-                fy = mIResistance.getOffSetYMapValue(headerView.getHeight(), fy);
+                fy = mIResistance.getOffSetYMapValue(getRefreshAbleHeight(), fy);
             if (mIHeaderView != null && !isAnimate)
-                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight());
+                mIHeaderView.onPullingDown(1F * Math.abs(fy) / getRefreshAbleHeight(), getRefreshAbleHeight());
             headerView.setTranslationY(fy);
         }
 
@@ -518,9 +580,9 @@ public class ZRefreshLayout extends FrameLayout {
         @Override
         protected void scrollTo(int fy, boolean isAnimate) {
             if (mIResistance != null && !isAnimate)
-                fy = mIResistance.getOffSetYMapValue(headerView.getHeight(), fy);
+                fy = mIResistance.getOffSetYMapValue(getRefreshAbleHeight(), fy);
             if (mIHeaderView != null && !isAnimate)
-                mIHeaderView.onPullingDown(1F * Math.abs(fy) / headerView.getHeight(), headerView.getHeight());
+                mIHeaderView.onPullingDown(1F * Math.abs(fy) / getRefreshAbleHeight(), getRefreshAbleHeight());
             ZRefreshLayout.this.scrollTo(0, -fy);
         }
 
@@ -539,11 +601,12 @@ public class ZRefreshLayout extends FrameLayout {
         this.mRefreshAbleListener = mRefreshAbleListener;
     }
 
+
     //-------------------------内部接口----------------------------------------------------
     public interface PullListener {
         void refresh(ZRefreshLayout zRefreshLayout);
 
-        void complete(ZRefreshLayout zRefreshLayout);
+        void refreshAnimationComplete(ZRefreshLayout zRefreshLayout);
     }
 
     public interface RefreshAbleListener {
@@ -553,6 +616,6 @@ public class ZRefreshLayout extends FrameLayout {
     public interface LoadMoreListener {
         void loadMore(ZRefreshLayout zRefreshLayout);
 
-        void complete(ZRefreshLayout zRefreshLayout);
+        void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout);
     }
 }

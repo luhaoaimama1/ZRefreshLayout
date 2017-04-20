@@ -18,17 +18,18 @@ import zone.com.zrefreshlayout.v4.MeterialCircle;
 
 public class MeterialFooter implements IFooterView {
     private MeterialCircle mMeterialCircle;
-    private View rootView;
+    private ViewGroup rootView;
 
     @Override
     public View getView(ZRefreshLayout zRefreshLayout) {
-        rootView = View.inflate(zRefreshLayout.getContext(), R.layout.header_meterial, null);
+        rootView = (ViewGroup) View.inflate(zRefreshLayout.getContext(), R.layout.header_meterial, null);
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
         LinearLayout ll_main = (LinearLayout) rootView.findViewById(R.id.ll_main);
         int[] screenPixs = ScreenUtils.getScreenPix((Activity) zRefreshLayout.getContext());
         ll_main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , (int) (screenPixs[1] * 0.1)));
-        mMeterialCircle=new MeterialCircle(ll_main,(int) (screenPixs[1] * 0.08));
+        mMeterialCircle=new MeterialCircle(ll_main,(int) (screenPixs[1] * 0.065));
+        rootView.addView(mMeterialCircle.getView());
         rootView.setVisibility(View.INVISIBLE);
         return rootView;
     }
@@ -43,7 +44,7 @@ public class MeterialFooter implements IFooterView {
     @Override
     public void onComplete(ZRefreshLayout zRefreshLayout) {
         rootView.setVisibility(View.INVISIBLE);
-        mMeterialCircle.stop();
+        mMeterialCircle.reset();
         AUtils.notifyLoadMoreCompleteListener(zRefreshLayout);
 
     }

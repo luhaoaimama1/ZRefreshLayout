@@ -45,7 +45,7 @@ public class CircleHeaderActivity extends AppCompatActivity {
             }
 
             @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
+            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
                 //因为回滚被延迟了所以放这里吧  不然动画不好看
                 iv.setImageResource(R.drawable.aaaaaaaaaaaab);
             }

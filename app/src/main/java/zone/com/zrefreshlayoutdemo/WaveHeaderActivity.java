@@ -46,7 +46,7 @@ public class WaveHeaderActivity extends AppCompatActivity {
             }
 
             @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
+            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
             }
         });

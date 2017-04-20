@@ -20,6 +20,7 @@
         <activity android:name="zone.com.zrefreshlayoutdemo.ListViewActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.RecyclerViewActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.ScrollerViewActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.CirlcleActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.WebViewActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.PinContentActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.AutoRefreshActivity"/>

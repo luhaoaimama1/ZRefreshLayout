@@ -48,7 +48,7 @@ public class ScrollerViewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
+            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
             }
         });
@@ -66,7 +66,7 @@ public class ScrollerViewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
+            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
             }
         });

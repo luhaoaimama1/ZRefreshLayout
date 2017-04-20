@@ -56,7 +56,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
+            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
             }
         });
@@ -75,7 +75,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
+            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
             }
         });

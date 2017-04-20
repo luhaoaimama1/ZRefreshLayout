@@ -341,7 +341,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     }
 
     void applyFinishTranslation(float interpolatedTime, Ring ring) {
-        // shrink back down and complete a full rotation before
+        // shrink back down and loadMoreAnimationComplete a full rotation before
         // starting other circles
         // Rotation goes between [0..1].
         updateRingColor(interpolatedTime, ring);

@@ -16,6 +16,6 @@ public class DampingTo3Head implements IResistance {
 
     @Override
     public int getOffSetYMapValue(int headerHeight, int offset) {
-        return offset  <= headerHeight*3 ? offset: headerHeight*3;
+        return offset  <= headerHeight*1.5 ? offset: (int) (headerHeight * 1.5);
     }
 }

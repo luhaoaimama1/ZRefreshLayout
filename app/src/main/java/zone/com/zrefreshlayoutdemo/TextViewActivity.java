@@ -20,6 +20,7 @@ public class TextViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.text);
         refresh = (ZRefreshLayout) findViewById(R.id.refresh);
+        refresh.setPinContent(true);
 //        refresh.setIHeaderView(new MeterialHead());
 
 
@@ -34,11 +35,11 @@ public class TextViewActivity extends AppCompatActivity {
                         tv.setText("加载更多:" + i++);
                         zRefreshLayout.loadMoreComplete();
                     }
-                }, 2000);
+                }, 500);
             }
 
             @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
+            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
             }
         });
@@ -51,11 +52,11 @@ public class TextViewActivity extends AppCompatActivity {
                         tv.setText("刷新完毕:" + i++);
                         zRefreshLayout.refreshComplete();
                     }
-                }, 2000);
+                }, 500);
             }
 
             @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
+            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
             }
         });

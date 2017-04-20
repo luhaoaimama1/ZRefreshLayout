@@ -1,6 +1,7 @@
 package zone.com.zrefreshlayoutdemo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,13 +20,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
+        int[] colors_red_green_yellow = new int[]{
+                Color.parseColor("#ffF44336"),
+                Color.parseColor("#ff4CAF50"),
+                Color.parseColor("#ffFFEB3B")
+        };
         Config.build()
-                .setHeader(new MeterialHead())
+                .setHeader(new MeterialHead(colors_red_green_yellow))
                 .setFooter(new MeterialFooter())
                 .setResistance(new DampingHalf())
-
 //                .setHeader(new  CircleRefresh())
-//                .setFooter(new MeterialFooter())
 //                .setResistance(new Damping2Head8per())
                 .writeLog(true)
                 .perform();
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.uniqueFeature, R.id.refreshAblePosition, R.id.resistance,
             R.id.waveHeader, R.id.circleHeader,
             R.id.sinaRefresh, R.id.meterialHeader,
+            R.id.cirlcleActivity
             })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -85,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.meterialHeader:
                 startActivity(new Intent(this, MeterialHeaderActivity.class));
+                break;
+            case R.id.cirlcleActivity:
+                startActivity(new Intent(this, CirlcleActivity.class));
                 break;
         }
     }

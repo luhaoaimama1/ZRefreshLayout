@@ -8,14 +8,15 @@ import android.util.Log;
 
 public class LogUtils {
 
+    public static final String Z_REFRESH_LAYOUT = "ZRefreshLayout";
     public static boolean isDebug = true;
 
     public static void log(String str) {
         if (isDebug)
-            Log.i("ZRefreshLayout", str);
+            Log.i(Z_REFRESH_LAYOUT, str);
     }
     public static void logE(String str) {
         if (isDebug)
-            Log.e("ZRefreshLayout", str);
+            Log.e(Z_REFRESH_LAYOUT, str);
     }
 }
