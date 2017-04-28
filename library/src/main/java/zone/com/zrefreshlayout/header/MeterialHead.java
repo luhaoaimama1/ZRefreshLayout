@@ -45,7 +45,7 @@ public class MeterialHead implements IHeaderView {
             mMeterialCircle.setColorSchemeColors(colors);
         AUtils.setHeaderHeightToRefresh(zRefreshLayout,(int) (screenPixs[1] * 0.065*2.0));
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mMeterialCircle.getView().getLayoutParams();
-        lp.bottomMargin=66;
+        lp.bottomMargin= (int) (screenPixs[1] * 0.065/2);
         mMeterialCircle.getView().setLayoutParams(lp);
         return mMeterialCircle.getView();
     }
