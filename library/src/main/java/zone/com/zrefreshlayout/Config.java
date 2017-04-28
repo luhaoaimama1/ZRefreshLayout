@@ -15,6 +15,7 @@ public class Config {
     boolean isDebug;
     ZRefreshLayout.PullListener mPullListener;
     ZRefreshLayout.LoadMoreListener mLoadMoreListener;
+    int delay_millis_auto_complete=10000;
 
     private Config() {
     }
@@ -57,6 +58,10 @@ public class Config {
 
     public Config writeLog(boolean writeLog) {
         this.isDebug = writeLog;
+        return this;
+    }
+    public Config setDelayAutoCompleteTime(int delayAutoComplete) {
+        this.delay_millis_auto_complete = delayAutoComplete;
         return this;
     }
 

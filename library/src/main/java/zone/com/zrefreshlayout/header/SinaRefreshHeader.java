@@ -74,7 +74,6 @@ public class SinaRefreshHeader implements IHeaderView {
 
     private void screenAdapter(ZRefreshLayout zRefreshLayout, Context context) {
         int[] screenPixs = ScreenUtils.getScreenPix((Activity) context);
-
         ll_main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , (int) (screenPixs[1] * 0.1)));
         ViewGroup.LayoutParams refreshArrowLp = refreshArrow.getLayoutParams();

@@ -83,7 +83,7 @@ public class RecyclerViewLoadMoreListener implements LoadMoreOtherListener {
             }
             // 第一个条目完全展示,可以刷新
             if (getFirstVisiblePosition(recyclerView) == 0) {
-                return recyclerView.getChildAt(0).getTop() >= recyclerView.getTop();
+                return recyclerView.getChildAt(0).getTop() >=0;
             }
             return false;
         }

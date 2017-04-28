@@ -4,8 +4,10 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
 import zone.com.zrefreshlayout.AUtils;
 import zone.com.zrefreshlayout.ZRefreshLayout;
+
 import static zone.com.zrefreshlayout.utils.LogUtils.log;
 
 /**
@@ -85,7 +87,7 @@ public class ListViewLoadMoreListener implements LoadMoreOtherListener {
             if (null == adapter || adapter.getCount() == 0)
                 return true;
             if (view.getFirstVisiblePosition() == 0)
-                return view.getChildAt(0).getTop() >= view.getTop();
+                return view.getChildAt(0).getTop() >= 0;
             return false;
         }
 
