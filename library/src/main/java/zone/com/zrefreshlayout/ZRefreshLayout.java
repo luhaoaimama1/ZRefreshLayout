@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
-
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
-
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.footer.LoadFooter;
 import zone.com.zrefreshlayout.header.SinaRefreshHeader;
@@ -21,7 +19,6 @@ import zone.com.zrefreshlayout.loadmore.LoadMoreController;
 import zone.com.zrefreshlayout.loadmore.LoadMoreOtherListener;
 import zone.com.zrefreshlayout.utils.ScrollingUtil;
 import zone.com.zrefreshlayout.utils.SimpleAnimatorListener;
-
 import static zone.com.zrefreshlayout.utils.LogUtils.log;
 
 /**
@@ -381,8 +378,8 @@ public class ZRefreshLayout extends FrameLayout {
             state = AUTO_PULL;
             log("AUTO_PULL！");
             delayAutoComplete();
-            if (mPullListener != null)
-                mPullListener.refresh(this);
+//            if (mPullListener != null)
+//                mPullListener.refresh(this);
             if (mIHeaderView != null) {
                 mIHeaderView.onRefreshing(getRefreshAbleHeight(), true);
             }
@@ -470,6 +467,9 @@ public class ZRefreshLayout extends FrameLayout {
     public boolean isRefresh() {
         return state == REFRESHING || state == AUTO_PULL;
     }
+    public boolean isAutoRefresh(){
+        return state == AUTO_PULL;
+    }
 
     //必须设置加载更多监听才能 加载更多
     public void setCanLoadMore(boolean canLoadMore) {
@@ -554,11 +554,22 @@ public class ZRefreshLayout extends FrameLayout {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         log("onAnimationEnd");
-                        if (mAnimateBack != AnimateBack.Auto_Refresh)
+
+                        if (mAnimateBack != AnimateBack.Auto_Refresh){
+                            log("mAnimateBack!= AnimateBack.Auto_Refresh-->mAnimateBack:"+mAnimateBack+"--->refreshCompeleStateToRest");
                             refreshCompeleStateToRest();
+                        }
                         //和上边顺序不要不调换!
-                        if (mAnimateBack == AnimateBack.RefreshAble_Back)
+                        if (mAnimateBack == AnimateBack.RefreshAble_Back){
                             notityRefresh();
+                        }
+                        if(state == AUTO_PULL){
+                            log("state==AUTO_PULL");
+                            if (mPullListener != null)
+                                mPullListener.refresh(ZRefreshLayout.this);
+//                            if (mIHeaderView != null)
+//                                mIHeaderView.onRefreshing(getRefreshAbleHeight(), true);
+                        }
 
                     }
                 })

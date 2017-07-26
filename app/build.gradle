@@ -30,4 +30,5 @@ dependencies {
     compile 'com.github.luhaoaimama1:ZView:1.0.35'
     compile 'com.github.luhaoaimama1:zone-sdk:1.0.91'
     compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
+//    compile 'com.github.luhaoaimama1:ZAdapter3:Latest release'
 }

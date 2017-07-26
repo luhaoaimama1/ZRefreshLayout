@@ -25,7 +25,11 @@ allprojects {
 Step 2. Add the dependency
 
 > compile 'com.github.luhaoaimama1:ZRefreshLayout:[Latest release](https://github.com/luhaoaimama1/ZRefreshLayout/releases)'
-    
+
+## UML
+
+![](https://ww2.sinaimg.cn/large/006tKfTcgy1fhx4hnzc70j30zc0lg3zc.jpg)
+
 ## Preview
 
 #### 固定头

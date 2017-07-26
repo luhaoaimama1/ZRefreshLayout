@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.uniqueFeature, R.id.refreshAblePosition, R.id.resistance,
             R.id.waveHeader, R.id.circleHeader,
             R.id.sinaRefresh, R.id.meterialHeader,
-            R.id.cirlcleActivity
+            R.id.cirlcleActivity,R.id.nestViewActivity,
+            R.id.flexibilityListViewActivity,R.id.nestedScrollingActivity_Parent
             })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -93,6 +94,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.cirlcleActivity:
                 startActivity(new Intent(this, CirlcleActivity.class));
+                break;
+            case R.id.nestViewActivity:
+                startActivity(new Intent(this, NestViewActivity.class));
+                break;
+            case R.id.flexibilityListViewActivity:
+                startActivity(new Intent(this, FlexibilityListViewActivity.class));
+                break;
+            case R.id.nestedScrollingActivity_Parent:
+                startActivity(new Intent(this, NestedScrollingActivity_Parent.class));
                 break;
         }
     }
