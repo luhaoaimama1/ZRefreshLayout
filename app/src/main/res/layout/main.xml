@@ -122,14 +122,7 @@
             android:id="@+id/circleHeader"
             style="@style/CustomText"
             android:text="CircleHeader" />
-        <TextView
-            android:id="@+id/cirlcleActivity"
-            style="@style/CustomText"
-            android:text="CirlcleActivity" />
-        <TextView
-            android:id="@+id/nestViewActivity"
-            style="@style/CustomText"
-            android:text="NestViewActivity" />
+
 
         <TextView
             android:layout_width="match_parent"
@@ -138,11 +131,24 @@
             android:background="#ffdb6e"
             android:gravity="center"
             android:padding="10dp"
-            android:text="扩展弹性View" />
+            android:text="扩展弹性View(预调研的功能测试)" />
+
+
+        <TextView
+            android:id="@+id/cirlcleActivity"
+            style="@style/CustomText"
+            android:text="CirlcleActivity" />
+
+        <TextView
+            android:id="@+id/nestViewActivity"
+            style="@style/CustomText"
+            android:text="NestViewActivity" />
+
         <TextView
             android:id="@+id/flexibilityListViewActivity"
             style="@style/CustomText"
             android:text="FlexibilityListView" />
+
         <TextView
             android:id="@+id/nestedScrollingActivity_Parent"
             style="@style/CustomText"
