@@ -3,6 +3,7 @@ package zone.com.zrefreshlayout.header;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -62,7 +63,7 @@ public class SinaRefreshHeader implements IHeaderView {
 
     @Override
     public View getView(ZRefreshLayout zRefreshLayout) {
-        rootView = View.inflate(zRefreshLayout.getContext(), R.layout.view_sinaheader, null);
+        rootView = LayoutInflater.from(zRefreshLayout.getContext()).inflate(R.layout.view_sinaheader,zRefreshLayout,false);
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
         ll_main = (LinearLayout) rootView.findViewById(R.id.ll_main);
         refreshArrow = (ImageView) rootView.findViewById(R.id.iv_arrow);

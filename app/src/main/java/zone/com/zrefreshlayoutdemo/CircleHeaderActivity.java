@@ -30,7 +30,7 @@ public class CircleHeaderActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         refresh.setIHeaderView(new CircleRefresh());
-        refresh.setIResistance(new Damping2Head8per());
+//        refresh.setIResistance(new Damping2Head8per());
 
         tv.setText("包含滚动拦截后,准备就绪后,在滚动到特定位置! 还有下拉位置映射，刷新位置更改");
         refresh.setPullListener(new ZRefreshLayout.PullListener() {

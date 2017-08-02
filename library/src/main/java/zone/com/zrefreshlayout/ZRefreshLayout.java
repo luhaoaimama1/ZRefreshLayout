@@ -506,6 +506,7 @@ public class ZRefreshLayout extends FrameLayout {
     public void setIHeaderView(@NonNull IHeaderView mIHeaderView) {
         this.mIHeaderView = mIHeaderView;
         removeView(headerView);
+        heightToRefresh=0;//还原刷新高度
         headerView = mIHeaderView.getView(this);
         addView(headerView);
     }
