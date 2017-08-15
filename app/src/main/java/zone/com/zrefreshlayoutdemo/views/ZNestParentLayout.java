@@ -19,10 +19,17 @@ import zone.com.zrefreshlayout.utils.SimpleAnimatorListener;
 
 /**
  * [2017] by Zone
- * <p>
- * 嵌套滑动  的onInterceptTouchEvent总是返回true 即使你false了
- * <p>
- * 而ontouch却不走
+ *
+ * todo 不写了  这个用开源好了
+ *
+ *
+ *  布局显示 头部能滑动到隐藏 ;
+ * 头部view需要一个空的站位,  然后通过
+ *
+ * custom{[ vp占位,recyclerView],Vp}
+ *
+ *   位移(头部缩放  滚动), scale
+ *
  */
 public class ZNestParentLayout extends LinearLayout implements NestedScrollingParent {
     private static final String TAG = "ZNestParentLayout";
