@@ -9,6 +9,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zone.com.zrefreshlayout.ZRefreshLayout;
+import zone.com.zrefreshlayout.header.MeterialHead;
 
 /**
  * Created by fuzhipeng on 2017/1/11.
@@ -25,7 +26,8 @@ public class AutoRefreshActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.unique_feature_copy);
         ButterKnife.bind(this);
-//        refresh.setIHeaderView(new SinaRefreshHeader());
+        refresh.setIHeaderView(new MeterialHead());
+        refresh.setPinContent(true);
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {
@@ -36,11 +38,6 @@ public class AutoRefreshActivity extends AppCompatActivity {
                         zRefreshLayout.refreshComplete();
                     }
                 }, 2000);
-            }
-
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
             }
         });
 

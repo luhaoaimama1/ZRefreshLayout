@@ -15,7 +15,7 @@ public class AUtils {
     }
 
     public static void notityRefreshCompeleStateToRest(ZRefreshLayout.IScroll iScroll) {
-        iScroll.refreshCompeleStateToRest();
+        iScroll.refreshCompeleStateToRest_AUtils();
     }
 
     /**

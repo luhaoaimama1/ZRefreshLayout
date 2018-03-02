@@ -7,6 +7,7 @@ A global random configuration head , drop-down refresh and  loadMore library;
 
 ## Feature
 - [x] support refresh and  loadMore
+- [x] support Timeout automatically complete the action
 - [x] support All the View:ImageView,FrameLayout,ListView, GridView, ScrollView, WebView...
 - [x] support Global configuration (HeaderView's configuration is here,so not have xml's property),and Independent changes
 - [x] support auto refresh
@@ -32,7 +33,7 @@ Step 2. Add the dependency
 
 ## UML
 
-![](https://ww2.sinaimg.cn/large/006tKfTcgy1fhx4hnzc70j30zc0lg3zc.jpg)
+![](https://ww1.sinaimg.cn/large/006tNc79gy1foynj1rsrmj30zc0lg3zi.jpg)
 
 ## Preview
 
@@ -87,20 +88,18 @@ Step 2. Add the dependency
 > refresh complete ,Remember to use:**zRefreshLayout.refreshComplete();**
 
 ```
-     refresh.setPullListener(new ZRefreshLayout.PullListener() {
-            @Override
-            public void refresh(final ZRefreshLayout zRefreshLayout) {
-                listView.smoothScrollToPosition(0);
-                refresh.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDatas.add("refresh:" + i++);
-                        adapter2.notifyDataSetChanged();
-                        zRefreshLayout.refreshComplete();
-                    }
-                }, 2000);
-            }
-
+      refresh.setPullListener(new ZRefreshLayout.PullListener() {
+               @Override
+               public void refresh(final ZRefreshLayout zRefreshLayout) {
+                   tv.postDelayed(new Runnable() {
+                       @Override
+                       public void run() {
+                           tv.setText("刷新完毕:" + i++);
+                           zRefreshLayout.refreshComplete();
+                       }
+                   }, 500);
+               }
+           });
 ```
 
 #### loadMore's Listener
@@ -109,24 +108,18 @@ Step 2. Add the dependency
 > loadMore complete ,Remember to use:**zRefreshLayout.loadMoreComplete();**
 
 ```
-      refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
-            @Override
-            public void loadMore(final ZRefreshLayout zRefreshLayout) {
-                refresh.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDatas.add("loadMore:" + i++);
-                        zRefreshLayout.loadMoreComplete();
-                    }
-                }, 2000);
-
-            }
-
-            @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
-
-            }
-        });
+         refresh.setPullListener(new ZRefreshLayout.PullListener() {
+                  @Override
+                  public void refresh(final ZRefreshLayout zRefreshLayout) {
+                      tv.postDelayed(new Runnable() {
+                          @Override
+                          public void run() {
+                              tv.setText("刷新完毕:" + i++);
+                              zRefreshLayout.refreshComplete();
+                          }
+                      }, 500);
+                  }
+              });
 ```
 
 > HeadView and FooterView 's custom and More advanced features,please see [**Wiki Document**](https://github.com/luhaoaimama1/ZRefreshLayout/wiki);;

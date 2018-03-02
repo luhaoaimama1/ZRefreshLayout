@@ -12,17 +12,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.nineoldandroids.animation.ValueAnimator;
+import com.zone.lib.utils.image.BitmapComposer;
+import com.zone.lib.utils.image.WaveHelper;
+import com.zone.lib.utils.image.compress2sample.SampleUtils;
 
-import and.utils.image.BitmapComposer;
-import and.utils.image.WaveHelper;
-import and.utils.image.compress2sample.SampleUtils;
 import zone.com.zanimate.value.ValueAnimatorProxy;
-import zone.com.zrefreshlayout.AnimateBack;
+import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.R;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.utils.ScreenUtils;
-import static zone.com.zrefreshlayout.utils.LogUtils.log;
+
 /**
  * Created by fuzhipeng on 2017/1/13.
  */
@@ -63,13 +63,13 @@ public class WaveHead implements IHeaderView {
     }
 
     @Override
-    public void animateBack(AnimateBack animateBack, float fraction, float headHeight, boolean mIScroll) {
-        if (animateBack == AnimateBack.RefreshAble_Back)
+    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, boolean mIScroll) {
+        if (scrollAnimation == ScrollAnimation.RefreshAble_BackAnimation)
             imageView.setRotationX(90 - fraction * 90);
     }
 
     @Override
-    public boolean interceptAnimateBack(AnimateBack animateBack, ZRefreshLayout.IScroll iScroll) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll) {
         return false;
     }
 

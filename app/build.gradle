@@ -28,7 +28,7 @@ dependencies {
     compile project(':library')
 //    compile 'com.github.luhaoaimama1:ZRefreshLayout:1.0.1'
     compile 'com.github.luhaoaimama1:ZView:1.0.36'
-    compile 'com.github.luhaoaimama1:zone-sdk:1.0.91'
+    compile 'com.github.luhaoaimama1:zone-sdk:1.0.93'
     compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
 //    compile 'com.github.luhaoaimama1:ZAdapter3:Latest release'
 }

@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-import and.utils.activity_fragment_ui.ToastUtils;
+import com.zone.lib.utils.activity_fragment_ui.ToastUtils;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
@@ -41,10 +42,6 @@ public class MeterialHeaderActivity extends AppCompatActivity {
                 }, 2000);
             }
 
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
 
         refresh.setIFooterView(new MeterialFooter());
@@ -60,10 +57,6 @@ public class MeterialHeaderActivity extends AppCompatActivity {
                 }, 2000);
             }
 
-            @Override
-            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
     }
 }

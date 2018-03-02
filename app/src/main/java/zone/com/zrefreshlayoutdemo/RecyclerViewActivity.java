@@ -55,10 +55,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 }, 2000);
             }
 
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
         refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
             @Override
@@ -74,10 +70,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
             }
 
-            @Override
-            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
         rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter2 = new QuickRcvAdapter<String>(this, mDatas) {

@@ -3,6 +3,7 @@ package zone.com.zrefreshlayoutdemo.header;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -14,13 +15,15 @@ import com.nineoldandroids.animation.ValueAnimator;
 
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.AUtils;
-import zone.com.zrefreshlayout.AnimateBack;
+import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.R;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.utils.DensityUtils;
 import zone.com.zrefreshlayout.utils.ScreenUtils;
+
 import static zone.com.zrefreshlayout.utils.LogUtils.log;
+
 /**
  * Created by lcodecore on 2016/10/2.
  */
@@ -61,7 +64,7 @@ public class SinaRefreshViewRefreshPositionTest implements IHeaderView {
 
     @Override
     public View getView(ZRefreshLayout zRefreshLayout) {
-        rootView = View.inflate(zRefreshLayout.getContext(), R.layout.view_sinaheader, null);
+        rootView = LayoutInflater.from(zRefreshLayout.getContext()).inflate(R.layout.view_sinaheader,zRefreshLayout,false);
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
         ll_main = (LinearLayout) rootView.findViewById(R.id.ll_main);
         refreshArrow = (ImageView) rootView.findViewById(R.id.iv_arrow);
@@ -71,9 +74,8 @@ public class SinaRefreshViewRefreshPositionTest implements IHeaderView {
         return rootView;
     }
 
-    private void screenAdapter(ZRefreshLayout zRefreshLayout,Context context) {
+    private void screenAdapter(ZRefreshLayout zRefreshLayout, Context context) {
         int[] screenPixs = ScreenUtils.getScreenPix((Activity) context);
-
         ll_main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , (int) (screenPixs[1] * 0.1)));
         ViewGroup.LayoutParams refreshArrowLp = refreshArrow.getLayoutParams();
@@ -83,10 +85,9 @@ public class SinaRefreshViewRefreshPositionTest implements IHeaderView {
         ViewGroup.LayoutParams loadingViewLp = loadingView.getLayoutParams();
         loadingViewLp.width = getAnInt(71, screenPixs, true);
         loadingViewLp.height = getAnInt(71, screenPixs, false);
-        loadingView.setLayoutParams(refreshArrowLp);
+        loadingView.setLayoutParams(loadingViewLp);
         //注意TextSiz 要的是sp 需要px转过去
         refreshTextView.setTextSize(DensityUtils.px2sp(context, getAnInt(35, screenPixs, true)));
-        //todo  这里是下拉到头部一半,则可刷新！
         AUtils.setHeaderHeightToRefresh(zRefreshLayout,(int) (screenPixs[1] * 0.05));
     }
 
@@ -114,12 +115,12 @@ public class SinaRefreshViewRefreshPositionTest implements IHeaderView {
     }
 
     @Override
-    public void animateBack(AnimateBack animateBack, float fraction, float headHeight,
-                               boolean mIScroll) {
+    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight,
+                            boolean mIScroll) {
     }
 
     @Override
-    public boolean interceptAnimateBack(AnimateBack animateBack, ZRefreshLayout.IScroll iScroll) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll) {
         return false;
     }
 
@@ -140,7 +141,7 @@ public class SinaRefreshViewRefreshPositionTest implements IHeaderView {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
 //                   30 =360/12;
-//                    log("animation.getAnimatedValue()："+animation.getAnimatedValue()+"——————进度："+((Integer) animation.getAnimatedValue()/30)*30F);
+//                    ZRefreshLayout.log("animation.getAnimatedValue()："+animation.getAnimatedValue()+"——————进度："+((Integer) animation.getAnimatedValue()/30)*30F);
                     loadingView.setRotation(((Integer) animation.getAnimatedValue() / 30) * 30F);
                 }
             });

@@ -2,18 +2,15 @@ package zone.com.zrefreshlayout.header;
 
 import android.app.Activity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import zone.com.zrefreshlayout.AUtils;
-import zone.com.zrefreshlayout.AnimateBack;
+import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.ZRefreshLayout;
+import zone.com.zrefreshlayout.utils.LogUtils;
 import zone.com.zrefreshlayout.utils.ScreenUtils;
 import zone.com.zrefreshlayout.v4.MeterialCircle;
-
-import static zone.com.zrefreshlayout.utils.LogUtils.log;
 
 /**
  * Created by fuzhipeng on 2017/1/12.
@@ -62,12 +59,12 @@ public class MeterialHead implements IHeaderView {
     }
 
     @Override
-    public void animateBack(AnimateBack animateBack, float fraction, float headHeight, boolean isPinContent) {
+    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, boolean isPinContent) {
     }
 
     @Override
-    public boolean interceptAnimateBack(AnimateBack animateBack, final ZRefreshLayout.IScroll iScroll) {
-        if (zRefreshLayout.isPinContent() && animateBack == AnimateBack.Complete_Back) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, final ZRefreshLayout.IScroll iScroll) {
+        if (zRefreshLayout.isPinContent() && scrollAnimation == ScrollAnimation.Complete_BackAnimation) {
             mMeterialCircle.startScaleDownAnimation(new MeterialCircle.ScaleDownCallback() {
                 @Override
                 public void over() {
@@ -97,5 +94,9 @@ public class MeterialHead implements IHeaderView {
         mMeterialCircle.getView().setTranslationY(0);//众神归位
         log("mProgress.reset()");
         log("onComplete");
+    }
+
+    private void log(String log) {
+        LogUtils.log("MeterialHead Log:"+log);
     }
 }

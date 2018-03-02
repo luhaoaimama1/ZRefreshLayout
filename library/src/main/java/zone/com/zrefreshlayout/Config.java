@@ -14,8 +14,11 @@ public class Config {
     boolean isPinContent;
     boolean isDebug;
     ZRefreshLayout.PullListener mPullListener;
+    ZRefreshLayout.LoadMoreStateRestListener mLoadMoreStateRestListener;
+    ZRefreshLayout.PullStateRestListener mPullStateRestListener;
     ZRefreshLayout.LoadMoreListener mLoadMoreListener;
     int delay_millis_auto_complete=10000;
+
 
     private Config() {
     }
@@ -50,9 +53,19 @@ public class Config {
         this.mLoadMoreListener = mLoadMoreListener;
         return this;
     }
-
+    public Config setLoadMoreListener(ZRefreshLayout.LoadMoreListener mLoadMoreListener, ZRefreshLayout.LoadMoreStateRestListener mLoadMoreStateRestListener) {
+        this.mLoadMoreListener=mLoadMoreListener;
+        this.mLoadMoreStateRestListener=mLoadMoreStateRestListener;
+        return this;
+    }
     public Config setPullListener(ZRefreshLayout.PullListener mPullListener) {
         this.mPullListener = mPullListener;
+        return this;
+    }
+
+    public Config setPullListener(ZRefreshLayout.PullListener mPullListener, ZRefreshLayout.PullStateRestListener mPullStateRestListener) {
+        this.mPullListener = mPullListener;
+        this.mPullStateRestListener = mPullStateRestListener;
         return this;
     }
 

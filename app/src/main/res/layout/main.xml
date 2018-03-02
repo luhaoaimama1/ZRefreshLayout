@@ -1,159 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sv"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-    <com.zone.view.FlowLayout
-        android:id="@+id/flow"
+    <include
+        layout="@layout/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" />
 
-        <TextView
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.zone.view.FlowLayout
+            android:id="@+id/flow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffdb6e"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="兼容测试 \n以下为了测试简单，都拥有加载更多功能 \n(因为都注册了加载更多的监听)" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/CustomText"
-            android:text="TextView" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffdb6e"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="global head test " />
 
-        <TextView
-            android:id="@+id/listView"
-            style="@style/CustomText"
-            android:text="ListView" />
+            <TextView
+                android:id="@+id/globalView"
+                style="@style/CustomText"
+                android:layout_marginBottom="10dp"
+                android:text="no set head" />
 
-        <TextView
-            android:id="@+id/gridView"
-            style="@style/CustomText"
-            android:text="GridView" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffdb6e"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="兼容测试 \n以下为了测试简单，都拥有加载更多功能 \n(因为都注册了加载更多的监听)" />
 
-        <TextView
-            android:id="@+id/webView"
-            style="@style/CustomText"
-            android:text="WebView" />
+            <TextView
+                android:id="@+id/textView"
+                style="@style/CustomText"
+                android:text="TextView" />
 
-        <TextView
-            android:id="@+id/recyclerView"
-            style="@style/CustomText"
-            android:text="RecyclerView" />
+            <TextView
+                android:id="@+id/listView"
+                style="@style/CustomText"
+                android:text="ListView" />
 
-        <TextView
-            android:id="@+id/scrollerView"
-            style="@style/CustomText"
-            android:text="ScrollerView" />
+            <TextView
+                android:id="@+id/gridView"
+                style="@style/CustomText"
+                android:text="GridView" />
 
-        <TextView
-            android:id="@+id/custom"
-            style="@style/CustomText"
-            android:text="custom可滑动处理..."
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/webView"
+                style="@style/CustomText"
+                android:text="WebView" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#ffdb6e"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="功能测试" />
+            <TextView
+                android:id="@+id/recyclerView"
+                style="@style/CustomText"
+                android:text="RecyclerView" />
 
-        <TextView
-            android:id="@+id/autoRefresh"
-            style="@style/CustomText"
-            android:text="AutoRefresh" />
+            <TextView
+                android:id="@+id/scrollerView"
+                style="@style/CustomText"
+                android:text="ScrollerView" />
 
-        <TextView
-            android:id="@+id/pinContent"
-            style="@style/CustomText"
-            android:text="PinContent" />
+            <TextView
+                android:id="@+id/custom"
+                style="@style/CustomText"
+                android:text="custom可滑动处理..."
+                android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/resistance"
-            style="@style/CustomText"
-            android:text="下拉位置映射" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#ffdb6e"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="功能测试" />
 
-        <TextView
-            android:id="@+id/refreshAblePosition"
-            style="@style/CustomText"
-            android:text="触发刷新时位置" />
+            <TextView
+                android:id="@+id/autoRefresh"
+                style="@style/CustomText"
+                android:text="AutoRefresh" />
 
-        <TextView
-            android:id="@+id/uniqueFeature"
-            style="@style/CustomText"
-            android:text="UniqueFeature" />
+            <TextView
+                android:id="@+id/pinContent"
+                style="@style/CustomText"
+                android:text="PinContent" />
 
-        <TextView
-            android:id="@+id/config"
-            style="@style/CustomText"
-            android:text="全局配置..."
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/resistance"
+                style="@style/CustomText"
+                android:text="下拉位置映射" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#ffdb6e"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="自定义头部与底部 不受全局配置影响" />
+            <TextView
+                android:id="@+id/refreshAblePosition"
+                style="@style/CustomText"
+                android:text="触发刷新时位置" />
 
-        <TextView
-            android:id="@+id/meterialHeader"
-            style="@style/CustomText"
-            android:text="MeterialHeader2Footer" />
+            <TextView
+                android:id="@+id/uniqueFeature"
+                style="@style/CustomText"
+                android:text="UniqueFeature" />
 
-        <TextView
-            android:id="@+id/sinaRefresh"
-            style="@style/CustomText"
-            android:text="SinaHeader2LoadFooter" />
+            <TextView
+                android:id="@+id/config"
+                style="@style/CustomText"
+                android:text="全局配置..."
+                android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/waveHeader"
-            style="@style/CustomText"
-            android:text="WaveHeader" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#ffdb6e"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="自定义头部与底部 不受全局配置影响" />
 
-        <TextView
-            android:id="@+id/circleHeader"
-            style="@style/CustomText"
-            android:text="CircleHeader" />
+            <TextView
+                android:id="@+id/meterialHeader"
+                style="@style/CustomText"
+                android:text="MeterialHeader2Footer" />
+
+            <TextView
+                android:id="@+id/sinaRefresh"
+                style="@style/CustomText"
+                android:text="SinaHeader2LoadFooter" />
+
+            <TextView
+                android:id="@+id/waveHeader"
+                style="@style/CustomText"
+                android:text="WaveHeader" />
+
+            <TextView
+                android:id="@+id/circleHeader"
+                style="@style/CustomText"
+                android:text="CircleHeader" />
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#ffdb6e"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="扩展弹性View(预调研的功能测试)" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#ffdb6e"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="扩展弹性View(预调研的功能测试)" />
 
 
-        <TextView
-            android:id="@+id/cirlcleActivity"
-            style="@style/CustomText"
-            android:text="CirlcleActivity" />
+            <TextView
+                android:id="@+id/cirlcleActivity"
+                style="@style/CustomText"
+                android:text="CirlcleActivity" />
 
-        <TextView
-            android:id="@+id/nestViewActivity"
-            style="@style/CustomText"
-            android:text="NestViewActivity" />
+            <TextView
+                android:id="@+id/nestViewActivity"
+                style="@style/CustomText"
+                android:text="NestViewActivity" />
 
-        <TextView
-            android:id="@+id/flexibilityListViewActivity"
-            style="@style/CustomText"
-            android:text="FlexibilityListView" />
+            <TextView
+                android:id="@+id/flexibilityListViewActivity"
+                style="@style/CustomText"
+                android:text="FlexibilityListView" />
 
-        <TextView
-            android:id="@+id/nestedScrollingActivity_Parent"
-            style="@style/CustomText"
-            android:text="NestedScrollingActivity_Parent" />
+            <TextView
+                android:id="@+id/nestedScrollingActivity_Parent"
+                style="@style/CustomText"
+                android:text="NestedScrollingActivity_Parent" />
 
-    </com.zone.view.FlowLayout>
+        </com.zone.view.FlowLayout>
 
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

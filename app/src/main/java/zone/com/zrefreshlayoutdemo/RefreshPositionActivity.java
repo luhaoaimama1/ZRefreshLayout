@@ -41,10 +41,6 @@ public class RefreshPositionActivity extends AppCompatActivity {
                 }, 2000);
             }
 
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
     }
 }

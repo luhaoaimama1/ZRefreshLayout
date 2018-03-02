@@ -33,25 +33,25 @@ public interface IHeaderView {
     void refreshAble(boolean refreshAble);
 
     /**
-     * 回弹动画 监听
+     * 滚动动画 监听
      *
-     * @param animateBack  回弹类型
+     * @param scrollAnimation  回弹类型
      * @param fraction
      * @param headHeight
      * @param isPinContent
      */
-    void animateBack(AnimateBack animateBack, float fraction, float headHeight, boolean isPinContent);
+    void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, boolean isPinContent);
 
     /**
      * 拦截滚动
      * 想让其滚动可使用AUtils.smoothScrollTo_NotIntercept(iScroll,0);
      * 参考：demo里的 CircleRefresh
      *
-     * @param animateBack
+     * @param scrollAnimation
      * @param iScroll
      * @return
      */
-    boolean interceptAnimateBack(AnimateBack animateBack, ZRefreshLayout.IScroll iScroll);
+    boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll);
 
     /**
      * 刷新进行时

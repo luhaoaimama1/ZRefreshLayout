@@ -6,11 +6,11 @@ import android.support.v7.widget.RecyclerView;
 
 import com.zone.adapter.QuickRcvAdapter;
 import com.zone.adapter.callback.Helper;
+import com.zone.lib.base.activity.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import and.base.activity.BaseActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
@@ -68,10 +68,6 @@ public class NestedScrollingActivity_Parent extends BaseActivity {
 
             }
 
-            @Override
-            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
@@ -87,10 +83,6 @@ public class NestedScrollingActivity_Parent extends BaseActivity {
                 }, 2000);
             }
 
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
     }
    int  i=0;

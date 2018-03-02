@@ -19,4 +19,5 @@
         <item name="android:onClick">"onClick"</item>
         <item name="android:gravity">center</item>
     </style>
+
 </resources>

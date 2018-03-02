@@ -44,9 +44,9 @@ public class CircleHeaderActivity extends AppCompatActivity {
                 }, 2000);
             }
 
+        }, new ZRefreshLayout.PullStateRestListener() {
             @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-                //因为回滚被延迟了所以放这里吧  不然动画不好看
+            public void refreshStateRestComplete(ZRefreshLayout zRefreshLayout) {
                 iv.setImageResource(R.drawable.aaaaaaaaaaaab);
             }
         });

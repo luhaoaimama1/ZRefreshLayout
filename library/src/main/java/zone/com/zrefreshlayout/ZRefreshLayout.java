@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
+
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
+
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.footer.LoadFooter;
 import zone.com.zrefreshlayout.header.SinaRefreshHeader;
@@ -19,6 +21,7 @@ import zone.com.zrefreshlayout.loadmore.LoadMoreController;
 import zone.com.zrefreshlayout.loadmore.LoadMoreOtherListener;
 import zone.com.zrefreshlayout.utils.ScrollingUtil;
 import zone.com.zrefreshlayout.utils.SimpleAnimatorListener;
+
 import static zone.com.zrefreshlayout.utils.LogUtils.log;
 
 /**
@@ -55,10 +58,12 @@ public class ZRefreshLayout extends FrameLayout {
 
     private IScroll mIScroll;//滚动策略
     private PullListener mPullListener;
+    private PullStateRestListener mPullStateRestListener;
     private RefreshAbleListener mRefreshAbleListener;
     private LoadMoreListener mLoadMoreListener;
+    private LoadMoreStateRestListener mLoadMoreStateRestListener;
     private IResistance mIResistance;//阻力策略
-    AnimateBack mAnimateBack = AnimateBack.None;
+    ScrollAnimation mScrollAnimation = ScrollAnimation.None;
     private boolean isCanLoadMore = true;
     private boolean isCanRefresh = true;
     //ms 设置最长时间 自动恢复; 默认时间config里的配置  -1关闭延迟功能
@@ -95,8 +100,12 @@ public class ZRefreshLayout extends FrameLayout {
     private void initListener() {
         if (config != null && config.mPullListener != null)
             mPullListener = config.mPullListener;
+        if (config != null && config.mPullStateRestListener != null)
+            mPullStateRestListener = config.mPullStateRestListener;
         if (config != null && config.mLoadMoreListener != null)
             mLoadMoreListener = config.mLoadMoreListener;
+        if (config != null && config.mLoadMoreStateRestListener != null)
+            mLoadMoreStateRestListener = config.mLoadMoreStateRestListener;
     }
 
     private void initResistance() {
@@ -204,15 +213,6 @@ public class ZRefreshLayout extends FrameLayout {
                         log("下拉截断！");
                         return true;
                     }
-//                    log(String.format("上拉截断判断:%b\t!isInterceptInnerLoadMore:%b\t" +
-//                            "isCanLoadMore:%b\tmLoadMoreListener!=null:%b\tdy < 0:%b \tMath.abs(dy) > mTouchSlop:%b\t Math.abs(dx) <= Math.abs(dy):%b\t !ScrollingUtil.canChildScrollUp(content):%b",
-//                            !isInterceptInnerLoadMore&&isCanLoadMore&&mLoadMoreListener != null && dy < 0
-//                                    && Math.abs(dy) > mTouchSlop
-//                                    && Math.abs(dx) <= Math.abs(dy)
-//                                    && !ScrollingUtil.canChildScrollDown(content),
-//                            !isInterceptInnerLoadMore,isCanLoadMore&&mLoadMoreListener != null,
-//                            mLoadMoreListener != null,dy < 0,Math.abs(dy) > mTouchSlop,
-//                            Math.abs(dx) <= Math.abs(dy),!ScrollingUtil.canChildScrollUp(content)));
 
                     if (!isInterceptInnerLoadMore && isCanLoadMore && mLoadMoreListener != null && dy < 0
                             && Math.abs(dy) > mTouchSlop
@@ -246,10 +246,11 @@ public class ZRefreshLayout extends FrameLayout {
                 else
                     direction = LOAD_UP;
 
-                if (mIResistance != null)//dy 需要映射不然 真实的移动 和 MotionEvent移动对不上了 也没法和getRefreshAbleHeight()[真实的]比较了
+                //dy 需要映射不然 真实的移动 和 MotionEvent移动对不上了 也没法和getRefreshAbleHeight()[真实的]比较了
+                if (mIResistance != null)
                     dy = mIResistance.getOffSetYMapValue(getRefreshAbleHeight(), (int) dy);
 
-                if (isCanRefresh &&state == REST && direction == PULL_DOWN) {
+                if (isCanRefresh && state == REST && direction == PULL_DOWN) {
                     state = PULL;
                     log("PULL！");
                 }
@@ -278,20 +279,20 @@ public class ZRefreshLayout extends FrameLayout {
 
                 if (state == PULL || state == REFRESH_ABLE) {
                     //防止别的状态 可以滚动
-                    mIScroll.scrollTo_((int) (event.getY() - mTouchY));
+                    mIScroll.scrollTo_((int) (event.getY() - mTouchY), false);
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 if (state == PULL) {
                     //回弹
-                    mAnimateBack = AnimateBack.DisRefreshAble_Back;
+                    mScrollAnimation = ScrollAnimation.DisRefreshAble_BackAnimation;
                     mIScroll.smoothScrollTo_(0);
                     log("回弹！");
                 }
                 if (state == REFRESH_ABLE) {
                     //刷新
-                    mAnimateBack = AnimateBack.RefreshAble_Back;
+                    mScrollAnimation = ScrollAnimation.RefreshAble_BackAnimation;
                     mIScroll.smoothScrollTo_(getRefreshAbleHeight());
                 }
 
@@ -304,7 +305,7 @@ public class ZRefreshLayout extends FrameLayout {
 
     void loadMore() {
         state = LOADMORE_ING;
-        if (!isDelegate&&mIFooterView != null) {
+        if (!isDelegate && mIFooterView != null) {
             mIFooterView.onStart(this, footerView.getHeight());
         }
     }
@@ -319,7 +320,7 @@ public class ZRefreshLayout extends FrameLayout {
 
     private void notityRefresh() {
         state = REFRESHING;
-        log("释放回弹 将要刷新");
+        log("释放回弹 将要刷新  refreshing!");
         //等待回调  刷新完成
         if (mPullListener != null)
             mPullListener.refresh(this);
@@ -347,7 +348,7 @@ public class ZRefreshLayout extends FrameLayout {
     }
 
     private void delayAutoComplete() {
-        if (delay_millis_auto_complete != -1){
+        if (delay_millis_auto_complete != -1) {
             log("add延迟完成!");
             mHandler.postDelayed(runableAutoComplete, delay_millis_auto_complete);
 
@@ -355,7 +356,7 @@ public class ZRefreshLayout extends FrameLayout {
     }
 
     private void removeDelayAutoComplete() {
-        if (delay_millis_auto_complete != -1){
+        if (delay_millis_auto_complete != -1) {
             log("remove延迟完成!");
             mHandler.removeCallbacks(runableAutoComplete);
         }
@@ -378,18 +379,17 @@ public class ZRefreshLayout extends FrameLayout {
             state = AUTO_PULL;
             log("AUTO_PULL！");
             delayAutoComplete();
-//            if (mPullListener != null)
-//                mPullListener.refresh(this);
-            if (mIHeaderView != null) {
-                mIHeaderView.onRefreshing(getRefreshAbleHeight(), true);
-            }
 
-            if (!haveAnimate)
+            if (!haveAnimate) {
+                //无动画的 就不做位置映射 而知道到刷新位置
                 mIScroll.scrollTo_(getRefreshAbleHeight(), true);
-            else {
-                mAnimateBack = AnimateBack.Auto_Refresh;
+
+            } else {
+                mScrollAnimation = ScrollAnimation.AutoRefresh_Animation;
                 mIScroll.smoothScrollTo_(getRefreshAbleHeight());
             }
+            //自动刷新是  下拉过程就开始有动画了
+            notityRefresh();
         }
     }
 
@@ -399,7 +399,7 @@ public class ZRefreshLayout extends FrameLayout {
             return;
         }
         removeDelayAutoComplete();
-        mAnimateBack = AnimateBack.Complete_Back;
+        mScrollAnimation = ScrollAnimation.Complete_BackAnimation;
         mIScroll.smoothScrollTo_(0);
     }
 
@@ -409,13 +409,14 @@ public class ZRefreshLayout extends FrameLayout {
             return;
         }
         removeDelayAutoComplete();
-        if (!isDelegate&&mIFooterView != null)
+        if (!isDelegate && mIFooterView != null)
             mIFooterView.onComplete(this);
     }
 
     void notifyLoadMoreCompleteListener() {
-        mLoadMoreListener.loadMoreAnimationComplete(this);
         state = REST;
+        if (mLoadMoreStateRestListener != null)
+            mLoadMoreStateRestListener.loadMoreStateRestComplete(this);
         haveDownEvent = false;
     }
 
@@ -428,23 +429,34 @@ public class ZRefreshLayout extends FrameLayout {
     LoadMoreOtherListener outterLoadMoreListener;
 
     public void setLoadMoreListener(LoadMoreListener mLoadMoreListener) {
-        setLoadMoreListener(false,mLoadMoreListener);
+        setLoadMoreListener(false, mLoadMoreListener);
     }
 
     /**
-     * @param isDelegate  委托加载更多,在外边处理
-     * 外部监听请调用此方法{@link AUtils#notityLoadMoreListener(ZRefreshLayout)}
+     *
+     * @param mLoadMoreListener
+     * @param mLoadMoreStateRestListener  Listening to the LoadMore State Rest Complete
+     */
+    public void setLoadMoreListener(LoadMoreListener mLoadMoreListener,LoadMoreStateRestListener mLoadMoreStateRestListener) {
+        setLoadMoreListener(false, mLoadMoreListener);
+        this.mLoadMoreStateRestListener=mLoadMoreStateRestListener;
+    }
+
+    /**
+     * @param isDelegate        委托加载更多,在外边处理
+     *                          外部监听请调用此方法{@link AUtils#notityLoadMoreListener(ZRefreshLayout)}
      * @param mLoadMoreListener
      */
     public void setLoadMoreListener(boolean isDelegate, LoadMoreListener mLoadMoreListener) {
         this.mLoadMoreListener = mLoadMoreListener;
-        this.isDelegate=isDelegate;
-        if (!isDelegate){
+        this.isDelegate = isDelegate;
+        if (!isDelegate) {
             outterLoadMoreListener = LoadMoreController.addLoadMoreListener(content, this);
             isInterceptInnerLoadMore = outterLoadMoreListener == null ? false : true;
-        }else
-            isInterceptInnerLoadMore=true;
+        } else
+            isInterceptInnerLoadMore = true;
     }
+
     public boolean isCanLoadMore() {
         return isCanLoadMore && mLoadMoreListener != null;
     }
@@ -465,11 +477,9 @@ public class ZRefreshLayout extends FrameLayout {
     }
 
     public boolean isRefresh() {
-        return state == REFRESHING || state == AUTO_PULL;
+        return state == REFRESHING;
     }
-    public boolean isAutoRefresh(){
-        return state == AUTO_PULL;
-    }
+
 
     //必须设置加载更多监听才能 加载更多
     public void setCanLoadMore(boolean canLoadMore) {
@@ -499,6 +509,24 @@ public class ZRefreshLayout extends FrameLayout {
         this.mPullListener = mPullListener;
     }
 
+    /**
+     *
+     * @param mPullListener
+     * @param mPullStateRestListener  Listening to the refresh State Rest Complete
+     */
+    public void setPullListener(PullListener mPullListener,PullStateRestListener mPullStateRestListener) {
+        this.mPullListener = mPullListener;
+        this.mPullStateRestListener = mPullStateRestListener;
+    }
+
+    public PullStateRestListener getPullStateRestListener() {
+        return mPullStateRestListener;
+    }
+
+    public LoadMoreStateRestListener getLoadMoreStateRestListener() {
+        return mLoadMoreStateRestListener;
+    }
+
     public IHeaderView getIHeaderView() {
         return mIHeaderView;
     }
@@ -506,7 +534,7 @@ public class ZRefreshLayout extends FrameLayout {
     public void setIHeaderView(@NonNull IHeaderView mIHeaderView) {
         this.mIHeaderView = mIHeaderView;
         removeView(headerView);
-        heightToRefresh=0;//还原刷新高度
+        heightToRefresh = 0;//还原刷新高度
         headerView = mIHeaderView.getView(this);
         addView(headerView);
     }
@@ -554,22 +582,20 @@ public class ZRefreshLayout extends FrameLayout {
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        log("onAnimationEnd");
+//                        到可刷新位置:通知刷新
+//                        由于AutoRefresh_Animation是下拉就有动画所以通知刷新不在这里
+//                        仅仅RefreshAble_BackAnimation 通知刷新
 
-                        if (mAnimateBack != AnimateBack.Auto_Refresh){
-                            log("mAnimateBack!= AnimateBack.Auto_Refresh-->mAnimateBack:"+mAnimateBack+"--->refreshCompeleStateToRest");
-                            refreshCompeleStateToRest();
-                        }
-                        //和上边顺序不要不调换!
-                        if (mAnimateBack == AnimateBack.RefreshAble_Back){
+//                        归0 :状态恢复操作
+//                        DisRefreshAble_BackAnimation,Complete_BackAnimation
+                        log("onAnimationEnd : Scrolling animation:" + mScrollAnimation);
+                        if (mScrollAnimation == ScrollAnimation.RefreshAble_BackAnimation) {
+                            //超过刷新刷新位置 回弹到可刷新位置的动画结束后,后执行刷新动画
                             notityRefresh();
                         }
-                        if(state == AUTO_PULL){
-                            log("state==AUTO_PULL");
-                            if (mPullListener != null)
-                                mPullListener.refresh(ZRefreshLayout.this);
-//                            if (mIHeaderView != null)
-//                                mIHeaderView.onRefreshing(getRefreshAbleHeight(), true);
+                        if (mScrollAnimation == ScrollAnimation.Complete_BackAnimation
+                                || mScrollAnimation == ScrollAnimation.DisRefreshAble_BackAnimation) {
+                            refreshCompeleStateToRest();
                         }
 
                     }
@@ -578,8 +604,9 @@ public class ZRefreshLayout extends FrameLayout {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         Integer offset = (Integer) animation.getAnimatedValue();
+                        //主要 监听滚动动画的位置
                         if (mIHeaderView != null)
-                            mIHeaderView.animateBack(mAnimateBack,
+                            mIHeaderView.animateBack(mScrollAnimation,
                                     1F * Math.abs(getScrollY()) / getRefreshAbleHeight(),
                                     getRefreshAbleHeight(), isPinContent);
                         scrollTo(offset, true);
@@ -588,24 +615,38 @@ public class ZRefreshLayout extends FrameLayout {
                 });
 
 
-        void refreshCompeleStateToRest() {
-            if (state == REFRESHING || state == PULL || state == AUTO_PULL) {
-                log("刷新结束， 回滚到0");
-                if (mPullListener != null && state == REFRESHING) {
-                    mPullListener.refreshAnimationComplete(ZRefreshLayout.this);
-                }
-                state = COMPLETE;
-                log("refreshAnimationComplete");
-                if (mIHeaderView != null)
-                    mIHeaderView.onComplete();
-                state = REST;
-                mAnimateBack = AnimateBack.None;
-                haveDownEvent = false;
+        /**
+         * 给AUtils调用的需要检测
+         */
+        void refreshCompeleStateToRest_AUtils() {
+            if (mScrollAnimation == ScrollAnimation.Complete_BackAnimation
+                    || mScrollAnimation == ScrollAnimation.DisRefreshAble_BackAnimation)
+                refreshCompeleStateToRest();
+            else
+                throw new IllegalStateException("state rest must be Complete_BackAnimation or DisRefreshAble_BackAnimation!");
+        }
+
+        private void refreshCompeleStateToRest() {
+            log("State began to reset！");
+//            if (state == REFRESHING || state == PULL) {
+            log("Roll back to zero!");
+            state = COMPLETE;
+            if (mIHeaderView != null)
+                mIHeaderView.onComplete();
+            state = REST;
+//                if (mPullListener != null && state == REFRESHING) {
+            if (mPullStateRestListener != null && mScrollAnimation == ScrollAnimation.Complete_BackAnimation) {
+                log("mPullListener.refreshStateRestComplete");
+                mPullStateRestListener.refreshStateRestComplete(ZRefreshLayout.this);
             }
+            mScrollAnimation = ScrollAnimation.None;
+            haveDownEvent = false;
+            log("State is reset!");
         }
 
         private void smoothScrollTo_(int fy) {
-            if (mIHeaderView.interceptAnimateBack(mAnimateBack, mIScroll))
+            //拦截滚动动画
+            if (mIHeaderView.interceptAnimateBack(mScrollAnimation, mIScroll))
                 return;
             valueAnimator.setIntValues(getScrollY(), fy);
             valueAnimator.start();
@@ -616,19 +657,20 @@ public class ZRefreshLayout extends FrameLayout {
             valueAnimator.start();
         }
 
-        private void scrollTo_(int fy) {
-            scrollTo(fy > 0 ? fy : 0, false);
-        }
 
-        private void scrollTo_(int fy, boolean isAnimate) {
-            scrollTo(fy > 0 ? fy : 0, isAnimate);
+        /**
+         * @param fy
+         * @param undoPosMap 需要位置映射的 仅仅是触摸滑动的时候 对滑动的距离进行映射 从而模拟阻力的感觉
+         */
+        private void scrollTo_(int fy, boolean undoPosMap) {
+            scrollTo(fy > 0 ? fy : 0, undoPosMap);
         }
 
         /**
          * @param fy
-         * @param isAnimate 是动画的话就不做滚动映射了
+         * @param undoPosMap 是否不做位置映射
          */
-        protected abstract void scrollTo(int fy, boolean isAnimate);
+        protected abstract void scrollTo(int fy, boolean undoPosMap);
 
         protected abstract int getScrollY();
     }
@@ -636,10 +678,10 @@ public class ZRefreshLayout extends FrameLayout {
     public class Scroll_Pin extends IScroll {
 
         @Override
-        protected void scrollTo(int fy, boolean isAnimate) {
-            if (mIResistance != null && !isAnimate)
+        protected void scrollTo(int fy, boolean undoPosMap) {
+            if (mIResistance != null && !undoPosMap)
                 fy = mIResistance.getOffSetYMapValue(getRefreshAbleHeight(), fy);
-            if (mIHeaderView != null && !isAnimate)
+            if (mIHeaderView != null && !undoPosMap)
                 mIHeaderView.onPullingDown(1F * Math.abs(fy) / getRefreshAbleHeight(), getRefreshAbleHeight());
             headerView.setTranslationY(fy);
         }
@@ -654,10 +696,10 @@ public class ZRefreshLayout extends FrameLayout {
     public class Scroll_PinNot extends IScroll {
 
         @Override
-        protected void scrollTo(int fy, boolean isAnimate) {
-            if (mIResistance != null && !isAnimate)
+        protected void scrollTo(int fy, boolean undoPosMap) {
+            if (mIResistance != null && !undoPosMap)
                 fy = mIResistance.getOffSetYMapValue(getRefreshAbleHeight(), fy);
-            if (mIHeaderView != null && !isAnimate)
+            if (mIHeaderView != null && !undoPosMap)
                 mIHeaderView.onPullingDown(1F * Math.abs(fy) / getRefreshAbleHeight(), getRefreshAbleHeight());
             ZRefreshLayout.this.scrollTo(0, -fy);
         }
@@ -681,9 +723,12 @@ public class ZRefreshLayout extends FrameLayout {
     //-------------------------内部接口----------------------------------------------------
     public interface PullListener {
         void refresh(ZRefreshLayout zRefreshLayout);
-
-        void refreshAnimationComplete(ZRefreshLayout zRefreshLayout);
     }
+
+    public interface PullStateRestListener {
+        void refreshStateRestComplete(ZRefreshLayout zRefreshLayout);
+    }
+
 
     public interface RefreshAbleListener {
         void refreshAble(boolean refreshAble);
@@ -691,7 +736,8 @@ public class ZRefreshLayout extends FrameLayout {
 
     public interface LoadMoreListener {
         void loadMore(ZRefreshLayout zRefreshLayout);
-
-        void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout);
+    }
+    public interface LoadMoreStateRestListener {
+        void loadMoreStateRestComplete(ZRefreshLayout zRefreshLayout);
     }
 }

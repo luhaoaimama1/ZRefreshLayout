@@ -5,12 +5,22 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
+
+import com.zone.lib.Configuration;
+import com.zone.lib.utils.data.file2io2data.SharedUtils;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zone.com.zrefreshlayout.Config;
 import zone.com.zrefreshlayout.footer.MeterialFooter;
 import zone.com.zrefreshlayout.header.MeterialHead;
+import zone.com.zrefreshlayout.header.SinaRefreshHeader;
 import zone.com.zrefreshlayout.resistance.DampingHalf;
+import zone.com.zrefreshlayoutdemo.common.Constant;
+import zone.com.zrefreshlayoutdemo.common.HeadSetting;
+import zone.com.zrefreshlayoutdemo.header.WaveHead;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,33 +30,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
-        int[] colors_red_green_yellow = new int[]{
-                Color.parseColor("#ffF44336"),
-                Color.parseColor("#ff4CAF50"),
-                Color.parseColor("#ffFFEB3B")
-        };
-        Config.build()
-                .setHeader(new MeterialHead(colors_red_green_yellow))
-                .setFooter(new MeterialFooter())
-                .setResistance(new DampingHalf())
-//                .setHeader(new  CircleRefresh())
-//                .setResistance(new Damping2Head8per())
-                .writeLog(true)
-                .perform();
 
     }
 
-    @OnClick({R.id.textView, R.id.listView, R.id.recyclerView,
+    @OnClick({R.id.textView, R.id.listView, R.id.recyclerView, R.id.tv_mode, R.id.globalView,
             R.id.gridView, R.id.scrollerView, R.id.webView,
             R.id.autoRefresh, R.id.pinContent, R.id.config,
             R.id.uniqueFeature, R.id.refreshAblePosition, R.id.resistance,
             R.id.waveHeader, R.id.circleHeader,
             R.id.sinaRefresh, R.id.meterialHeader,
-            R.id.cirlcleActivity,R.id.nestViewActivity,
-            R.id.flexibilityListViewActivity,R.id.nestedScrollingActivity_Parent
-            })
+            R.id.cirlcleActivity, R.id.nestViewActivity,
+            R.id.flexibilityListViewActivity, R.id.nestedScrollingActivity_Parent
+    })
     public void onClick(View view) {
+        if(view.getId()== R.id.globalView)
+            Apps.setGlobalHead(SharedUtils.get(Constant.REFRESH_MODE,HeadSetting.class));
+        else
+            Apps.setDefaultHeader();
+
         switch (view.getId()) {
+            case R.id.globalView:
+                startActivity(new Intent(this, GlobalViewActivity.class));
+                break;
+            case R.id.tv_mode:
+                startActivity(new Intent(this, SettingActivity.class));
+                break;
             case R.id.textView:
                 startActivity(new Intent(this, TextViewActivity.class));
                 break;

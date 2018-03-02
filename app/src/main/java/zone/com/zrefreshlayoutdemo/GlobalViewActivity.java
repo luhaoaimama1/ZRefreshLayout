@@ -10,7 +10,7 @@ import zone.com.zrefreshlayout.ZRefreshLayout;
  * Created by fuzhipeng on 2017/1/10.
  */
 
-public class TextViewActivity extends AppCompatActivity {
+public class GlobalViewActivity extends AppCompatActivity {
     private ZRefreshLayout refresh;
     private TextView tv;
     private int i = 0;
@@ -30,8 +30,9 @@ public class TextViewActivity extends AppCompatActivity {
                         tv.setText("加载更多:" + i++);
                         zRefreshLayout.loadMoreComplete();
                     }
-                }, 500);
+                }, 2000);
             }
+
 
         });
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
@@ -43,8 +44,9 @@ public class TextViewActivity extends AppCompatActivity {
                         tv.setText("刷新完毕:" + i++);
                         zRefreshLayout.refreshComplete();
                     }
-                }, 500);
+                }, 2000);
             }
+
         });
     }
 }

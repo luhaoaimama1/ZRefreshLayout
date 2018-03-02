@@ -53,10 +53,7 @@ public class GridViewActivity extends AppCompatActivity {
                 }, 2000);
             }
 
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
-            }
         });
         refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
             @Override
@@ -72,10 +69,6 @@ public class GridViewActivity extends AppCompatActivity {
 
             }
 
-            @Override
-            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
 
         adapter2 = new QuickAdapter<String>(this, mDatas) {

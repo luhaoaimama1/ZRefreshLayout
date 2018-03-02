@@ -39,10 +39,6 @@ public class WebViewActivity extends AppCompatActivity {
                 mWebView.loadUrl("http://luhaoaimama1.github.io");
             }
 
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
 
         refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
@@ -58,10 +54,6 @@ public class WebViewActivity extends AppCompatActivity {
 
             }
 
-            @Override
-            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
     }
 }

@@ -47,10 +47,6 @@ public class ScrollerViewActivity extends AppCompatActivity {
 
             }
 
-            @Override
-            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
@@ -63,11 +59,6 @@ public class ScrollerViewActivity extends AppCompatActivity {
                         zRefreshLayout.refreshComplete();
                     }
                 }, 2000);
-            }
-
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
             }
         });
     }

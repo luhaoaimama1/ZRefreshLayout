@@ -3,6 +3,7 @@
     package="zone.com.zrefreshlayoutdemo">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+        android:name=".Apps"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="zone.com.zrefreshlayoutdemo.GlobalViewActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.SettingActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.TextViewActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.GridViewActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.ListViewActivity"/>

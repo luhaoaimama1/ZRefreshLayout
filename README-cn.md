@@ -4,6 +4,7 @@
 
 ### 特点与功能实现
 - [x] 支持添加下拉刷新与上拉加载
+- [x] 支持超时而自动做出刷新或者加载完成动作
 - [x] 支持所有的View:ImageView,FrameLayout,ListView, GridView, ScrollView, WebView...
 - [x] 全局配置(头部配置都在这里,所以没有xml属性~),与独立更改
 - [x] 自动刷新
@@ -28,7 +29,7 @@ Step 2. Add the dependency
 
 ## UML
 
-![](https://ww2.sinaimg.cn/large/006tKfTcgy1fhx4hnzc70j30zc0lg3zc.jpg)
+![](https://ww1.sinaimg.cn/large/006tNc79gy1foynj1rsrmj30zc0lg3zi.jpg)
 
 ## Preview
 
@@ -83,20 +84,18 @@ Step 2. Add the dependency
 > 刷新完成记得使用:**zRefreshLayout.refreshComplete();**
 
 ```
-     refresh.setPullListener(new ZRefreshLayout.PullListener() {
-            @Override
-            public void refresh(final ZRefreshLayout zRefreshLayout) {
-                listView.smoothScrollToPosition(0);
-                refresh.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDatas.add("刷新完毕:" + i++);
-                        adapter2.notifyDataSetChanged();
-                        zRefreshLayout.refreshComplete();
-                    }
-                }, 2000);
-            }
-
+       refresh.setPullListener(new ZRefreshLayout.PullListener() {
+                @Override
+                public void refresh(final ZRefreshLayout zRefreshLayout) {
+                    tv.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv.setText("刷新完毕:" + i++);
+                            zRefreshLayout.refreshComplete();
+                        }
+                    }, 500);
+                }
+            });
 ```
 
 #### 上拉监听
@@ -105,24 +104,18 @@ Step 2. Add the dependency
 > 加载完成记得使用:**zRefreshLayout.loadMoreComplete();**
 
 ```
-      refresh.setLoadMoreListener(new ZRefreshLayout.LoadMoreListener() {
-            @Override
-            public void loadMore(final ZRefreshLayout zRefreshLayout) {
-                refresh.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDatas.add("加载完毕:" + i++);
-                        zRefreshLayout.loadMoreComplete();
-                    }
-                }, 2000);
-
-            }
-
-            @Override
-            public void complete(ZRefreshLayout zRefreshLayout) {
-
-            }
-        });
+        refresh.setPullListener(new ZRefreshLayout.PullListener() {
+                 @Override
+                 public void refresh(final ZRefreshLayout zRefreshLayout) {
+                     tv.postDelayed(new Runnable() {
+                         @Override
+                         public void run() {
+                             tv.setText("刷新完毕:" + i++);
+                             zRefreshLayout.refreshComplete();
+                         }
+                     }, 500);
+                 }
+             });
 ```
 
 >头部自定义与底部自定义和更多高级功能,请看[**Wiki 文档**](https://github.com/luhaoaimama1/ZRefreshLayout/wiki);

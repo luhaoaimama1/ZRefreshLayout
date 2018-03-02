@@ -14,14 +14,13 @@ import android.widget.TextView;
 import com.nineoldandroids.animation.ValueAnimator;
 
 import zone.com.zanimate.value.ValueAnimatorProxy;
-import zone.com.zrefreshlayout.AnimateBack;
+import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.R;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.utils.DensityUtils;
+import zone.com.zrefreshlayout.utils.LogUtils;
 import zone.com.zrefreshlayout.utils.ScreenUtils;
-
-import static zone.com.zrefreshlayout.utils.LogUtils.log;
 
 /**
  * Created by lcodecore on 2016/10/2.
@@ -113,12 +112,12 @@ public class SinaRefreshHeader implements IHeaderView {
     }
 
     @Override
-    public void animateBack(AnimateBack animateBack, float fraction, float headHeight,
+    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight,
                             boolean mIScroll) {
     }
 
     @Override
-    public boolean interceptAnimateBack(AnimateBack animateBack, ZRefreshLayout.IScroll iScroll) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll) {
         return false;
     }
 
@@ -153,5 +152,8 @@ public class SinaRefreshHeader implements IHeaderView {
         log("onComplete");
     }
 
+    private void log(String log) {
+        LogUtils.log("SinaRefreshHeader Log:"+log);
+    }
 
 }

@@ -51,10 +51,7 @@ public class ListViewActivity extends AppCompatActivity {
 
             }
 
-            @Override
-            public void loadMoreAnimationComplete(ZRefreshLayout zRefreshLayout) {
 
-            }
         });
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
@@ -70,10 +67,6 @@ public class ListViewActivity extends AppCompatActivity {
                 }, 2000);
             }
 
-            @Override
-            public void refreshAnimationComplete(ZRefreshLayout zRefreshLayout) {
-
-            }
         });
 
         adapter2 = new QuickAdapter<String>(this, mDatas) {

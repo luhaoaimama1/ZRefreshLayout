@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import zone.com.zrefreshlayout.AUtils;
-import zone.com.zrefreshlayout.AnimateBack;
+import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.R;
 import zone.com.zrefreshlayout.ZRefreshLayout;
@@ -75,24 +75,24 @@ public class CircleRefresh implements IHeaderView {
         }
     }
 
-    private AnimateBack mAnimateBack = AnimateBack.None;
+    private ScrollAnimation mScrollAnimation = ScrollAnimation.None;
 
     @Override
-    public void animateBack(AnimateBack animateBack, float fraction, float headHeight, boolean isPinContent) {
-        mAnimateBack = animateBack;
+    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, boolean isPinContent) {
+        mScrollAnimation = scrollAnimation;
     }
 
 
     //这里主要是对延迟刷新的处理
     @Override
-    public boolean interceptAnimateBack(AnimateBack animateBack, ZRefreshLayout.IScroll iScroll) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll) {
         this.iScroll = iScroll;
         boolean result = false;
-        if (mAnimateBack != animateBack && animateBack == AnimateBack.Complete_Back) {
+        if (mScrollAnimation != scrollAnimation && scrollAnimation == ScrollAnimation.Complete_BackAnimation) {
             mHeaderWaveCircle.setRefreshing(false);//刷新动画
             result = true;
         }
-        mAnimateBack = animateBack;
+        mScrollAnimation = scrollAnimation;
         //返回结果就是是否拦截
         return result;
     }
