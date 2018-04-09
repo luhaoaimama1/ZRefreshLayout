@@ -234,7 +234,7 @@ public class ZRefreshLayout extends FrameLayout {
     private final static int PULL_DOWN = 2;
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {//被拦截状态下 不是刷新就是 加载更多
+        public boolean onTouchEvent(MotionEvent event) {//被拦截状态下 不是刷新就是 加载更多
 
         if (state == AUTO_PULL) return super.onTouchEvent(event);
 
@@ -445,6 +445,8 @@ public class ZRefreshLayout extends FrameLayout {
     /**
      * @param isDelegate        委托加载更多,在外边处理
      *                          外部监听请调用此方法{@link AUtils#notityLoadMoreListener(ZRefreshLayout)}
+     *                          false，会走内部的LoadMoreController
+     *                          true：的话不委托，既会跳过 LoadMoreController。这样更快
      * @param mLoadMoreListener
      */
     public void setLoadMoreListener(boolean isDelegate, LoadMoreListener mLoadMoreListener) {

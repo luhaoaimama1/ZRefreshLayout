@@ -11,8 +11,9 @@ import zone.com.zrefreshlayout.ZRefreshLayout;
  * [2017] by Zone
  */
 
-public class LoadMoreController {
-    public static List<LoadMoreOtherListener> list = new ArrayList<>();
+public class  LoadMoreController {
+
+    private static List<LoadMoreOtherListener> list = new ArrayList<>();
 
     static {
         list.add(new RecyclerViewLoadMoreListener());
@@ -23,11 +24,20 @@ public class LoadMoreController {
         LoadMoreOtherListener result = null;
         for (LoadMoreOtherListener loadMoreListener : list) {
             if (loadMoreListener.instanceOf(view)) {
+                //这里用深克隆  所以不会内存泄漏
                 result = loadMoreListener.clone_();
                 result.addListener(view, zRefreshLayout);
                 break;
             }
         }
         return result;
+    }
+
+    public static List<LoadMoreOtherListener> getList() {
+        return list;
+    }
+
+    public static void setList(List<LoadMoreOtherListener> list) {
+        LoadMoreController.list = list;
     }
 }
