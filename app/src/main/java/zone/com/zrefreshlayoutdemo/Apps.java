@@ -3,7 +3,6 @@ import android.app.Application;
 import android.graphics.Color;
 
 import com.zone.lib.Configuration;
-import com.zone.lib.utils.data.file2io2data.SharedUtils;
 
 import zone.com.zrefreshlayout.Config;
 import zone.com.zrefreshlayout.footer.MeterialFooter;
@@ -28,7 +27,7 @@ public class Apps extends Application {
     public void onCreate() {
         super.onCreate();
         Configuration.Build.init(this).perform();
-        setGlobalHead(SharedUtils.get(Constant.REFRESH_MODE,HeadSetting.class));
+        setGlobalHead(SP1.INSTANCE.get(Constant.REFRESH_MODE,HeadSetting.class));
     }
 
     public static void setDefaultHeader() {

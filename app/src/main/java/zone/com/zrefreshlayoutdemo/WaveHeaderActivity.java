@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayoutdemo.header.WaveHead;
@@ -15,11 +14,11 @@ import zone.com.zrefreshlayoutdemo.header.WaveHead;
  */
 
 public class WaveHeaderActivity extends AppCompatActivity {
-    @Bind(R.id.iv)
+    @BindView(R.id.iv)
     ImageView iv;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
-    @Bind(R.id.tv)
+    @BindView(R.id.tv)
     TextView tv;
 
     @Override

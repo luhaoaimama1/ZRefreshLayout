@@ -8,7 +8,7 @@ import com.zone.adapter.QuickAdapter;
 import com.zone.adapter.callback.Helper;
 import java.util.ArrayList;
 import java.util.List;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 
@@ -17,9 +17,9 @@ import zone.com.zrefreshlayout.ZRefreshLayout;
  */
 
 public class ListViewActivity extends AppCompatActivity {
-    @Bind(R.id.listView)
+    @BindView(R.id.listView)
     ListView listView;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
     private int i = 0;
     private List<String> mDatas = new ArrayList<String>();

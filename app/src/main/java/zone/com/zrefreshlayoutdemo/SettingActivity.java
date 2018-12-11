@@ -6,10 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
-import com.zone.lib.utils.data.file2io2data.SharedUtils;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zone.com.zrefreshlayoutdemo.common.Constant;
@@ -21,19 +18,19 @@ import zone.com.zrefreshlayoutdemo.common.HeadSetting;
  */
 
 public class SettingActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
-    @Bind(R.id.rb_head)
+    @BindView(R.id.rb_head)
     RadioGroup rbHead;
-    @Bind(R.id.rb_pin)
+    @BindView(R.id.rb_pin)
     RadioGroup rbPin;
-    @Bind(R.id.rb_head_meterial)
+    @BindView(R.id.rb_head_meterial)
     RadioButton rbHeadMeterial;
-    @Bind(R.id.rb_pin_true)
+    @BindView(R.id.rb_pin_true)
     RadioButton rbPinTrue;
-    @Bind(R.id.rb_head_sina)
+    @BindView(R.id.rb_head_sina)
     RadioButton rbHeadSina;
-    @Bind(R.id.rb_head_wave)
+    @BindView(R.id.rb_head_wave)
     RadioButton rbHeadWave;
-    @Bind(R.id.rb_pin_false)
+    @BindView(R.id.rb_pin_false)
     RadioButton rbPinFalse;
     private HeadSetting mHeadSetting;
 
@@ -44,7 +41,7 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
         ButterKnife.bind(this);
         rbPin.setOnCheckedChangeListener(this);
         rbHead.setOnCheckedChangeListener(this);
-        mHeadSetting = SharedUtils.get(Constant.REFRESH_MODE, HeadSetting.class);
+        mHeadSetting = SP1.INSTANCE.get(Constant.REFRESH_MODE, HeadSetting.class);
         if (mHeadSetting == null) {
             mHeadSetting = new HeadSetting();
             rbHeadMeterial.performClick();
@@ -73,11 +70,11 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_Clear:
-                SharedUtils.remove(Constant.REFRESH_MODE);
+                SP1.INSTANCE.remove(Constant.REFRESH_MODE);
                 Apps.setDefaultHeader();
                 break;
             case R.id.Save:
-                SharedUtils.put(Constant.REFRESH_MODE, mHeadSetting);
+                SP1.INSTANCE.put(Constant.REFRESH_MODE, mHeadSetting);
                 Apps.setGlobalHead(mHeadSetting);
                 break;
         }

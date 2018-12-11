@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import com.nineoldandroids.view.ViewHelper;
@@ -13,7 +12,7 @@ import com.zone.adapter.QuickAdapter;
 import com.zone.adapter.callback.Helper;
 import java.util.ArrayList;
 import java.util.List;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zone.com.zrefreshlayout.ZFlexibilityLayout;
@@ -23,11 +22,11 @@ import zone.com.zrefreshlayout.ZFlexibilityLayout;
  */
 
 public class FlexibilityListViewActivity extends AppCompatActivity {
-    @Bind(R.id.listView)
+    @BindView(R.id.listView)
     ListView listView;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZFlexibilityLayout refresh;
-    @Bind(R.id.iv)
+    @BindView(R.id.iv)
     ImageView iv;
     private List<String> mDatas = new ArrayList<String>();
     private QuickAdapter<String> adapter2;

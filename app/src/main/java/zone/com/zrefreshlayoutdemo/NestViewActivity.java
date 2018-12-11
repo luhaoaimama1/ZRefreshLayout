@@ -16,7 +16,7 @@ import com.zone.adapter.callback.Helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZFlexibilityLayout;
 import zone.com.zrefreshlayout.ZRefreshLayout;
@@ -28,15 +28,15 @@ import zone.com.zrefreshlayoutdemo.views.ZNestParentLayout;
 
 public class NestViewActivity extends AppCompatActivity {
 
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @Bind(R.id.zpl)
+    @BindView(R.id.zpl)
     ZNestParentLayout zpl;
-    @Bind(R.id.indicatorView)
+    @BindView(R.id.indicatorView)
     TextView indicatorView;
-    @Bind(R.id.iv)
+    @BindView(R.id.iv)
     ImageView iv;
 
     public int height;

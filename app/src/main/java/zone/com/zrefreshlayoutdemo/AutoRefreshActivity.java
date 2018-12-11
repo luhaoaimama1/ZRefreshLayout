@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zone.com.zrefreshlayout.ZRefreshLayout;
@@ -16,9 +15,9 @@ import zone.com.zrefreshlayout.header.MeterialHead;
  */
 
 public class AutoRefreshActivity extends AppCompatActivity {
-    @Bind(R.id.iv)
+    @BindView(R.id.iv)
     ImageView iv;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
 
     @Override

@@ -3,8 +3,7 @@ package zone.com.zrefreshlayoutdemo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 
@@ -14,13 +13,13 @@ import zone.com.zrefreshlayout.ZRefreshLayout;
 
 public class ScrollerViewActivity extends AppCompatActivity {
 
-    @Bind(R.id.tv1)
+    @BindView(R.id.tv1)
     TextView tv1;
-    @Bind(R.id.tv2)
+    @BindView(R.id.tv2)
     TextView tv2;
-    @Bind(R.id.tv3)
+    @BindView(R.id.tv3)
     TextView tv3;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
 
     int i = 0;

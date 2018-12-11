@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.zone.lib.utils.activity_fragment_ui.ToastUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.footer.LoadFooter;
@@ -17,9 +17,9 @@ import zone.com.zrefreshlayout.header.SinaRefreshHeader;
  */
 
 public class SinaHeaderActivity extends AppCompatActivity {
-    @Bind(R.id.iv)
+    @BindView(R.id.iv)
     ImageView iv;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
 
     @Override

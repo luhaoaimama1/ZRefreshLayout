@@ -14,7 +14,7 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zone.com.zanimate.value.ValueAnimatorProxy;
@@ -27,7 +27,7 @@ import zone.com.zrefreshlayout.v4.MeterialCircle;
 
 public class CirlcleActivity extends AppCompatActivity {
 
-    @Bind(R.id.root)
+    @BindView(R.id.root)
     RelativeLayout root;
     public MeterialCircle mMeterialCircle;
 

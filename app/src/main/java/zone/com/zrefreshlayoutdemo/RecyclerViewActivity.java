@@ -11,8 +11,7 @@ import com.zone.adapter.callback.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.header.SinaRefreshHeader;
@@ -22,9 +21,9 @@ import zone.com.zrefreshlayout.header.SinaRefreshHeader;
  */
 
 public class RecyclerViewActivity extends AppCompatActivity {
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
-    @Bind(R.id.rv)
+    @BindView(R.id.rv)
     RecyclerView rv;
     private int i = 0;
     private List<String> mDatas = new ArrayList<String>();

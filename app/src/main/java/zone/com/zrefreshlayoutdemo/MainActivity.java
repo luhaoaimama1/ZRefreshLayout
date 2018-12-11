@@ -7,20 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zone.lib.Configuration;
-import com.zone.lib.utils.data.file2io2data.SharedUtils;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import zone.com.zrefreshlayout.Config;
-import zone.com.zrefreshlayout.footer.MeterialFooter;
-import zone.com.zrefreshlayout.header.MeterialHead;
-import zone.com.zrefreshlayout.header.SinaRefreshHeader;
-import zone.com.zrefreshlayout.resistance.DampingHalf;
 import zone.com.zrefreshlayoutdemo.common.Constant;
 import zone.com.zrefreshlayoutdemo.common.HeadSetting;
-import zone.com.zrefreshlayoutdemo.header.WaveHead;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     })
     public void onClick(View view) {
         if(view.getId()== R.id.globalView)
-            Apps.setGlobalHead(SharedUtils.get(Constant.REFRESH_MODE,HeadSetting.class));
+            Apps.setGlobalHead(SP1.INSTANCE.get(Constant.REFRESH_MODE,HeadSetting.class));
         else
             Apps.setDefaultHeader();
 

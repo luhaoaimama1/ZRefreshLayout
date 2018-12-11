@@ -6,7 +6,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 
@@ -16,9 +16,9 @@ import zone.com.zrefreshlayout.ZRefreshLayout;
 
 public class WebViewActivity extends AppCompatActivity {
 
-    @Bind(R.id.rotate_header_web_view)
+    @BindView(R.id.rotate_header_web_view)
     WebView mWebView;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
 
     @Override

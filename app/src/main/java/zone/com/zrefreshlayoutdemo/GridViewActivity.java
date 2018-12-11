@@ -11,7 +11,7 @@ import com.zone.adapter.callback.Helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.header.SinaRefreshHeader;
@@ -21,9 +21,9 @@ import zone.com.zrefreshlayout.header.SinaRefreshHeader;
  */
 
 public class GridViewActivity extends AppCompatActivity {
-    @Bind(R.id.gridView)
+    @BindView(R.id.gridView)
     GridView gridView;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     ZRefreshLayout refresh;
     private int i = 0;
 

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 // JitPack Maven
 apply plugin: 'com.github.dcendents.android-maven'
@@ -27,13 +28,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     provided 'com.android.support:recyclerview-v7:24.2.0'
-    compile 'com.github.luhaoaimama1:ZAnimate:1.0.21'
+    api 'com.github.luhaoaimama1:ZAnimate:1.0.21'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //    compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
 }
 
@@ -66,6 +68,9 @@ uploadArchives {
             repository(url: 'file://' + project.rootDir + '/outputs-aar')
         }
     }
+}
+repositories {
+    mavenCentral()
 }
 // uncomment to build a jar file in addition to the default aar file
 //android.libraryVariants.all { variant ->
