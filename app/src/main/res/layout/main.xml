@@ -178,6 +178,11 @@
                 style="@style/CustomText"
                 android:text="NestedScrollingActivity_Parent" />
 
+            <TextView
+                android:id="@+id/nestScroller"
+                style="@style/CustomText"
+                android:text="nestScroller" />
+
         </com.zone.view.FlowLayout>
 
     </ScrollView>

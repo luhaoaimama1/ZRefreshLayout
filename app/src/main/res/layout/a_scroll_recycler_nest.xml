@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_coordinatorlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/id_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:title="Love" />
+        <!--注意这里没有  app:layout_scrollFlags="scroll|enterAlways"　　
+        但是必须底下可以没有　上边没有的画下面则不好使　
+        因为　　　头动不了　脚步也就走不动了-->
+        <ImageView
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#b4f7a9"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wave"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#e78d8d"
+            tools:targetApi="ice_cream_sandwich" />
+        <!--app:tabTextColor="@android:color/black"-->
+    </android.support.design.widget.AppBarLayout>
+
+    <zone.com.zrefreshlayout.ZRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/refresh"
+        android:orientation="vertical"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:background="#fff"
+            android:layout_height="match_parent"
+            android:text="Hello_world" />
+        <!--</LinearLayout>-->
+
+        <!--</android.support.v4.widget.NestedScrollView>-->
+    </zone.com.zrefreshlayout.ZRefreshLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.waveHeader, R.id.circleHeader,
             R.id.sinaRefresh, R.id.meterialHeader,
             R.id.cirlcleActivity, R.id.nestViewActivity,
+            R.id.nestScroller,
             R.id.flexibilityListViewActivity, R.id.nestedScrollingActivity_Parent
     })
     public void onClick(View view) {
@@ -111,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nestedScrollingActivity_Parent:
                 startActivity(new Intent(this, NestedScrollingActivity_Parent.class));
+                break;
+            case R.id.nestScroller:
+                startActivity(new Intent(this, ScrollerNesttActivity.class));
                 break;
         }
     }

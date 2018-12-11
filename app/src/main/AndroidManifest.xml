@@ -36,6 +36,7 @@
         <activity android:name="zone.com.zrefreshlayoutdemo.SinaHeaderActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.NestViewActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.FlexibilityListViewActivity"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.ScrollerNesttActivity"/>
         <activity android:name="zone.com.zrefreshlayoutdemo.NestedScrollingActivity_Parent"/>
 
 
