@@ -163,20 +163,11 @@
                 style="@style/CustomText"
                 android:text="CirlcleActivity" />
 
-            <TextView
-                android:id="@+id/nestViewActivity"
-                style="@style/CustomText"
-                android:text="NestViewActivity" />
 
             <TextView
                 android:id="@+id/flexibilityListViewActivity"
                 style="@style/CustomText"
                 android:text="FlexibilityListView" />
-
-            <TextView
-                android:id="@+id/nestedScrollingActivity_Parent"
-                style="@style/CustomText"
-                android:text="NestedScrollingActivity_Parent" />
 
             <TextView
                 android:id="@+id/nestScroller"

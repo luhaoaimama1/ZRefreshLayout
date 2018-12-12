@@ -36,7 +36,7 @@ dependencies {
     api 'com.android.support:design:23.2.1'
 //  apile 'com.github.luhaoaimama1:ZRefreshLayout:1.0.1'
     api 'com.github.luhaoaimama1:ZView:1.0.36'
-    api 'com.github.luhaoaimama1:zone-sdk:1.0.97'
+    api 'com.github.luhaoaimama1:zone-sdk:1.0.98'
     api 'com.github.luhaoaimama1:ZAdapter:1.1.0'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

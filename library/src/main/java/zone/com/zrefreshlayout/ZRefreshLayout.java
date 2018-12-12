@@ -51,8 +51,8 @@ public class ZRefreshLayout extends NestFrameLayout {
 
     private int mTouchSlop;//滑动有效的最小距离
     private View headerView, footerView, content;
-    private IHeaderView mIHeaderView;
-    private IFooterView mIFooterView;
+     IHeaderView mIHeaderView;
+     IFooterView mIFooterView;
     private boolean isPinContent;//头部是否固定
 
     private IScroll mIScroll;//滚动策略
@@ -187,7 +187,7 @@ public class ZRefreshLayout extends NestFrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        log("onInterceptTouchEvent:"+event.getY());
+        log("onInterceptTouchEvent:" + event.getY());
         boolean returnValue = false;
         if (state == REST) {
             switch (event.getAction()) {
@@ -198,7 +198,7 @@ public class ZRefreshLayout extends NestFrameLayout {
                     haveDownEvent = true;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if (haveDownEvent){
+                    if (haveDownEvent) {
                         float dx = event.getX() - mTouchX;
                         float dy = event.getY() - mTouchY;
                         log("mTouchY :" + mTouchY + "___  event.getY():" + event.getY());
@@ -211,7 +211,7 @@ public class ZRefreshLayout extends NestFrameLayout {
                                 && !ScrollingUtil.canChildScrollUp(content)) {
                             //滑动允许最大角度为45度
                             log("下拉截断！");
-                            returnValue=true;
+                            returnValue = true;
                         }
 
                         if (!isInterceptInnerLoadMore && isCanLoadMore && mLoadMoreListener != null && dy < 0
@@ -219,7 +219,7 @@ public class ZRefreshLayout extends NestFrameLayout {
                                 && Math.abs(dx) <= Math.abs(dy)
                                 && !ScrollingUtil.canChildScrollDown(content)) {
                             log("上啦截断！");
-                            returnValue=true;
+                            returnValue = true;
                         }
                     }
                     break;
@@ -328,7 +328,7 @@ public class ZRefreshLayout extends NestFrameLayout {
 
     @Override
     protected void moveSpinner(float mTotalUnconsumed) {
-    //todo
+        //todo
         realMove(mTotalUnconsumed);
     }
 
@@ -403,7 +403,7 @@ public class ZRefreshLayout extends NestFrameLayout {
         this.heightToRefresh = heightToRefresh;
     }
 
-    private int getRefreshAbleHeight() {
+    int getRefreshAbleHeight() {
         return heightToRefresh != 0 ? heightToRefresh : headerView.getHeight();
     }
 
@@ -734,7 +734,7 @@ public class ZRefreshLayout extends NestFrameLayout {
 
         @Override
         protected int getScrollY() {
-            return  -ZRefreshLayout.this.getScrollY();
+            return -ZRefreshLayout.this.getScrollY();
         }
     }
 

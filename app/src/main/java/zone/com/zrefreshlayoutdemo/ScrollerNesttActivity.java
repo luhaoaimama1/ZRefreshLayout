@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import com.zone.adapter.QuickAdapter;
 import com.zone.adapter.QuickRcvAdapter;
@@ -24,6 +25,8 @@ public class ScrollerNesttActivity extends AppCompatActivity {
     ZRefreshLayout refresh;
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.id_toolbar)
+    Toolbar toolbar;
     private int i = 0;
     private List<String> mDatas = new ArrayList<String>();
     private QuickRcvAdapter<String> adapter2;
@@ -40,6 +43,8 @@ public class ScrollerNesttActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_scroll_recycler_nest);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {

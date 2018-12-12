@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="zone.com.zrefreshlayoutdemo">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".Apps"
         android:allowBackup="true"
@@ -16,28 +17,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="zone.com.zrefreshlayoutdemo.GlobalViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.SettingActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.TextViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.GridViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.ListViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.RecyclerViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.ScrollerViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.CirlcleActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.WebViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.PinContentActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.AutoRefreshActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.UniqueFeatureActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.ResistanceActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.RefreshPositionActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.WaveHeaderActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.CircleHeaderActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.MeterialHeaderActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.SinaHeaderActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.NestViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.FlexibilityListViewActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.ScrollerNesttActivity"/>
-        <activity android:name="zone.com.zrefreshlayoutdemo.NestedScrollingActivity_Parent"/>
+        <activity android:name="zone.com.zrefreshlayoutdemo.GlobalViewActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.SettingActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.TextViewActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.GridViewActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.ListViewActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.RecyclerViewActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.ScrollerViewActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.CirlcleActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.WebViewActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.PinContentActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.AutoRefreshActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.UniqueFeatureActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.ResistanceActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.RefreshPositionActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.WaveHeaderActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.CircleHeaderActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.MeterialHeaderActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.SinaHeaderActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.FlexibilityListViewActivity" />
+        <activity
+            android:name="zone.com.zrefreshlayoutdemo.ScrollerNesttActivity"
+            android:theme="@style/NoActionBar" />
 
 
     </application>
