@@ -5,6 +5,7 @@
 ### 特点与功能实现
 - [x] 支持添加下拉刷新与上拉加载
 - [x] 支持超时而自动做出刷新或者加载完成动作
+- [x] 支持嵌套滑动
 - [x] 支持所有的View:ImageView,FrameLayout,ListView, GridView, ScrollView, WebView...
 - [x] 全局配置(头部配置都在这里,所以没有xml属性~),与独立更改
 - [x] 自动刷新

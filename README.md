@@ -8,6 +8,7 @@ A global random configuration head , drop-down refresh and  loadMore library;
 ## Feature
 - [x] support refresh and  loadMore
 - [x] support Timeout automatically complete the action
+- [x] support nest scroll
 - [x] support All the View:ImageView,FrameLayout,ListView, GridView, ScrollView, WebView...
 - [x] support Global configuration (HeaderView's configuration is here,so not have xml's property),and Independent changes
 - [x] support auto refresh
