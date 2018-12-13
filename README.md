@@ -75,7 +75,7 @@ Step 2. Add the dependency
 #### header fixed
 
 ```
-    refresh.setPinContent(true);
+    refresh.setHeadPin(ZRefreshLayout.HeadPin.PIN)
 ```
 
 #### auto refresh

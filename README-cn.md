@@ -71,7 +71,7 @@ Step 2. Add the dependency
 #### 头部固定否
 
 ```
-    refresh.setPinContent(true);
+    refresh.setHeadPin(ZRefreshLayout.HeadPin.PIN)
 ```
 
 #### 自动刷新
