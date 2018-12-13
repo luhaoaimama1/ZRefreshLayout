@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, CirlcleActivity.class));
                 break;
             case R.id.flexibilityListViewActivity:
-                startActivity(new Intent(this, FlexibilityListViewActivity.class));
+                startActivity(new Intent(this, FlexibilityKtActivity.class));
                 break;
             case R.id.nestScroller:
                 startActivity(new Intent(this, ScrollerNesttActivity.class));

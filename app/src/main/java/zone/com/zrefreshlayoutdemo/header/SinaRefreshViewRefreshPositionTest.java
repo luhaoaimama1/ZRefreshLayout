@@ -3,6 +3,7 @@ package zone.com.zrefreshlayoutdemo.header;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.AUtils;
+import zone.com.zrefreshlayout.IScroll;
 import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.R;
@@ -58,12 +60,11 @@ public class SinaRefreshViewRefreshPositionTest implements IHeaderView {
 
     @Override
     public IHeaderView clone_() {
-        SinaRefreshViewRefreshPositionTest clone = new SinaRefreshViewRefreshPositionTest();
-        return clone;
+        return new SinaRefreshViewRefreshPositionTest();
     }
 
     @Override
-    public View getView(ZRefreshLayout zRefreshLayout) {
+    public View initView(ZRefreshLayout zRefreshLayout) {
         rootView = LayoutInflater.from(zRefreshLayout.getContext()).inflate(R.layout.view_sinaheader,zRefreshLayout,false);
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
         ll_main = (LinearLayout) rootView.findViewById(R.id.ll_main);
@@ -71,6 +72,12 @@ public class SinaRefreshViewRefreshPositionTest implements IHeaderView {
         refreshTextView = (TextView) rootView.findViewById(R.id.tv);
         loadingView = (ImageView) rootView.findViewById(R.id.iv_loading);
         screenAdapter(zRefreshLayout,zRefreshLayout.getContext());
+        return rootView;
+    }
+
+    @NonNull
+    @Override
+    public View getView() {
         return rootView;
     }
 
@@ -116,11 +123,11 @@ public class SinaRefreshViewRefreshPositionTest implements IHeaderView {
 
     @Override
     public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight,
-                            boolean mIScroll) {
+                            ZRefreshLayout.HeadPin mIScroll) {
     }
 
     @Override
-    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, IScroll iScroll) {
         return false;
     }
 

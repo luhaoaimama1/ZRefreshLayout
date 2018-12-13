@@ -8,18 +8,18 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.animation.LinearInterpolator;
 
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.ValueAnimator;
+import java.util.ArrayList;
+import java.util.List;
 
-import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.footer.LoadFooter;
 import zone.com.zrefreshlayout.header.SinaRefreshHeader;
 import zone.com.zrefreshlayout.loadmore.LoadMoreController;
 import zone.com.zrefreshlayout.loadmore.LoadMoreOtherListener;
+import zone.com.zrefreshlayout.scroll.ScrollDoNothing;
+import zone.com.zrefreshlayout.scroll.ScrollPin;
+import zone.com.zrefreshlayout.scroll.ScrollPinNot;
 import zone.com.zrefreshlayout.utils.ScrollingUtil;
-import zone.com.zrefreshlayout.utils.SimpleAnimatorListener;
 
 import static zone.com.zrefreshlayout.utils.LogUtils.log;
 
@@ -36,32 +36,37 @@ import static zone.com.zrefreshlayout.utils.LogUtils.log;
 //ReadMe,wiki  名字改动
 public class ZRefreshLayout extends NestFrameLayout {
 
+    public enum HeadPin {
+        PIN, NOT_PIN, NOTHING
+    }
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     static Config config;
 
-    static final int REST = 0;//等待状态-休息；
-    static final int PULL = 1;//下拉
-    static final int REFRESH_ABLE = 2;//松开刷新 条件--->滑动超过头部高度
-    static final int REFRESHING = 3;//刷新中
-    static final int COMPLETE = 4;//松开刷新
-    static final int LOADMORE_ING = 5;//加载中
-    static final int AUTO_PULL = 6;//自动刷新
+    public static final int REST = 0;//等待状态-休息；
+    public static final int PULL = 1;//下拉
+    public static final int REFRESH_ABLE = 2;//松开刷新 条件--->滑动超过头部高度
+    public static final int REFRESHING = 3;//刷新中
+    public static final int COMPLETE = 4;//松开刷新
+    public static final int LOADMORE_ING = 5;//加载中
+    public static final int AUTO_PULL = 6;//自动刷新
 
     int state = REST;
 
     private int mTouchSlop;//滑动有效的最小距离
-    private View headerView, footerView, content;
-     IHeaderView mIHeaderView;
-     IFooterView mIFooterView;
-    private boolean isPinContent;//头部是否固定
+    protected View headerView, footerView, contentView;
+    protected int contentHeight;
+    protected IHeaderView mIHeaderView;
+    protected IFooterView mIFooterView;
+    private HeadPin mHeadPin;//头部是否固定
 
-    private IScroll mIScroll;//滚动策略
-    private PullListener mPullListener;
-    private PullStateRestListener mPullStateRestListener;
-    private RefreshAbleListener mRefreshAbleListener;
-    private LoadMoreListener mLoadMoreListener;
-    private LoadMoreStateRestListener mLoadMoreStateRestListener;
-    private IResistance mIResistance;//阻力策略
+    protected IScroll mIScroll;//滚动策略
+    protected List<IScroll> mIScrollList;
+    protected PullListener mPullListener;
+    protected PullStateRestListener mPullStateRestListener;
+    protected RefreshAbleListener mRefreshAbleListener;
+    protected LoadMoreListener mLoadMoreListener;
+    protected LoadMoreStateRestListener mLoadMoreStateRestListener;
+    protected IResistance mIResistance;//阻力策略
     ScrollAnimation mScrollAnimation = ScrollAnimation.None;
     private boolean isCanLoadMore = true;
     private boolean isCanRefresh = true;
@@ -113,28 +118,46 @@ public class ZRefreshLayout extends NestFrameLayout {
     }
 
     private void initPinContent() {
-        if (config != null && config.isPinContent) {
-            this.isPinContent = config.isPinContent;
-            mIScroll = new Scroll_Pin();
-        } else
-            mIScroll = new Scroll_PinNot();
+        if (config != null && config.headPin != null) {
+            generateHeadPin(config.headPin);
+        } else {
+            mIScroll = new ScrollPin(this);
+            this.mHeadPin = HeadPin.PIN;
+        }
     }
 
-    private void initHeaderView() {
+    private void generateHeadPin(HeadPin headPin) {
+        switch (headPin) {
+            case PIN:
+                mIScroll = new ScrollPin(this);
+                this.mHeadPin=HeadPin.PIN;
+                break;
+            case NOT_PIN:
+                mIScroll = new ScrollPinNot(this);
+                this.mHeadPin=HeadPin.NOT_PIN;
+                break;
+            case NOTHING:
+                mIScroll = new ScrollDoNothing(this);
+                this.mHeadPin=HeadPin.NOTHING;
+                break;
+        }
+    }
+
+    protected void initHeaderView() {
         if (mIHeaderView != null)//个人配置
-            headerView = mIHeaderView.getView(this);
+            headerView = mIHeaderView.initView(this);
         else {
             if (config != null && config.headerView != null) {
                 //全局配置
                 mIHeaderView = config.headerView.clone_();
                 if (mIHeaderView != null)
-                    headerView = mIHeaderView.getView(this);
+                    headerView = mIHeaderView.initView(this);
             }
             //全局配置clone为空的时候
             if (mIHeaderView == null) {
                 //都为空 默认新浪
                 mIHeaderView = new SinaRefreshHeader();
-                headerView = mIHeaderView.getView(this);
+                headerView = mIHeaderView.initView(this);
             }
         }
     }
@@ -164,12 +187,14 @@ public class ZRefreshLayout extends NestFrameLayout {
         super.onFinishInflate();
         addView(headerView);
         addView(footerView);
-        content = getChildAt(0);
+        contentView = getChildAt(0);
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        if (contentView != null)
+            contentHeight = contentView.getHeight();
         LayoutParams headerViewLp = (LayoutParams) headerView.getLayoutParams();
         //headerView 仅仅支持 bottomMargin
         headerView.layout((getWidth() - headerView.getWidth()) / 2, -headerView.getHeight() - headerViewLp.bottomMargin, (getWidth() + headerView.getWidth()) / 2, -headerViewLp.bottomMargin);
@@ -204,11 +229,11 @@ public class ZRefreshLayout extends NestFrameLayout {
                         log("mTouchY :" + mTouchY + "___  event.getY():" + event.getY());
                         log("dy :" + dy + "___ mTouchSlop:" + mTouchSlop);
 
-//                    log(String.format("下拉截断判断:%b\tdy>mTouchSlop:%b \tMath.abs(dx) <= Math.abs(dy):%b\t !ScrollingUtil.canChildScrollUp(content):%b",
-//                            dy > mTouchSlop && Math.abs(dx) <= Math.abs(dy)&& !ScrollingUtil.canChildScrollUp(content)
-//                            ,dy>mTouchSlop,Math.abs(dx) <= Math.abs(dy),!ScrollingUtil.canChildScrollUp(content)));
+//                    log(String.format("下拉截断判断:%b\tdy>mTouchSlop:%b \tMath.abs(dx) <= Math.abs(dy):%b\t !ScrollingUtil.canChildScrollUp(contentView):%b",
+//                            dy > mTouchSlop && Math.abs(dx) <= Math.abs(dy)&& !ScrollingUtil.canChildScrollUp(contentView)
+//                            ,dy>mTouchSlop,Math.abs(dx) <= Math.abs(dy),!ScrollingUtil.canChildScrollUp(contentView)));
                         if (isCanRefresh && dy > mTouchSlop && Math.abs(dx) <= Math.abs(dy)
-                                && !ScrollingUtil.canChildScrollUp(content)) {
+                                && !ScrollingUtil.canChildScrollUp(contentView)) {
                             //滑动允许最大角度为45度
                             log("下拉截断！");
                             returnValue = true;
@@ -217,7 +242,7 @@ public class ZRefreshLayout extends NestFrameLayout {
                         if (!isInterceptInnerLoadMore && isCanLoadMore && mLoadMoreListener != null && dy < 0
                                 && Math.abs(dy) > mTouchSlop
                                 && Math.abs(dx) <= Math.abs(dy)
-                                && !ScrollingUtil.canChildScrollDown(content)) {
+                                && !ScrollingUtil.canChildScrollDown(contentView)) {
                             log("上啦截断！");
                             returnValue = true;
                         }
@@ -237,9 +262,9 @@ public class ZRefreshLayout extends NestFrameLayout {
         }
     }
 
-    private int direction = 0;
-    private final static int LOAD_UP = 1;
-    private final static int PULL_DOWN = 2;
+    protected int direction = 0;
+    protected final static int LOAD_UP = 1;
+    protected final static int PULL_DOWN = 2;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {//被拦截状态下 不是刷新就是 加载更多
@@ -262,7 +287,7 @@ public class ZRefreshLayout extends NestFrameLayout {
         return true;
     }
 
-    private void realMove(float dy) {
+    protected void realMove(float dy) {
         if (dy > 0) direction = PULL_DOWN;
         else direction = LOAD_UP;
 
@@ -302,7 +327,7 @@ public class ZRefreshLayout extends NestFrameLayout {
         }
     }
 
-    private void realCancel() {
+    protected void realCancel() {
         if (state == PULL) {
             //回弹
             mScrollAnimation = ScrollAnimation.DisRefreshAble_BackAnimation;
@@ -323,7 +348,7 @@ public class ZRefreshLayout extends NestFrameLayout {
 
     @Override
     protected boolean canChildScrollUp() {
-        return ScrollingUtil.canChildScrollUp(content);
+        return ScrollingUtil.canChildScrollUp(contentView);
     }
 
     @Override
@@ -352,7 +377,7 @@ public class ZRefreshLayout extends NestFrameLayout {
     }
 
 
-    private void notityRefresh() {
+    void notityRefresh() {
         state = REFRESHING;
         log("释放回弹 将要刷新  refreshing!");
         //等待回调  刷新完成
@@ -486,7 +511,7 @@ public class ZRefreshLayout extends NestFrameLayout {
         this.mLoadMoreListener = mLoadMoreListener;
         this.isDelegate = isDelegate;
         if (!isDelegate) {
-            outterLoadMoreListener = LoadMoreController.addLoadMoreListener(content, this);
+            outterLoadMoreListener = LoadMoreController.addLoadMoreListener(contentView, this);
             isInterceptInnerLoadMore = outterLoadMoreListener == null ? false : true;
         } else
             isInterceptInnerLoadMore = true;
@@ -523,9 +548,9 @@ public class ZRefreshLayout extends NestFrameLayout {
             return;
         if (canLoadMore) {
             if (!outterLoadMoreListener.haveListener())
-                outterLoadMoreListener.addListener(content, this);
+                outterLoadMoreListener.addListener(contentView, this);
         } else
-            outterLoadMoreListener.removeListener(content);
+            outterLoadMoreListener.removeListener(contentView);
     }
 
     public boolean isCanRefresh() {
@@ -569,7 +594,7 @@ public class ZRefreshLayout extends NestFrameLayout {
         this.mIHeaderView = mIHeaderView;
         removeView(headerView);
         heightToRefresh = 0;//还原刷新高度
-        headerView = mIHeaderView.getView(this);
+        headerView = mIHeaderView.initView(this);
         addView(headerView);
     }
 
@@ -584,17 +609,11 @@ public class ZRefreshLayout extends NestFrameLayout {
         addView(footerView);
     }
 
-    public void setPinContent(boolean isPinContent) {
-        this.isPinContent = isPinContent;
-        if (state == REST)
-            if (this.isPinContent)
-                mIScroll = new Scroll_Pin();
-            else
-                mIScroll = new Scroll_PinNot();
+    public void setHeadPin(@NonNull HeadPin mHeadPin) {
+        if (state == REST) generateHeadPin(mHeadPin);
     }
-
-    public boolean isPinContent() {
-        return isPinContent;
+    public HeadPin getHeadPin() {
+        return mHeadPin;
     }
 
     public IResistance getIResistance() {
@@ -605,139 +624,6 @@ public class ZRefreshLayout extends NestFrameLayout {
         this.mIResistance = mIResistance;
     }
 
-    //------------------------------------------- 滚动策略 ------------------------------------------------
-    public abstract class IScroll {
-
-        private static final int DEFAULT_DURATION = 250;
-        private ValueAnimatorProxy valueAnimator = ValueAnimatorProxy.ofInt(0, 100)
-                .setDuration(DEFAULT_DURATION)
-                .setInterpolator(new LinearInterpolator())
-                .addListener(new SimpleAnimatorListener() {
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-//                        到可刷新位置:通知刷新
-//                        由于AutoRefresh_Animation是下拉就有动画所以通知刷新不在这里
-//                        仅仅RefreshAble_BackAnimation 通知刷新
-
-//                        归0 :状态恢复操作
-//                        DisRefreshAble_BackAnimation,Complete_BackAnimation
-                        log("onAnimationEnd : Scrolling animation:" + mScrollAnimation);
-                        if (mScrollAnimation == ScrollAnimation.RefreshAble_BackAnimation) {
-                            //超过刷新刷新位置 回弹到可刷新位置的动画结束后,后执行刷新动画
-                            notityRefresh();
-                        }
-                        if (mScrollAnimation == ScrollAnimation.Complete_BackAnimation
-                                || mScrollAnimation == ScrollAnimation.DisRefreshAble_BackAnimation) {
-                            refreshCompeleStateToRest();
-                        }
-
-                    }
-                })
-                .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        Integer offset = (Integer) animation.getAnimatedValue();
-                        //主要 监听滚动动画的位置
-                        if (mIHeaderView != null)
-                            mIHeaderView.animateBack(mScrollAnimation,
-                                    1F * Math.abs(getScrollY()) / getRefreshAbleHeight(),
-                                    getRefreshAbleHeight(), isPinContent);
-                        scrollTo(offset, false);
-                    }
-
-                });
-
-
-        /**
-         * 给AUtils调用的需要检测
-         */
-        void refreshCompeleStateToRest_AUtils() {
-            if (mScrollAnimation == ScrollAnimation.Complete_BackAnimation
-                    || mScrollAnimation == ScrollAnimation.DisRefreshAble_BackAnimation)
-                refreshCompeleStateToRest();
-            else
-                throw new IllegalStateException("state rest must be Complete_BackAnimation or DisRefreshAble_BackAnimation!");
-        }
-
-        private void refreshCompeleStateToRest() {
-            log("State began to reset！");
-//            if (state == REFRESHING || state == PULL) {
-            log("Roll back to zero!");
-            state = COMPLETE;
-            if (mIHeaderView != null)
-                mIHeaderView.onComplete();
-            state = REST;
-//                if (mPullListener != null && state == REFRESHING) {
-            if (mPullStateRestListener != null && mScrollAnimation == ScrollAnimation.Complete_BackAnimation) {
-                log("mPullListener.refreshStateRestComplete");
-                mPullStateRestListener.refreshStateRestComplete(ZRefreshLayout.this);
-            }
-            mScrollAnimation = ScrollAnimation.None;
-            haveDownEvent = false;
-            log("State is reset!");
-        }
-
-        private void smoothScrollTo_(int fy) {
-            //拦截滚动动画
-            if (mIHeaderView.interceptAnimateBack(mScrollAnimation, mIScroll))
-                return;
-            valueAnimator.setIntValues(getScrollY(), fy);
-            valueAnimator.start();
-        }
-
-        void smoothScrollTo_NotIntercept(int fy) {
-            valueAnimator.setIntValues(getScrollY(), fy);
-            valueAnimator.start();
-        }
-
-
-        /**
-         * @param fy
-         */
-        private void scrollTo_(int fy) {
-            scrollTo(fy > 0 ? fy : 0, true);
-        }
-
-        /**
-         * @param fy
-         * @param isTriggerHeaderOnPullingDown 是否不做位置映射
-         */
-        protected abstract void scrollTo(int fy, boolean isTriggerHeaderOnPullingDown);
-
-        protected abstract int getScrollY();
-    }
-
-    public class Scroll_Pin extends IScroll {
-
-        @Override
-        protected void scrollTo(int fy, boolean isTriggerHeaderOnPullingDown) {
-            if (mIHeaderView != null && isTriggerHeaderOnPullingDown)
-                mIHeaderView.onPullingDown(1F * Math.abs(fy) / getRefreshAbleHeight(), getRefreshAbleHeight());
-            headerView.setTranslationY(fy);
-        }
-
-        @Override
-        protected int getScrollY() {
-            return (int) headerView.getTranslationY();
-        }
-    }
-
-    public class Scroll_PinNot extends IScroll {
-
-        @Override
-        protected void scrollTo(int fy, boolean isTriggerHeaderOnPullingDown) {
-            if (mIHeaderView != null && isTriggerHeaderOnPullingDown)
-                mIHeaderView.onPullingDown(1F * Math.abs(fy) / getRefreshAbleHeight(), getRefreshAbleHeight());
-            ZRefreshLayout.this.scrollTo(0, -fy);
-        }
-
-        @Override
-        protected int getScrollY() {
-            return -ZRefreshLayout.this.getScrollY();
-        }
-    }
-
     public RefreshAbleListener getRefreshAbleListener() {
         return mRefreshAbleListener;
     }
@@ -746,6 +632,12 @@ public class ZRefreshLayout extends NestFrameLayout {
         this.mRefreshAbleListener = mRefreshAbleListener;
     }
 
+    public List<IScroll> getIScrollList() {
+        if (mIScrollList == null) {
+            mIScrollList = new ArrayList<>();
+        }
+        return mIScrollList;
+    }
 
     //-------------------------内部接口----------------------------------------------------
     public interface PullListener {

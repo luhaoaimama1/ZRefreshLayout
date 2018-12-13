@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayoutdemo.common.Constant;
 import zone.com.zrefreshlayoutdemo.common.HeadSetting;
 
@@ -45,7 +47,7 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
         if (mHeadSetting == null) {
             mHeadSetting = new HeadSetting();
             rbHeadMeterial.performClick();
-            rbPinTrue.performClick();
+            rbPinFalse.performClick();
         } else {
             switch (mHeadSetting.getHeadmode()) {
                 case HeadSetting.METERIAL:
@@ -58,7 +60,7 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
                     rbHeadWave.performClick();
                     break;
             }
-            if (mHeadSetting.isPin())
+            if (mHeadSetting.headPin() == ZRefreshLayout.HeadPin.PIN)
                 rbPinTrue.performClick();
             else
                 rbPinFalse.performClick();
@@ -92,9 +94,9 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
 
     public void onCheckedChanged_Pin(@IdRes int checkedId) {
         if (checkedId == R.id.rb_pin_true)
-            mHeadSetting.setPin(true);
+            mHeadSetting.setPin(ZRefreshLayout.HeadPin.PIN);
         else
-            mHeadSetting.setPin(false);
+            mHeadSetting.setPin(ZRefreshLayout.HeadPin.NOT_PIN);
     }
 
     public void onCheckedChanged_Head(@IdRes int checkedId) {

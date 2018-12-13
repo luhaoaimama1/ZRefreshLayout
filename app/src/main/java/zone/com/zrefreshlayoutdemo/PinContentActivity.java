@@ -22,7 +22,7 @@ public class PinContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auto_refresh);
         ButterKnife.bind(this);
-        refresh.setPinContent(true);
+        refresh.setHeadPin(ZRefreshLayout.HeadPin.PIN);
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {

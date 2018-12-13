@@ -2,11 +2,13 @@ package zone.com.zrefreshlayoutdemo.header;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import zone.com.zrefreshlayout.AUtils;
+import zone.com.zrefreshlayout.IScroll;
 import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.R;
@@ -23,13 +25,13 @@ public class CircleRefresh implements IHeaderView {
     private View rootView;
     private AnimationView mHeaderWaveCircle;
     private int mHeaderCircleSmaller = 6;
-    private ZRefreshLayout.IScroll iScroll;
+    private IScroll iScroll;
     private LinearLayout ll_main;
     private int[] screenPixs;
 
 
     @Override
-    public View getView(ZRefreshLayout zRefreshLayout) {
+    public View initView(ZRefreshLayout zRefreshLayout) {
         rootView = View.inflate(zRefreshLayout.getContext(), R.layout.header_meterial, null);
 //        rootView.setBackgroundColor(Color.RED);
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
@@ -39,6 +41,12 @@ public class CircleRefresh implements IHeaderView {
                 , (int) (screenPixs[1] * 0.2)));
         AUtils.setHeaderHeightToRefresh(zRefreshLayout,(int) (screenPixs[1] * 0.2*0.8));
         addView();
+        return rootView;
+    }
+
+    @NonNull
+    @Override
+    public View getView() {
         return rootView;
     }
 
@@ -78,14 +86,14 @@ public class CircleRefresh implements IHeaderView {
     private ScrollAnimation mScrollAnimation = ScrollAnimation.None;
 
     @Override
-    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, boolean isPinContent) {
+    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, ZRefreshLayout.HeadPin isPinContent) {
         mScrollAnimation = scrollAnimation;
     }
 
 
     //这里主要是对延迟刷新的处理
     @Override
-    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, IScroll iScroll) {
         this.iScroll = iScroll;
         boolean result = false;
         if (mScrollAnimation != scrollAnimation && scrollAnimation == ScrollAnimation.Complete_BackAnimation) {

@@ -26,7 +26,7 @@ public class AutoRefreshActivity extends AppCompatActivity {
         setContentView(R.layout.unique_feature_copy);
         ButterKnife.bind(this);
         refresh.setIHeaderView(new MeterialHead());
-        refresh.setPinContent(true);
+        refresh.setHeadPin(ZRefreshLayout.HeadPin.PIN);
         refresh.setPullListener(new ZRefreshLayout.PullListener() {
             @Override
             public void refresh(final ZRefreshLayout zRefreshLayout) {

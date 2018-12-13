@@ -87,7 +87,7 @@ public abstract class NestFrameLayout  extends FrameLayout implements NestedScro
         // If a client layout is using a custom start position for the circle
         // view, they mean to hide it again before scrolling the child view
         // If we get back to mTotalUnconsumed == 0 and there is more to go, hide
-        // the circle so it isn't exposed if its blocking content is moved
+        // the circle so it isn't exposed if its blocking contentView is moved
         if (dy > 0 && mTotalUnconsumed == 0 && Math.abs(dy - consumed[1]) > 0) {
 //zone todo  头部隐藏 有用吗        mCircleView.setVisibility(View.GONE);
         }

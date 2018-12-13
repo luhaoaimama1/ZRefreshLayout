@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.PorterDuff;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.zone.lib.utils.image.WaveHelper;
 import com.zone.lib.utils.image.compress2sample.SampleUtils;
 
 import zone.com.zanimate.value.ValueAnimatorProxy;
+import zone.com.zrefreshlayout.IScroll;
 import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.R;
@@ -36,7 +38,7 @@ public class WaveHead implements IHeaderView {
     private WaveUtils mWaveUtils;
 
     @Override
-    public View getView(ZRefreshLayout zRefreshLayout) {
+    public View initView(ZRefreshLayout zRefreshLayout) {
         rootView = View.inflate(zRefreshLayout.getContext(), R.layout.header_meterial, null);
         //注意inflate那种模式  第一层需要空出去 不然会wrapcontent
         LinearLayout ll_main = (LinearLayout) rootView.findViewById(R.id.ll_main);
@@ -52,6 +54,12 @@ public class WaveHead implements IHeaderView {
         return rootView;
     }
 
+    @NonNull
+    @Override
+    public View getView() {
+        return rootView;
+    }
+
     @Override
     public void onPullingDown(float fraction, float headHeight) {
         imageView.setRotationX(90 - fraction * 90);
@@ -63,13 +71,13 @@ public class WaveHead implements IHeaderView {
     }
 
     @Override
-    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, boolean mIScroll) {
+    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, ZRefreshLayout.HeadPin mIScroll) {
         if (scrollAnimation == ScrollAnimation.RefreshAble_BackAnimation)
             imageView.setRotationX(90 - fraction * 90);
     }
 
     @Override
-    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, IScroll iScroll) {
         return false;
     }
 

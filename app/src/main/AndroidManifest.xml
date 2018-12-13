@@ -36,6 +36,7 @@
         <activity android:name="zone.com.zrefreshlayoutdemo.MeterialHeaderActivity" />
         <activity android:name="zone.com.zrefreshlayoutdemo.SinaHeaderActivity" />
         <activity android:name="zone.com.zrefreshlayoutdemo.FlexibilityListViewActivity" />
+        <activity android:name="zone.com.zrefreshlayoutdemo.FlexibilityKtActivity" />
         <activity
             android:name="zone.com.zrefreshlayoutdemo.ScrollerNesttActivity"
             android:theme="@style/NoActionBar" />

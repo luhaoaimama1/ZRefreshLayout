@@ -1,5 +1,6 @@
 package zone.com.zrefreshlayout;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -15,7 +16,10 @@ public interface IHeaderView {
      * @param zRefreshLayout
      * @return
      */
-    View getView(ZRefreshLayout zRefreshLayout);
+    View initView(ZRefreshLayout zRefreshLayout);
+
+    @NonNull
+    View getView();
 
     /**
      * 下拉准备刷新动作
@@ -34,13 +38,12 @@ public interface IHeaderView {
 
     /**
      * 滚动动画 监听
-     *
-     * @param scrollAnimation  回弹类型
+     *  @param scrollAnimation  回弹类型
      * @param fraction
      * @param headHeight
      * @param isPinContent
      */
-    void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, boolean isPinContent);
+    void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, ZRefreshLayout.HeadPin isPinContent);
 
     /**
      * 拦截滚动
@@ -51,7 +54,7 @@ public interface IHeaderView {
      * @param iScroll
      * @return
      */
-    boolean interceptAnimateBack(ScrollAnimation scrollAnimation, ZRefreshLayout.IScroll iScroll);
+    boolean interceptAnimateBack(ScrollAnimation scrollAnimation, IScroll iScroll);
 
     /**
      * 刷新进行时

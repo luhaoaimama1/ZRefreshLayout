@@ -1,10 +1,12 @@
 package zone.com.zrefreshlayout.header;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import zone.com.zrefreshlayout.AUtils;
+import zone.com.zrefreshlayout.IScroll;
 import zone.com.zrefreshlayout.ScrollAnimation;
 import zone.com.zrefreshlayout.IHeaderView;
 import zone.com.zrefreshlayout.ZRefreshLayout;
@@ -29,12 +31,11 @@ public class MeterialHead implements IHeaderView {
 
     @Override
     public IHeaderView clone_() {
-        MeterialHead clone = new MeterialHead(colors);
-        return clone;
+        return new MeterialHead(colors);
     }
 
     @Override
-    public View getView(ZRefreshLayout zRefreshLayout) {
+    public View initView(ZRefreshLayout zRefreshLayout) {
         this.zRefreshLayout = zRefreshLayout;
         int[] screenPixs = ScreenUtils.getScreenPix((Activity) zRefreshLayout.getContext());
         mMeterialCircle = new MeterialCircle(zRefreshLayout, (int) (screenPixs[1] * 0.065));
@@ -44,6 +45,12 @@ public class MeterialHead implements IHeaderView {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mMeterialCircle.getView().getLayoutParams();
         lp.bottomMargin= (int) (screenPixs[1] * 0.065/2);
         mMeterialCircle.getView().setLayoutParams(lp);
+        return mMeterialCircle.getView();
+    }
+
+    @NonNull
+    @Override
+    public View getView() {
         return mMeterialCircle.getView();
     }
 
@@ -59,12 +66,12 @@ public class MeterialHead implements IHeaderView {
     }
 
     @Override
-    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, boolean isPinContent) {
+    public void animateBack(ScrollAnimation scrollAnimation, float fraction, float headHeight, ZRefreshLayout.HeadPin isPinContent) {
     }
 
     @Override
-    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, final ZRefreshLayout.IScroll iScroll) {
-        if (zRefreshLayout.isPinContent() && scrollAnimation == ScrollAnimation.Complete_BackAnimation) {
+    public boolean interceptAnimateBack(ScrollAnimation scrollAnimation, final IScroll iScroll) {
+        if (zRefreshLayout.getHeadPin()== ZRefreshLayout.HeadPin.PIN && scrollAnimation == ScrollAnimation.Complete_BackAnimation) {
             mMeterialCircle.startScaleDownAnimation(new MeterialCircle.ScaleDownCallback() {
                 @Override
                 public void over() {

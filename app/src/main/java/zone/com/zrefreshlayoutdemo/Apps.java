@@ -5,6 +5,7 @@ import android.graphics.Color;
 import com.zone.lib.Configuration;
 
 import zone.com.zrefreshlayout.Config;
+import zone.com.zrefreshlayout.ZRefreshLayout;
 import zone.com.zrefreshlayout.footer.MeterialFooter;
 import zone.com.zrefreshlayout.header.MeterialHead;
 import zone.com.zrefreshlayout.header.SinaRefreshHeader;
@@ -33,6 +34,7 @@ public class Apps extends Application {
     public static void setDefaultHeader() {
         Config.build()
                 .setHeader(new MeterialHead(COLORS_RED_GREEN_YELLOW))
+                .setHeadPin(ZRefreshLayout.HeadPin.NOT_PIN)
                 .setFooter(new MeterialFooter())
                 .setResistance(new DampingHalf())
 //                .setHeader(new  CircleRefresh())
@@ -61,7 +63,7 @@ public class Apps extends Application {
                 temp.setHeader(waveHead);
                 break;
         }
-        temp.setPinContent(mHeadSetting.isPin())
+        temp.setHeadPin(mHeadSetting.headPin())
                 .setFooter(new MeterialFooter())
                 .setResistance(new DampingHalf())
                 .writeLog(true)

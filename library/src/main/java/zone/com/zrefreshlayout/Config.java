@@ -11,7 +11,7 @@ public class Config {
     IHeaderView headerView;
     IFooterView footerView;
     IResistance resistance;
-    boolean isPinContent;
+    ZRefreshLayout.HeadPin headPin;
     boolean isDebug;
     ZRefreshLayout.PullListener mPullListener;
     ZRefreshLayout.LoadMoreStateRestListener mLoadMoreStateRestListener;
@@ -44,8 +44,8 @@ public class Config {
         return this;
     }
 
-    public Config setPinContent(boolean pinContent) {
-        this.isPinContent = pinContent;
+    public Config setHeadPin(ZRefreshLayout.HeadPin pinContent) {
+        this.headPin = pinContent;
         return this;
     }
 
