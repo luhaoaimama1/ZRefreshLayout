@@ -48,6 +48,7 @@ class FlexibilityKtActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.a_flexibility)
         ButterKnife.bind(this)
+        refresh!!.headPin=ZRefreshLayout.HeadPin.NOTHING
         iv.post { height = iv.height }
         rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter2 = object : QuickRcvAdapter<String>(this, mDatas) {

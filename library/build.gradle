@@ -8,7 +8,7 @@ group = 'com.github.luhaoaimama1'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -33,13 +33,23 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation 'junit:junit:4.12'
-    provided 'com.android.support:recyclerview-v7:24.2.0'
+    compileOnly 'com.android.support:recyclerview-v7:24.2.0'
     api 'com.github.luhaoaimama1:ZAnimate:1.0.21'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //    compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
 }
 
-//---------------jitPack 文档注释 Start------------------------
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.artifactId = 'test'
+            repository(url: 'file://' + project.rootDir + '/outputs-aar')
+        }
+    }
+}
+
+//---------------jitPack 文档注释 Start ------------------------
+//参考 https://github.com/jitpack/android-example/blob/master/library/build.gradle
 // build a jar with source files
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -60,15 +70,12 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.artifactId = 'test'
-            repository(url: 'file://' + project.rootDir + '/outputs-aar')
-        }
-    }
-}
-repositories {
-    mavenCentral()
-}
+// uncomment to build a jar file in addition to the default aar file
+//android.libraryVariants.all { variant ->
+//    def name = variant.buildType.name
+//    def task = project.tasks.create "jar${name.capitalize()}", Jar
+//    task.dependsOn variant.javaCompile
+//    task.from variant.javaCompile.destinationDir
+//    artifacts.add('archives', task);
+//}
+//---------------jitPack 文档注释Over------------------------
