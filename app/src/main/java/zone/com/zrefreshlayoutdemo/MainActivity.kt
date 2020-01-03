@@ -4,17 +4,48 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import com.zone.lib.LogZSDK
+import com.zone.lib.ZLogger
+import com.zone.lib.base.controller.activity.BaseFeatureActivity
+import com.zone.lib.base.controller.activity.controller.SwipeBackActivityController
 import zone.com.zrefreshlayoutdemo.common.Constant
 import zone.com.zrefreshlayoutdemo.common.HeadSetting
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
-
+class MainActivity : BaseFeatureActivity() {
+    companion object {
+        //还原最开始的log配置  如果某次配置一次特殊的 打印完后的记得还原配置
+        @JvmStatic
+        fun initLogger() {
+            ZLogger.logLevelList.clear()
+            ZLogger.mayLoggerList.clear()
+//            ZLogger.mayLoggerList.addAll(listOf<ZLogger>(LogCustomView, LogZSDK))
+        }
     }
+
+    override fun initDefaultConifg() {
+        unRegisterPrestener(SwipeBackActivityController::class.java)
+    }
+
+    override fun initData() {
+        permissionCheckStorageMustPermit()
+        setContentView(R.layout.main)
+    }
+    override fun onStoragePermit() {
+        super.onStoragePermit()
+    }
+
+    override fun onStorageDeniedMustPermit() {
+        super.onStorageDeniedMustPermit()
+        finish()
+    }
+
+
+    override fun setContentView() {
+    }
+
+    override fun setListener() {
+    }
+
 
     override fun onClick(view: View?) {
         view?.let {

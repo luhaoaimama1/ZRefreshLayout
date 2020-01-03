@@ -2,9 +2,7 @@ package zone.com.zrefreshlayoutdemo
 
 import android.app.Application
 import android.graphics.Color
-
-import com.zone.lib.Configuration
-
+import com.zone.lib.Configure
 import zone.com.zrefreshlayout.Config
 import zone.com.zrefreshlayout.ZRefreshLayout
 import zone.com.zrefreshlayout.footer.MeterialFooter
@@ -21,7 +19,7 @@ import zone.com.zrefreshlayoutdemo.header.WaveHead
 class Apps : Application() {
     override fun onCreate() {
         super.onCreate()
-        Configuration.Build.init(this).perform()
+        Configure.init(this)
         setGlobalHead(SP1.get(Constant.REFRESH_MODE, HeadSetting::class.java))
     }
 
