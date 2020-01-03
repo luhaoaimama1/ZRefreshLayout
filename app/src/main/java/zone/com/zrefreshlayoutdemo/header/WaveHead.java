@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.nineoldandroids.animation.ValueAnimator;
+import android.animation.ValueAnimator;
 import com.zone.lib.utils.image.BitmapComposer;
 import com.zone.lib.utils.image.WaveHelper;
 import com.zone.lib.utils.image.compress2sample.SampleUtils;

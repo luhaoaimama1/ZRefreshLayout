@@ -1,6 +1,6 @@
 package zone.com.zrefreshlayout.utils;
 
-import com.nineoldandroids.animation.Animator;
+import android.animation.Animator;
 
 /**
  * [2017] by Zone

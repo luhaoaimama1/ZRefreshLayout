@@ -3,8 +3,8 @@ package zone.com.zrefreshlayout;
 
 import android.view.animation.LinearInterpolator;
 
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.ValueAnimator;
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 
 import zone.com.zanimate.value.ValueAnimatorProxy;
 import zone.com.zrefreshlayout.utils.SimpleAnimatorListener;

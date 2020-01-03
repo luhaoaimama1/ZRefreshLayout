@@ -6,8 +6,8 @@ import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 
-import com.nineoldandroids.animation.Animator
-import com.nineoldandroids.animation.AnimatorListenerAdapter
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import kotlinx.android.synthetic.main.a_circle.*
 import zone.com.zanimate.value.ValueAnimatorProxy
 import zone.com.zrefreshlayout.utils.ScreenUtils
