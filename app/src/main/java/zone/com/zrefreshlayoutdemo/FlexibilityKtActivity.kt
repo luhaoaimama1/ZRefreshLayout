@@ -1,19 +1,11 @@
 package zone.com.zrefreshlayoutdemo
 
-import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.view.ViewCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.view.ViewCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
-
 import java.util.ArrayList
-
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.zone.adapter3.QuickRcvAdapter
 import kotlinx.android.synthetic.main.a_flexibility.*
 import kotlinx.android.synthetic.main.a_flexibility.refresh
@@ -28,7 +20,7 @@ import zone.com.zrefreshlayoutdemo.delegate.MenuEntityDeletates
  * Created by fuzhipeng on 2017/1/10.
  */
 
-class FlexibilityKtActivity : AppCompatActivity() {
+class FlexibilityKtActivity : AppCompatActivity(),View.OnClickListener {
 
     private val mDatas = ArrayList<String>()
     private var adapter2: QuickRcvAdapter<String>? = null
@@ -45,10 +37,9 @@ class FlexibilityKtActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.a_flexibility)
-        ButterKnife.bind(this)
         refresh!!.headPin=ZRefreshLayout.HeadPin.NOTHING
         iv.post { height = iv.height }
-        rv!!.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         adapter2= QuickRcvAdapter<String>(this,mDatas).apply {
             addViewHolder(MenuEntityDeletates())
             relatedList(rv)
@@ -56,16 +47,17 @@ class FlexibilityKtActivity : AppCompatActivity() {
     }
 
 
-    @OnClick(R.id.bt_scroll, R.id.bt_scale, R.id.bt_Header)
-    fun onClick(view: View) {
-        val scrollScale = when (view.id) {
-            R.id.bt_scroll -> arrayListOf(ScrollScroll(refresh!!))
-            R.id.bt_scale -> arrayListOf(ScrollScale(refresh!!))
-            R.id.bt_Header -> arrayListOf(ScrollHeadScroll(refresh!!, iv!!, height), ScrollScroll(refresh!!))
-            else -> arrayListOf(ScrollScroll(refresh!!))
+    override fun onClick(view: View?) {
+        view?.let{
+            val scrollScale = when (view.id) {
+                R.id.bt_scroll -> arrayListOf(ScrollScroll(refresh!!))
+                R.id.bt_scale -> arrayListOf(ScrollScale(refresh!!))
+                R.id.bt_Header -> arrayListOf(ScrollHeadScroll(refresh!!, iv!!, height), ScrollScroll(refresh!!))
+                else -> arrayListOf(ScrollScroll(refresh!!))
+            }
+            refresh!!.iScrollList.clear()
+            refresh!!.iScrollList.addAll(scrollScale)
         }
-        refresh!!.iScrollList.clear()
-        refresh!!.iScrollList.addAll(scrollScale)
     }
 
     class ScrollHeadScroll(mZRefreshLayout: ZRefreshLayout, val iv: ImageView, val height: Int) : IScroll(mZRefreshLayout) {

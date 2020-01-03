@@ -1,6 +1,6 @@
 package zone.com.zrefreshlayout.loadmore;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import zone.com.zrefreshlayout.AUtils;

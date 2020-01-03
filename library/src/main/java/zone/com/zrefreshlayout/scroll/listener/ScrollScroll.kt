@@ -1,6 +1,6 @@
 package zone.com.zrefreshlayout.scroll.listener
 
-import android.support.v4.view.ViewCompat
+import androidx.core.view.ViewCompat
 import zone.com.zrefreshlayout.AUtils
 import zone.com.zrefreshlayout.IScroll
 import zone.com.zrefreshlayout.ZRefreshLayout

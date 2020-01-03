@@ -1,13 +1,9 @@
 package zone.com.zrefreshlayoutdemo
 
-import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.widget.GridView
-import java.util.ArrayList
-
-import butterknife.ButterKnife
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.grid.*
+import java.util.ArrayList
 import zone.com.zrefreshlayout.ZRefreshLayout
 import zone.com.zrefreshlayoutdemo.delegate.AdapterList
 
@@ -34,7 +30,6 @@ class GridViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.grid)
-        ButterKnife.bind(this)
         refresh.pullListener = ZRefreshLayout.PullListener { zRefreshLayout ->
             refresh.postDelayed({
                 mDatas.add("刷新完毕:" + i++)
@@ -50,7 +45,7 @@ class GridViewActivity : AppCompatActivity() {
             }, 2000)
         }
 
-        gridView!!.adapter = AdapterList(this, mDatas)
-
+        adapter2 = AdapterList(this, mDatas)
+        gridView.adapter = adapter2
     }
 }

@@ -1,10 +1,7 @@
 package zone.com.zrefreshlayoutdemo
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import java.util.ArrayList
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.zone.adapter3.QuickRcvAdapter
 import kotlinx.android.synthetic.main.a_scroll_recycler_nest.*
 import zone.com.zrefreshlayout.ZRefreshLayout
@@ -32,7 +29,6 @@ class ScrollerNesttActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.a_scroll_recycler_nest)
-        ButterKnife.bind(this)
         setSupportActionBar(id_toolbar)
 
         refresh.pullListener = ZRefreshLayout.PullListener { zRefreshLayout ->
@@ -49,7 +45,7 @@ class ScrollerNesttActivity : AppCompatActivity() {
                 zRefreshLayout.loadMoreComplete()
             }, 2000)
         }
-        rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         adapter2= QuickRcvAdapter<String>(this,mDatas).apply {
             addViewHolder(MenuEntityDeletates())
             relatedList(rv)

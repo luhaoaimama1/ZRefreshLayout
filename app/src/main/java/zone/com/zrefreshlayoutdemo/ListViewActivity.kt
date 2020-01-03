@@ -2,11 +2,8 @@ package zone.com.zrefreshlayoutdemo
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import java.util.ArrayList
-import butterknife.BindView
-import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.list.*
 import zone.com.zrefreshlayout.ZRefreshLayout
 import zone.com.zrefreshlayoutdemo.delegate.AdapterList
@@ -19,8 +16,6 @@ class ListViewActivity : AppCompatActivity() {
     private var i = 0
     private val mDatas = ArrayList<String>()
     private var adapter2: AdapterList? = null
-    internal val colorArry = intArrayOf(Color.WHITE, Color.GREEN, Color.YELLOW, Color.CYAN)
-
     init {
         run {
             var i: Int = 'A'.toInt()
@@ -34,7 +29,6 @@ class ListViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list)
-        ButterKnife.bind(this)
         refresh.loadMoreListener = ZRefreshLayout.LoadMoreListener { zRefreshLayout ->
             refresh.postDelayed({
                 mDatas.add("加载完毕:" + i++)
@@ -51,7 +45,8 @@ class ListViewActivity : AppCompatActivity() {
             }, 2000)
         }
 
-        listView.adapter = AdapterList(this, mDatas)
+        adapter2 = AdapterList(this, mDatas)
+        listView.adapter = adapter2
     }
 
 }

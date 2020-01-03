@@ -117,6 +117,8 @@
         <TextView
             android:id="@+id/tv_Clear"
             android:layout_width="0dp"
+            android:onClick="onClick"
+            android:clickable="true"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -128,6 +130,8 @@
 
         <TextView
             android:id="@+id/Save"
+            android:onClick="onClick"
+            android:clickable="true"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"

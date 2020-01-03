@@ -1,7 +1,7 @@
 package zone.com.zrefreshlayout
 
 import android.content.Context
-import android.support.v4.view.ViewCompat
+import androidx.core.view.ViewCompat
 import android.util.AttributeSet
 import zone.com.zrefreshlayout.header.NullHeader
 import zone.com.zrefreshlayout.utils.LogUtils.log
