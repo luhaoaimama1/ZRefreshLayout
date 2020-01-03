@@ -1,17 +1,20 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.71'
+    ext.kotlin_version = '1.3.0'
+//    ext.kotlin_version = '1.2.51'
     repositories {
         jcenter()
         mavenCentral()
         google()
     }
     dependencies {
-
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.3.2'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        //kotlin  生成文档
+        classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -19,8 +22,9 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         maven { url "https://jitpack.io" }
+        maven { url "https://dl.google.com/dl/android/maven2" }
+        jcenter()
         mavenCentral()
         google()
     }

@@ -9,20 +9,20 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 
-import com.zone.adapter.callback.Helper
-
 import java.util.ArrayList
 
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
-import com.zone.adapter.QuickRcvAdapter
+import com.zone.adapter3.QuickRcvAdapter
 import kotlinx.android.synthetic.main.a_flexibility.*
-import zone.com.zrefreshlayout.FlexibilityLayout
+import kotlinx.android.synthetic.main.a_flexibility.refresh
+import kotlinx.android.synthetic.main.a_flexibility.rv
 import zone.com.zrefreshlayout.IScroll
 import zone.com.zrefreshlayout.ZRefreshLayout
 import zone.com.zrefreshlayout.scroll.listener.ScrollScale
 import zone.com.zrefreshlayout.scroll.listener.ScrollScroll
+import zone.com.zrefreshlayoutdemo.delegate.MenuEntityDeletates
 
 /**
  * Created by fuzhipeng on 2017/1/10.
@@ -32,8 +32,6 @@ class FlexibilityKtActivity : AppCompatActivity() {
 
     private val mDatas = ArrayList<String>()
     private var adapter2: QuickRcvAdapter<String>? = null
-    val colorArry = intArrayOf(Color.WHITE, Color.GREEN, Color.YELLOW, Color.CYAN)
-
     var height: Int = 0
 
     init {
@@ -50,19 +48,11 @@ class FlexibilityKtActivity : AppCompatActivity() {
         ButterKnife.bind(this)
         refresh!!.headPin=ZRefreshLayout.HeadPin.NOTHING
         iv.post { height = iv.height }
-        rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter2 = object : QuickRcvAdapter<String>(this, mDatas) {
-            override fun fillData(helper: Helper<String>, item: String, itemChanged: Boolean, layoutId: Int) {
-                helper.setText(R.id.tv, item)
-                    .setBackgroundColor(R.id.tv, colorArry[helper.position % colorArry.size])
-            }
-
-            override fun getItemLayoutId(data: String, position: Int): Int {
-                return R.layout.item_menu
-            }
-
+        rv!!.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        adapter2= QuickRcvAdapter<String>(this,mDatas).apply {
+            addViewHolder(MenuEntityDeletates())
+            relatedList(rv)
         }
-        rv!!.adapter = adapter2
     }
 
 

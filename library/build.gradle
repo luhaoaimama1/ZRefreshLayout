@@ -7,8 +7,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.luhaoaimama1'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 14
@@ -39,43 +38,43 @@ dependencies {
 //    compile 'com.github.luhaoaimama1:ZAdapter:1.1.0'
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.artifactId = 'test'
-            repository(url: 'file://' + project.rootDir + '/outputs-aar')
-        }
-    }
-}
-
-//---------------jitPack 文档注释 Start ------------------------
-//参考 https://github.com/jitpack/android-example/blob/master/library/build.gradle
-// build a jar with source files
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task javadoc(type: Javadoc) {
-    failOnError false
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
-}
-// build a jar with javadoc
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-// uncomment to build a jar file in addition to the default aar file
-//android.libraryVariants.all { variant ->
-//    def name = variant.buildType.name
-//    def task = project.tasks.create "jar${name.capitalize()}", Jar
-//    task.dependsOn variant.javaCompile
-//    task.from variant.javaCompile.destinationDir
-//    artifacts.add('archives', task);
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            pom.artifactId = 'test'
+//            repository(url: 'file://' + project.rootDir + '/outputs-aar')
+//        }
+//    }
 //}
-//---------------jitPack 文档注释Over------------------------
+//
+////---------------jitPack 文档注释 Start ------------------------
+////参考 https://github.com/jitpack/android-example/blob/master/library/build.gradle
+//// build a jar with source files
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//task javadoc(type: Javadoc) {
+//    failOnError false
+//    source = android.sourceSets.main.java.sourceFiles
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    classpath += configurations.compile
+//}
+//// build a jar with javadoc
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//artifacts {
+//    archives sourcesJar
+//    archives javadocJar
+//}
+//// uncomment to build a jar file in addition to the default aar file
+////android.libraryVariants.all { variant ->
+////    def name = variant.buildType.name
+////    def task = project.tasks.create "jar${name.capitalize()}", Jar
+////    task.dependsOn variant.javaCompile
+////    task.from variant.javaCompile.destinationDir
+////    artifacts.add('archives', task);
+////}
+////---------------jitPack 文档注释Over------------------------
