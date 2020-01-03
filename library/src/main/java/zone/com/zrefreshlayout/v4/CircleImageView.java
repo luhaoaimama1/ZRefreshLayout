@@ -25,6 +25,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import androidx.core.view.ViewCompat;
+
+import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
@@ -33,7 +35,6 @@ import android.widget.ImageView;
  * called before the animation is actually loadMoreAnimationComplete and support shadows on older
  * platforms.
  *
- * @hide
  */
 public class CircleImageView extends ImageView {
 
@@ -63,7 +64,7 @@ public class CircleImageView extends ImageView {
         } else {
             OvalShape oval = new OvalShadow(mShadowRadius);
             circle = new ShapeDrawable(oval);
-            ViewCompat.setLayerType(this, ViewCompat.LAYER_TYPE_SOFTWARE, circle.getPaint());
+            setLayerType(View.LAYER_TYPE_SOFTWARE, circle.getPaint());
             circle.getPaint().setShadowLayer(mShadowRadius, shadowXOffset, shadowYOffset,
                     KEY_SHADOW_COLOR);
             final int padding = mShadowRadius;

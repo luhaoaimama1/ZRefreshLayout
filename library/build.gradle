@@ -37,7 +37,24 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
-apply plugin: 'org.jetbrains.dokka-android'
+task makeJar(type: Copy) {
+    delete 'output/test.jar' //删除已经存在的jar包
+    from('build/intermediates/bundles/release/')//从该目录下加载要打包的文件
+    into('output/')//jar包的保存目录
+    include('classes.jar')//设置过滤，只打包classes文件
+    rename('classes.jar', 'test.jar')//重命名，mylibrary.jar 根据自己的需求设置
+}
+
+makeJar.dependsOn(build)
+
+apply plugin: 'org.jetbrains.dokka'
+
+//dokka {
+//    packageOptions {
+//        prefix = "com.mylib.myannotation"
+//        suppress = true
+//    }
+//}
 
 //kotlin  生成文档
 task generateSourcesJar(type: Jar) {
