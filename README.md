@@ -30,6 +30,8 @@ allprojects {
 Step 2. Add the dependency
 
 > compile 'com.github.luhaoaimama1:ZRefreshLayout:[Latest release](https://github.com/luhaoaimama1/ZRefreshLayout/releases)'
+
+> not anroidX version compile 'com.github.luhaoaimama1:ZRefreshLayout:1.0.19'
     
 
 ## UML
