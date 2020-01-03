@@ -29,10 +29,9 @@ Step 2. Add the dependency
 > compile 'com.github.luhaoaimama1:ZRefreshLayout:[Latest release](https://github.com/luhaoaimama1/ZRefreshLayout/releases)'
 > 非 anroidX 版本使用 compile 'com.github.luhaoaimama1:ZRefreshLayout:1.0.19' 分支:notAndroidx
 
-Step 3. 你需要提供的recyclerView库
+Step 3. Step 3: you need provide
 
 原因： compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
-
 
 ## UML
 
