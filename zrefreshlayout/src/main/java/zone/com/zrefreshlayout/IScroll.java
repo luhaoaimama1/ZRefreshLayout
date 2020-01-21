@@ -14,6 +14,9 @@ import static zone.com.zrefreshlayout.utils.LogUtils.log;
 public abstract class IScroll {
 
     protected ZRefreshLayout mZRefreshLayout;
+    //当isInterceptRefreshCompeleStateToRest=true的时候代表刷新完成通知由刷新头部动画完成后头部回调
+    protected boolean isInterceptRefreshCompeleStateToRest =false;
+
     public IScroll(ZRefreshLayout mZRefreshLayout) {
         this.mZRefreshLayout = mZRefreshLayout;
     }
@@ -37,8 +40,10 @@ public abstract class IScroll {
                         //超过刷新刷新位置 回弹到可刷新位置的动画结束后,后执行刷新动画
                         mZRefreshLayout.notityRefresh();
                     }
-                    if (mZRefreshLayout.mScrollAnimation == ScrollAnimation.Complete_BackAnimation
-                            || mZRefreshLayout.mScrollAnimation == ScrollAnimation.DisRefreshAble_BackAnimation) {
+
+                    if (!isInterceptRefreshCompeleStateToRest &&
+                            mZRefreshLayout.mScrollAnimation == ScrollAnimation.Complete_BackAnimation ||
+                            mZRefreshLayout.mScrollAnimation == ScrollAnimation.DisRefreshAble_BackAnimation) {
                         refreshCompeleStateToRest();
                     }
 
@@ -61,7 +66,6 @@ public abstract class IScroll {
     private void notifyScrollList(Integer offset, boolean isTriggerHeaderOnPullingDown) {
 
     }
-
 
     /**
      * 给AUtils调用的需要检测
@@ -94,17 +98,20 @@ public abstract class IScroll {
 
     protected void smoothScrollTo_(int fy) {
         //拦截滚动动画
-        if (mZRefreshLayout.mIHeaderView.interceptAnimateBack(mZRefreshLayout.mScrollAnimation, IScroll.this))
+        if (mZRefreshLayout.mIHeaderView.interceptAnimateBack(mZRefreshLayout.mScrollAnimation, IScroll.this)){
+            isInterceptRefreshCompeleStateToRest =true;
             return;
+        }
+        isInterceptRefreshCompeleStateToRest =false;
         valueAnimator.setIntValues(getScrollY(), fy);
         valueAnimator.start();
     }
 
     void smoothScrollTo_NotIntercept(int fy) {
+        isInterceptRefreshCompeleStateToRest =false;
         valueAnimator.setIntValues(getScrollY(), fy);
         valueAnimator.start();
     }
-
 
     /**
      * @param fy
