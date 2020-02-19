@@ -35,12 +35,13 @@ class RecyclerViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rev)
+        refresh.headPin=ZRefreshLayout.HeadPin.PIN
         refresh.pullListener = ZRefreshLayout.PullListener { zRefreshLayout ->
-            refresh.postDelayed({
+//            refresh.postDelayed({
                 mDatas.add("刷新完毕:" + i++)
                 adapter2!!.notifyDataSetChanged()
                 zRefreshLayout.refreshComplete()
-            }, 2000)
+//            }, 2000)
         }
         refresh.loadMoreListener = ZRefreshLayout.LoadMoreListener { zRefreshLayout ->
             refresh.postDelayed({
