@@ -211,6 +211,12 @@ public class ZRefreshLayout extends NestFrameLayout {
     boolean haveDownEvent = false;
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        boolean b = super.dispatchTouchEvent(ev);
+        return b;
+    }
+
+    @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         log("onInterceptTouchEvent:" + event.getY());
         boolean returnValue = false;
